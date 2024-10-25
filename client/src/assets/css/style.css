@@ -1,0 +1,18 @@
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+} /*# sourceMappingURL=style.css.map */
+
+article img {
+  /* display: block; */
+  max-width: 30%;
+  height: auto;
+  margin: 10px auto;
+}
+
+img {
+  max-width: 60%;
+  height: auto;
+  margin: 10px auto;
+}

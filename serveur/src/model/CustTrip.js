@@ -1,0 +1,68 @@
+import pool from "../config/db.js";
+
+class CustTrip {
+  // Requête pour afficher toutes les demandes de destinaiton sur-mesure
+  static async findAll() {
+    const q = `SELECT customizedTrip.id, typeExperience.choice AS typeExperienceChoice, customizedTrip.duration, customizedTrip.budget, climate.choice AS climateChoice, accomodation.choice AS accomodationChoice, 
+    activity.choice AS activityChoice, location.choice AS locationChoice, customizedTrip.numberAdult, customizedTrip.numberChild, culture.choice AS cultureChoice, customizedTrip.restriction, customizedTrip.createdDate, CASE 
+    WHEN status = 0 THEN "Non traité" 
+    WHEN status = 1 THEN "En cours de traitement" ELSE "Traité"
+END AS status, user_id 
+    FROM customizedTrip
+    JOIN typeExperience ON customizedTrip.typeExperience_id = typeExperience.id
+    JOIN climate ON customizedTrip.climate_id = climate.id
+    JOIN accomodation ON customizedTrip.accomodation_id = accomodation.id
+    JOIN activity ON customizedTrip.activity_id = activity.id
+    JOIN location ON customizedTrip.location_id = location.id
+    JOIN culture ON customizedTrip.culture_id = culture.id
+    ORDER BY customizedTrip.createdDate DESC`;
+    return await pool.query(q);
+  }
+
+  // Requête pour mettre à jour le statut d'une demande de destinaiton sur-mesure par son ID
+  static async updateStatus(id, status) {
+    const q = `UPDATE customizedTrip SET status = ? WHERE id = ?`;
+    return await pool.execute(q, [status, id]);
+  }
+
+  // Requête pour supprimer une demande de destinaiton sur-mesure par son ID
+  static async deleteById(id) {
+    const q = "DELETE FROM customizedTrip WHERE id = ?";
+    return await pool.execute(q, [id]);
+  }
+
+  // Requête pour ajouter une demande de destinaiton sur-mesure par un utilisateur
+  static async add(
+    typeExperience_id,
+    duration,
+    budget,
+    climate_id,
+    accomodation_id,
+    activity_id,
+    location_id,
+    numberAdult,
+    numberChild,
+    culture_id,
+    restriction,
+    user_id
+  ) {
+    const q = `INSERT INTO customizedTrip (typeExperience_id, duration, budget, climate_id, accomodation_id, activity_id, location_id, numberAdult, numberChild, culture_id, restriction, user_id) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    return await pool.execute(q, [
+      typeExperience_id,
+      duration,
+      budget,
+      climate_id,
+      accomodation_id,
+      activity_id,
+      location_id,
+      numberAdult,
+      numberChild || null,
+      culture_id,
+      restriction || null,
+      user_id,
+    ]);
+  }
+}
+
+export default CustTrip;
