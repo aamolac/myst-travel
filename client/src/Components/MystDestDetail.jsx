@@ -40,11 +40,11 @@ function MystDestDetail() {
 
   return (
     <main>
-      <div id="back">
+      <section id="back">
         <Link to="/myst-destination" title="Back to mystery destination page">
           <FontAwesomeIcon icon={faArrowLeft} /> Back
         </Link>
-      </div>
+      </section>
       <h1>{destination.title}</h1>
       <img
         src={`http://localhost:9000/img/upload-MystDest/${destination.image}`}

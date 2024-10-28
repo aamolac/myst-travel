@@ -4,7 +4,7 @@ class CustTrip {
   // Requête pour afficher toutes les demandes de destinaiton sur-mesure
   static async findAll() {
     const q = `SELECT customizedTrip.id, typeExperience.choice AS typeExperienceChoice, customizedTrip.duration, customizedTrip.budget, climate.choice AS climateChoice, accomodation.choice AS accomodationChoice, 
-    activity.choice AS activityChoice, location.choice AS locationChoice, customizedTrip.numberAdult, customizedTrip.numberChild, culture.choice AS cultureChoice, customizedTrip.restriction, customizedTrip.createdDate, CASE 
+    activity.choice AS activityChoice, location.choice AS locationChoice, customizedTrip.numberAdult, customizedTrip.numberChild, culture.choice AS cultureChoice, customizedTrip.restriction, DATE_FORMAT (createdDate, '%d/%m/%Y %H:%i') AS createdDate, CASE 
     WHEN status = 0 THEN "Non traité" 
     WHEN status = 1 THEN "En cours de traitement" ELSE "Traité"
 END AS status, user_id 

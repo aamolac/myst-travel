@@ -3,7 +3,7 @@ import pool from "../config/db.js";
 class Reservation {
   // Requête pour afficher toutes les réservations
   static async findAll() {
-    const q = `SELECT id, startDate, endDate, numberAdult, numberChild, user_id, mystDestination_id, createdDate, CASE
+    const q = `SELECT id, DATE_FORMAT (startDate, '%d/%m/%Y %H') AS startDate, DATE_FORMAT (endDate, '%d/%m/%Y %H') AS endDate, numberAdult, numberChild, user_id, mystDestination_id, DATE_FORMAT (createdDate, '%d/%m/%Y %H:%i') AS createdDate, CASE
     WHEN status=0 THEN "Non traité"
     WHEN status=1 THEN "En cours de traitement"
     ELSE "Traité"

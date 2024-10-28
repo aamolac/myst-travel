@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { LoginContext } from "../../store/user/Context.jsx";
 
@@ -49,21 +49,14 @@ function Auth() {
     });
 
     const data = await response.json();
-    console.log("Données renvoyées par l'API : ", data);
 
     if (response.ok) {
-      console.log("Utilisateur reçu après login :", data.user);
       login(data.user); // Met à jour le contexte global avec les données utilisateur
       navigate("/"); // Redirige vers la page d'accueil après la connexion
     } else {
       setMsg(data.msg); // Affiche un message d'erreur si la connexion échoue
     }
   }
-
-  // Ajoute un console.log après la connexion pour vérifier l'état utilisateur
-  useEffect(() => {
-    console.log("État utilisateur après connexion :", user);
-  }, [user]);
 
   return (
     <main>

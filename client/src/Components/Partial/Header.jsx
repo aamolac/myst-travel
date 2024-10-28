@@ -24,6 +24,7 @@ function Header() {
       console.error("Logout failed");
     }
   };
+
   return (
     <header>
       <section id="container">
@@ -39,6 +40,9 @@ function Header() {
                 Nos destinations sur-mesure
               </NavLink>
               <NavLink to={"/contact"}>Contact</NavLink>
+              {user?.role === "admin" && (
+                <NavLink to={"/dashboard"}>Dashboard</NavLink>
+              )}
               <Link onClick={handleLogout}>LOGOUT</Link>
             </>
           ) : (

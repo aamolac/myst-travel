@@ -17,7 +17,6 @@ function UserProvider(props) {
 
   // Fonction pour gérer la connexion
   function login(user) {
-    console.log("Utilisateur reçu dans la fonction login :", user);
     dispatch({
       type: "LOGIN",
       payload: user,

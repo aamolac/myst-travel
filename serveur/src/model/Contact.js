@@ -3,7 +3,7 @@ import pool from "../config/db.js";
 class Contact {
   // Requête pour afficher toutes les demandes de contact
   static async findAll() {
-    const q = `SELECT contact.id, email, objectContact.choice, message, publishDate, CASE
+    const q = `SELECT contact.id, email, objectContact.choice, message, DATE_FORMAT (publishDate, '%d/%m/%Y %H:%i') AS publishDate, CASE
     WHEN status = 0 THEN "Non lu"
       WHEN status = 1 THEN "Lu"
       ELSE "Répondu"

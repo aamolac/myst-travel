@@ -96,7 +96,7 @@ function Contact() {
 
   return (
     <main>
-      <div id="contact">
+      <section id="contact">
         <h2>
           Si vous avez des questions, n'hésitez pas à nous envoyer un message.
         </h2>
@@ -137,7 +137,7 @@ function Contact() {
           ></textarea>
           <button type="submit">Envoyer un message</button>
         </form>
-      </div>
+      </section>
     </main>
   );
 }

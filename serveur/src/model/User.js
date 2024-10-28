@@ -3,7 +3,7 @@ import pool from "../config/db.js";
 class User {
   // Requête pour afficher tous les utilisateurs
   static async findAll() {
-    const q = `SELECT id, firstname, lastname, email, createdDate 
+    const q = `SELECT id, firstname, lastname, email, DATE_FORMAT (createdDate, '%d/%m/%Y %H:%i') AS createdDate 
       FROM user 
       WHERE role = 'user'
       ORDER BY lastname ASC, firstname ASC`;
