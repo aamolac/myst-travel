@@ -29,8 +29,8 @@ function MystDest() {
 
   return (
     <main>
-      <h1>Nos destinations mystères</h1>
-      <h2>Le Voyage Commence Ici </h2>
+      <h2>Nos destinations mystères</h2>
+      <h3>Le Voyage Commence Ici </h3>
       <p>
         Préparez-vous à partir pour une aventure inédite. Pas de noms de villes,
         pas de cartes, juste des indices pour vous guider vers votre prochaine
@@ -41,7 +41,7 @@ function MystDest() {
         <div id="myst-dest">
           {mystDestinations.map((mystDest) => (
             <article key={mystDest.id}>
-              <h3>{mystDest.title}</h3>
+              <h4>{mystDest.title}</h4>
               <img
                 src={`http://localhost:9000/img/upload-MystDest/${mystDest.image}`}
                 alt={mystDest.alt}

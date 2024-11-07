@@ -1,6 +1,7 @@
 import path from "path";
 // Importation des promesses de fs pour les opérations asynchrones
 import { promises as fsPromises } from "fs";
+import fs from "fs";
 
 import MystDest from "../model/MystDest.js";
 import uploadImage from "../middleware/fileUpload.js";
@@ -131,16 +132,16 @@ const remove = async (req, res) => {
 
     const image = destination[0][0].image;
 
+    const imagePath = path.join(
+      process.cwd(),
+      "public",
+      "img",
+      "upload-MystDest",
+      image
+    );
+
     // Si une image est associée et que ce n'est pas une image par défaut, on la supprime
     if (image && image !== "default-image.jpg") {
-      const imagePath = path.join(
-        process.cwd(),
-        "public",
-        "img",
-        "upload-MystDest",
-        image
-      );
-
       try {
         // Supprimer l'image du dossier
         await fsPromises.unlink(imagePath);
@@ -151,16 +152,17 @@ const remove = async (req, res) => {
           .status(500)
           .json({ msg: "Erreur lors de la suppression de l'image" });
       }
-
-      //supprimer la destination de la bdd
-      const result = await MystDest.deleteById(mystDestId);
-      // Si aucune destination n'a été supprimée (par ex si l'ID n'existe pas)
-      if (result[0].affectedRows === 0) {
-        return res
-          .status(404)
-          .json({ msg: "Erreur lors de la suppression de la destination" });
-      }
     }
+
+    //supprimer la destination de la bdd
+    const result = await MystDest.deleteById(mystDestId);
+    // Si aucune destination n'a été supprimée (par ex si l'ID n'existe pas)
+    if (result[0].affectedRows === 0) {
+      return res
+        .status(404)
+        .json({ msg: "Erreur lors de la suppression de la destination" });
+    }
+
     // Si la destination a bien été supprimée
     res.json({ msg: "Destination et image supprimées" });
   } catch (err) {
@@ -198,6 +200,9 @@ const create = async (req, res) => {
 
     // Upload de l'image
     const imageUrl = await uploadImage(req, res);
+    if (!imageUrl) {
+      return; // Arrête la fonction si une erreur survient lors de l'upload de l'image
+    }
 
     await MystDest.add(
       title,
@@ -210,9 +215,9 @@ const create = async (req, res) => {
       imageUrl,
       alt
     );
-    res.json({ msg: "Nouvelle destination ajoutée" });
+    return res.json({ msg: "Nouvelle destination ajoutée !" });
   } catch (err) {
-    res.status(500).json({ msg: err.message });
+    return res.status(500).json({ msg: err.message });
   }
 };
 

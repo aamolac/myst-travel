@@ -157,6 +157,14 @@ function CustTrip() {
 
   return (
     <main>
+      <h2>Planifiez votre Destination Sur-Mesure</h2>
+      <p>
+        Notre formulaire est conçu pour mieux comprendre vos préférences de
+        voyage et vous proposer une expérience unique, parfaitement adaptée à
+        vos envies. Prenez quelques instants pour remplir les informations
+        ci-dessous, et laissez-nous créer votre prochaine aventure mystère.
+      </p>
+      {msg && <p>{msg}</p>}
       <form id="cust-trip" onSubmit={submitHandler}>
         <label htmlFor="typeExperience">
           Quel type d'expérience recherchez-vous ?
@@ -314,7 +322,6 @@ function CustTrip() {
         />
         <button type="submit">Envoyer</button>
       </form>
-      {msg && <p>{msg}</p>}
     </main>
   );
 }

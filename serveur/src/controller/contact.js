@@ -13,6 +13,28 @@ const getAll = async (req, res) => {
   }
 };
 
+//AFFICHER TOUTES LES INFOS D'UNE DEMANDE AVEC SON ID
+const getById = async (req, res) => {
+  try {
+    // Récupération de l'ID à partir des paramètres de l'URL
+    const contactId = req.params.id;
+    // Appel de la méthode pour récupérer la demande avec l'ID fourni
+    const [contacts] = await Contact.findById(contactId);
+
+    // Vérification si la demande a été trouvée
+    if (contacts.length === 0) {
+      return res
+        .status(404)
+        .json({ msg: "La demande de contact n'a pas été trouvée" });
+    }
+
+    // Renvoie les infos de la demande en format JSON
+    res.json(contacts[0]);
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+};
+
 //MODIFIER LE STATUS D'UNE DEMANDE
 const update = async (req, res) => {
   try {
@@ -88,7 +110,7 @@ const addRequest = async (req, res) => {
     }
 
     await Contact.add(email, objectContact_id, message);
-    res.json({ msg: "La demande de contact a bien été ajoutée" });
+    res.json({ msg: "La demande de contact a bien été envoyée" });
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }
@@ -99,12 +121,14 @@ const getAllObjects = async (req, res) => {
   try {
     // Récupération de toutes les demandes
     const [objects] = await Contact.findAllObjects();
+    console.log("Objets récupérés :", objects);
 
     // Renvoie les demandes en format JSON
     res.json(objects);
   } catch (err) {
+    console.error("Erreur dans getAllObjects :", err);
     res.status(500).json({ msg: err.message });
   }
 };
 
-export { getAll, update, remove, addRequest, getAllObjects };
+export { getAll, getById, update, remove, addRequest, getAllObjects };

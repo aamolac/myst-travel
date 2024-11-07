@@ -13,6 +13,28 @@ const getAll = async (req, res) => {
   }
 };
 
+//AFFICHER TOUTES LES INFOS D'UNE RESERVATION AVEC SON ID
+const getById = async (req, res) => {
+  try {
+    // Récupération de l'ID à partir des paramètres de l'URL
+    const reservationId = req.params.id;
+    // Appel de la méthode pour récupérer la réservation avec l'ID fourni
+    const [reservations] = await Reservation.findById(reservationId);
+
+    // Vérification si la réservation a été trouvée
+    if (reservations.length === 0) {
+      return res
+        .status(404)
+        .json({ msg: "Demande de réservation pas trouvée" });
+    }
+
+    // Renvoie les infos de la réservation en format JSON
+    res.json(reservations[0]);
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+};
+
 // MODIFIER LE STATUS D'UNE RÉSERVATION
 const update = async (req, res) => {
   try {
@@ -122,4 +144,4 @@ const add = async (req, res) => {
   }
 };
 
-export { getAll, update, remove, add };
+export { getAll, getById, update, remove, add };

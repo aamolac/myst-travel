@@ -106,7 +106,9 @@ function Reservation() {
 
   return (
     <main>
-      <h1>Réserver votre voyage</h1>
+      <h2>Réserver votre voyage</h2>
+
+      {msg && <p>{msg}</p>}
       <form id="reservation-form" onSubmit={submitHandler}>
         <label htmlFor="startDate">Date de début :</label>
         <input
@@ -150,7 +152,6 @@ function Reservation() {
 
         <button type="submit">Réserver</button>
       </form>
-      {msg && <p>{msg}</p>}
     </main>
   );
 }

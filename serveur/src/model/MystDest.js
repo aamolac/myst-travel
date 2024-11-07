@@ -16,7 +16,7 @@ class MystDest {
     return await pool.execute(q, [id]);
   }
 
-  // Requête pour mettre à jour une destination par son ID
+  // Requête pour modifier une destination par son ID
   static async update(id, fieldsToUpdate) {
     // Construction de la requête SQL pour mettre à jour uniquement les champs fournis
     //COALESCENCE : signifie "si la valeur n'est pas donnée, garde la valeur actuelle"

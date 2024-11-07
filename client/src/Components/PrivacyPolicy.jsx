@@ -11,10 +11,10 @@ function PrivacyPolicy() {
         <FontAwesomeIcon icon={faArrowLeft} /> Retour
       </button>
       <div className="privacy-container">
-        <h1>Politique de Confidentialité</h1>
+        <h2>Politique de Confidentialité</h2>
 
         <section>
-          <h2>1. Introduction</h2>
+          <h3>1. Introduction</h3>
           <p>
             Chez Myst'Travel, nous respectons votre vie privée et nous nous
             engageons à protéger les données personnelles que vous partagez avec
@@ -25,7 +25,7 @@ function PrivacyPolicy() {
         </section>
 
         <section>
-          <h2>2. Données collectées</h2>
+          <h3>2. Données collectées</h3>
           <p>
             Lorsque vous utilisez Myst'Travel, nous collectons différentes
             catégories de données personnelles. Ces données incluent :
@@ -48,7 +48,7 @@ function PrivacyPolicy() {
         </section>
 
         <section>
-          <h2>3. Utilisation des données collectées</h2>
+          <h3>3. Utilisation des données collectées</h3>
           <p>Nous utilisons les données collectées aux fins suivantes :</p>
           <ul>
             <li>
@@ -71,7 +71,7 @@ function PrivacyPolicy() {
         </section>
 
         <section>
-          <h2>4. Partage des données</h2>
+          <h3>4. Partage des données</h3>
           <p>
             Nous ne vendons, ni ne louons, ni ne partageons vos données
             personnelles avec des tiers, sauf dans les cas suivants :
@@ -95,7 +95,7 @@ function PrivacyPolicy() {
         </section>
 
         <section>
-          <h2>5. Sécurité des données</h2>
+          <h3>5. Sécurité des données</h3>
           <p>
             Nous mettons en œuvre des mesures de sécurité techniques et
             organisationnelles pour protéger vos données contre tout accès non
@@ -107,7 +107,7 @@ function PrivacyPolicy() {
         </section>
 
         <section>
-          <h2>6. Vos droits</h2>
+          <h3>6. Vos droits</h3>
           <p>
             En tant qu'utilisateur, vous disposez des droits suivants sur vos
             données personnelles :
@@ -148,7 +148,7 @@ function PrivacyPolicy() {
         </section>
 
         <section>
-          <h2>7. Conservation des données</h2>
+          <h3>7. Conservation des données</h3>
           <p>
             Nous conservons vos données personnelles aussi longtemps que
             nécessaire pour vous fournir nos services, pour respecter nos
@@ -159,7 +159,7 @@ function PrivacyPolicy() {
         </section>
 
         <section>
-          <h2>8. Cookies</h2>
+          <h3>8. Cookies</h3>
           <p>
             Mystery Explorer utilise des cookies pour améliorer l'expérience
             utilisateur. Les cookies sont des fichiers textes stockés sur votre
@@ -171,7 +171,7 @@ function PrivacyPolicy() {
         </section>
 
         <section>
-          <h2>9. Modifications de la politique de confidentialité</h2>
+          <h3>9. Modifications de la politique de confidentialité</h3>
           <p>
             Nous nous réservons le droit de modifier cette politique de
             confidentialité à tout moment. Toute modification sera publiée sur
@@ -181,7 +181,7 @@ function PrivacyPolicy() {
         </section>
 
         <section>
-          <h2>10. Contact</h2>
+          <h3>10. Contact</h3>
           <p>
             Si vous avez des questions concernant cette politique de
             confidentialité ou si vous souhaitez exercer vos droits relatifs à

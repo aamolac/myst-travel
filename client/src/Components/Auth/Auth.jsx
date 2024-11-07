@@ -52,7 +52,7 @@ function Auth() {
 
     if (response.ok) {
       login(data.user); // Met à jour le contexte global avec les données utilisateur
-      navigate("/"); // Redirige vers la page d'accueil après la connexion
+      navigate(-1); // Redirige vers la page précédente après la connexion
     } else {
       setMsg(data.msg); // Affiche un message d'erreur si la connexion échoue
     }
@@ -62,12 +62,13 @@ function Auth() {
     <main>
       <div id="login">
         <h2>Connexion</h2>
-        {/* Si 'msg' contient un message, on l'affiche à l'écran */}
+
         {msg && <p>{msg}</p>}
         <form onSubmit={submitHandler}>
           <label htmlFor="email">Email</label>
           <input
             type="email"
+            id="email"
             name="email"
             placeholder="Entrer votre adresse mail"
             value={email} // La valeur de l'input est liée à l'état 'username'
@@ -77,6 +78,7 @@ function Auth() {
           <label htmlFor="password">Mot de passe</label>
           <input
             type="password"
+            id="password"
             name="password"
             placeholder="Entrer votre mot de passe"
             value={password} // La valeur de l'input est liée à l'état 'password'
@@ -88,6 +90,7 @@ function Auth() {
             <input
               type="checkbox"
               id="acceptTerms"
+              name="acceptTerms"
               checked={acceptedTerms}
               onChange={(e) => setAcceptedTerms(e.target.checked)}
             />

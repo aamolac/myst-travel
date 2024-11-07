@@ -8,6 +8,8 @@ function User() {
   const [users, setUsers] = useState([]);
 
   const navigate = useNavigate();
+  // Pour gérer les messages de retour
+  const [msg, setMsg] = useState("");
 
   //pour récupérer les utilisateurs
   const fetchUser = async () => {
@@ -48,7 +50,7 @@ function User() {
         // Rechargement de la liste des utilisateurs
         fetchUser();
       } else {
-        console.error("Erreur lors de la suppression de l'utilisateur");
+        setMsg("Erreur lors de la suppression de l'utilisateur");
       }
     }
   };
@@ -67,6 +69,8 @@ function User() {
         <FontAwesomeIcon icon={faArrowLeft} /> Retour
       </button>
       <h2>Liste des utilisateurs de Myst'Travel</h2>
+
+      {msg && <p>{msg}</p>}
       <table>
         <thead>
           <tr>

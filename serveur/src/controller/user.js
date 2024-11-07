@@ -26,7 +26,7 @@ const remove = async (req, res) => {
 
     // Si aucun utilisateur n'a été supprimé (par ex si l'ID n'existe pas)
     if (result.affectedRows === 0) {
-      return res.status(404).json({ msg: "L'utilisateur n'a pa été trouvé" });
+      return res.status(404).json({ msg: "L'utilisateur n'a pas été trouvé" });
     }
 
     // Si l'utilisateur a bien été supprimé

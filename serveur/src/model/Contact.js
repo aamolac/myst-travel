@@ -14,6 +14,19 @@ class Contact {
     return await pool.query(q);
   }
 
+  // Requête pour afficher toutes les infos d'une demande
+  static async findById(id) {
+    const q = `SELECT email, objectContact.choice, message, DATE_FORMAT (publishDate, '%d/%m/%Y %H:%i') AS publishDate, CASE
+    WHEN status = 0 THEN "Non lu"
+      WHEN status = 1 THEN "Lu"
+      ELSE "Répondu"
+  END AS status 
+      FROM contact 
+      JOIN objectContact ON contact.objectContact_id = objectContact.id
+      WHERE contact.id = ?`;
+    return await pool.execute(q, [id]);
+  }
+
   // Requête pour mettre à jour le statut d'une demande de contact par son ID
   static async updateStatus(id, status) {
     const q = "UPDATE contact SET status = ? WHERE id = ?";
@@ -35,7 +48,7 @@ class Contact {
 
   // Requête pour afficher tous les objets de demandes de contact
   static async findAllObjects() {
-    const q = `SELECT * FROM objectContact `;
+    const q = `SELECT id, choice FROM objectContact`;
     return await pool.query(q);
   }
 }

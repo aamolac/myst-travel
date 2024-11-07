@@ -6,8 +6,23 @@ import { useNavigate } from "react-router-dom";
 function CustTrip() {
   // État local pour stocker les demandes de voyages sur-mesure récupérées depuis l'API
   const [custTrips, setCustTrips] = useState([]);
-
   const navigate = useNavigate();
+  // Pour gérer les messages de retour
+  const [msg, setMsg] = useState("");
+
+  // Fonction de mappage pour convertir le statut en valeur numérique
+  const getStatusValue = (statusLabel) => {
+    switch (statusLabel) {
+      case "Non traité":
+        return 0;
+      case "En cours de traitement":
+        return 1;
+      case "Traité":
+        return 2;
+      default:
+        return 0;
+    }
+  };
 
   //pour récupérer les démandes de voyages sur-mesure
   const fetchCustTrip = async () => {
@@ -26,6 +41,31 @@ function CustTrip() {
     const data = await response.json();
     //mise à jour de l'état avec les demandes récupérées
     setCustTrips(data);
+  };
+
+  // Fonction pour mettre à jour le statut d'une demande
+  const updateStatus = async (id, newStatusLabel) => {
+    // Convertit le label en entier
+    const newStatus = getStatusValue(newStatusLabel);
+
+    const response = await fetch(
+      `http://localhost:9000/api/v1/customized-trip/update/${id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ status: newStatus }),
+      }
+    );
+
+    if (response.ok) {
+      // Actualise la liste après la mise à jour
+      fetchCustTrip();
+    } else {
+      setMsg("Erreur lors de la mise à jour du statut");
+    }
   };
 
   // Fonction pour supprimer une demande de voyages sur-mesure
@@ -51,7 +91,7 @@ function CustTrip() {
         // Rechargement de la liste des demandes de voyages sur-mesure
         fetchCustTrip();
       } else {
-        console.error("Erreur lors de la suppression de la demande");
+        setMsg("Erreur lors de la suppression de la demande");
       }
     }
   };
@@ -70,43 +110,49 @@ function CustTrip() {
         <FontAwesomeIcon icon={faArrowLeft} /> Retour
       </button>
       <h2>Demande de voyage sur-mesure</h2>
+
+      {msg && <p>{msg}</p>}
       <table>
         <thead>
           <tr>
+            <th>Numéro de la demande</th>
             <th>Identifiant de l'utilisateur</th>
-            <th>Type d'expérience</th>
-            <th>Durée (jours)</th>
-            <th>Budget (€/par personne)</th>
-            <th>Climat</th>
-            <th>Hébergement</th>
-            <th>Activité</th>
-            <th>Destination</th>
-            <th>Nombre d'adultes (plus de 12 ans)</th>
-            <th>Nombre d'enfants</th>
-            <th>Culture locale</th>
-            <th>Restriction</th>
-            <th>Date de la demande</th>
+            <th>Email de l'utilisateur</th>
+            <th>Date</th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody>
           {custTrips.map((trip) => (
             <tr key={trip.id}>
+              <td>{trip.id}</td>
               <td>{trip.user_id}</td>
-              <td>{trip.typeExperienceChoice.split(" (")[0]}</td>
-              <td>{trip.duration}</td>
-              <td>{trip.budget}</td>
-              <td>{trip.climateChoice}</td>
-              <td>{trip.accomodationChoice.split(" (")[0]}</td>
-              <td>{trip.activityChoice.split(" (")[0]}</td>
-              <td>{trip.locationChoice}</td>
-              <td>{trip.numberAdult}</td>
-              <td>{trip.numberChild}</td>
-              <td>{trip.cultureChoice.split(" (")[0]}</td>
-              <td>{trip.restriction}</td>
+              <td>{trip.userEmail}</td>
               <td>{trip.createdDate}</td>
               <td>{trip.status}</td>
               <td>
+                <button
+                  onClick={() => {
+                    navigate(`/dashboard/customized-trip/${trip.id}`);
+                  }}
+                  title={`Aller à la page de la demande de destination sur-mesure ${trip.id}`}
+                >
+                  Voir
+                </button>
+                {getStatusValue(trip.status) === 0 && (
+                  <button
+                    onClick={() =>
+                      updateStatus(trip.id, "En cours de traitement")
+                    }
+                  >
+                    En cours de traitement
+                  </button>
+                )}
+                {getStatusValue(trip.status) === 1 && (
+                  <button onClick={() => updateStatus(trip.id, "Traité")}>
+                    Traité
+                  </button>
+                )}
                 <button onClick={() => deleteCustTrip(trip.id)}>
                   Supprimer
                 </button>

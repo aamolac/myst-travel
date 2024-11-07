@@ -43,13 +43,12 @@ function Header() {
               {user?.role === "admin" && (
                 <NavLink to={"/dashboard"}>Dashboard</NavLink>
               )}
-              <Link onClick={handleLogout}>LOGOUT</Link>
+              <Link onClick={handleLogout}>Se déconnecter</Link>
             </>
           ) : (
             <>
               <NavLink to={"/contact"}>Contact</NavLink>
-              <NavLink to={"/auth"}>LOGIN</NavLink>
-              <NavLink to={"/register"}>REGISTER</NavLink>
+              <NavLink to={"/auth"}>Se connecter</NavLink>
             </>
           )}
         </nav>

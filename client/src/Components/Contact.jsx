@@ -1,4 +1,16 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFacebookF,
+  faInstagram,
+  faXTwitter,
+} from "@fortawesome/free-brands-svg-icons";
+import {
+  faLocationDot,
+  faEnvelope,
+  faPhone,
+} from "@fortawesome/free-solid-svg-icons";
 
 function Contact() {
   // États pour stocker les données du formulaire
@@ -11,7 +23,7 @@ function Contact() {
   // Pour gérer les messages de retour
   const [msg, setMsg] = useState("");
   // Pour stocker les options récupérées depuis la BDD
-  const [objectOptions, setObjectOptions] = useState([]); // Pour stocker les options récupérées depuis la BDD
+  const [objectOptions, setObjectOptions] = useState([]);
 
   // Gérer les changements de champs de formulaire
   const handleChange = (e) => {
@@ -55,8 +67,7 @@ function Contact() {
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include",
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formContact),
       });
 
       const data = await response.json();
@@ -72,35 +83,61 @@ function Contact() {
   };
 
   // Fonction pour récupérer les options d'objets de contact depuis la BDD
-  const fetchObjectOptions = async () => {
-    try {
-      const response = await fetch(
-        "http://localhost:9000/api/v1/contact/objects"
-      ); // URL de l'API pour récupérer les objets de contact
-      const data = await response.json();
-
-      if (response.ok) {
-        setObjectOptions(data); // Mettre à jour l'état avec les options récupérées
-      } else {
-        setMsg("Erreur lors de la récupération des objets de contact.");
-      }
-    } catch (err) {
-      setMsg("Erreur de communication avec le serveur.");
-    }
-  };
-
   // useEffect pour charger les options quand le composant est monté
   useEffect(() => {
+    const fetchObjectOptions = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:9000/api/v1/contact/object",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        ); // URL de l'API pour récupérer les objets de contact
+        const data = await response.json();
+
+        if (response.ok) {
+          setObjectOptions(data); // Mettre à jour l'état avec les options récupérées
+        } else {
+          setMsg("Erreur lors de la récupération des objets de contact.");
+        }
+      } catch (err) {
+        setMsg("Erreur de communication avec le serveur.");
+      }
+    };
+
     fetchObjectOptions();
   }, []);
 
   return (
     <main>
+      <h2>Nous contacter</h2>
+      <section>
+        <div>
+          <FontAwesomeIcon icon={faLocationDot} />
+          <h3>Adresse</h3>
+          <p>Myst'Travel</p>
+          <p>15 Avenue des Explorateurs</p>
+          <p>75008 Paris, France</p>
+        </div>
+        <div>
+          <FontAwesomeIcon icon={faEnvelope} />
+          <h3>Email</h3>
+          <p>contact@myst-travel.com</p>
+        </div>
+        <div>
+          <FontAwesomeIcon icon={faPhone} />
+          <h3>Numéro de téléphone</h3>
+          <p>+33 1 23 45 67 89</p>
+        </div>
+      </section>
       <section id="contact">
-        <h2>
+        <h3>
           Si vous avez des questions, n'hésitez pas à nous envoyer un message.
-        </h2>
-        {/* Si 'msg' contient un message, on l'affiche à l'écran */}
+        </h3>
+
         {msg && <p>{msg}</p>}
         <form onSubmit={submitHandler}>
           <label htmlFor="email">Email</label>
@@ -120,7 +157,6 @@ function Contact() {
             onChange={handleChange}
           >
             <option value="">Choisir un objet</option>
-            {/* Map pour afficher les options récupérées dynamiquement */}
             {objectOptions.map((object) => (
               <option key={object.id} value={object.id}>
                 {object.choice}
@@ -137,6 +173,26 @@ function Contact() {
           ></textarea>
           <button type="submit">Envoyer un message</button>
         </form>
+      </section>
+      <section>
+        <h3>Rejoins-nous sur les réseaux</h3>
+        <Link
+          to="https://www.facebook.com"
+          target="_blank"
+          aria-label="Facebook"
+        >
+          <FontAwesomeIcon icon={faFacebookF} />
+        </Link>
+        <Link
+          to="https://www.instagram.com"
+          target="_blank"
+          aria-label="Instagram"
+        >
+          <FontAwesomeIcon icon={faInstagram} />
+        </Link>
+        <Link to="https://x.com/" target="_blank" aria-label="Twitter">
+          <FontAwesomeIcon icon={faXTwitter} />
+        </Link>
       </section>
     </main>
   );

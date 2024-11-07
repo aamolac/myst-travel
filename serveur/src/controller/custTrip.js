@@ -14,6 +14,28 @@ const getAll = async (req, res) => {
   }
 };
 
+//AFFICHER TOUTES LES INFOS D'UNE DEMANDE AVEC SON ID
+const getById = async (req, res) => {
+  try {
+    // Récupération de l'ID à partir des paramètres de l'URL
+    const custTripId = req.params.id;
+    // Appel de la méthode pour récupérer la demande avec l'ID fourni
+    const [custTrips] = await CustTrip.findById(custTripId);
+
+    // Vérification si la demande a été trouvée
+    if (custTrips.length === 0) {
+      return res
+        .status(404)
+        .json({ msg: "Demande de destination sur-mesure pas trouvée" });
+    }
+
+    // Renvoie les infos de la demande en format JSON
+    res.json(custTrips[0]);
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+};
+
 //MODIFIER LE STATUS D'UNE DEMANDE
 const update = async (req, res) => {
   try {
@@ -86,8 +108,6 @@ const addRequest = async (req, res) => {
     // Récupérer l'user_id de la session
     // Si req.session.user est défini, utilise-le, sinon prends l'user_id du body
     const sessionUserId = req.session.user ? req.session.user.id : user_id;
-
-    console.log("je suis :", sessionUserId);
 
     // Validation de tout les champs requis
     if (
@@ -165,4 +185,4 @@ const getAllChoices = async (req, res) => {
   }
 };
 
-export { getAll, update, remove, addRequest, getAllChoices };
+export { getAll, getById, update, remove, addRequest, getAllChoices };

@@ -1,7 +1,9 @@
+import { Link } from "react-router-dom";
+
 function Home() {
   return (
     <main>
-      <h1>Bienvenue chez Myst’Travel</h1>
+      <h2>Bienvenue chez Myst’Travel</h2>
       <section>
         <p>
           Le voyage est une aventure, mais que se passerait-il si vous laissiez
@@ -15,28 +17,26 @@ function Home() {
         </p>
       </section>
       <section>
-        <h2>Comment ça marche ?</h2>
+        <h3>Comment ça marche ?</h3>
         <div>
           <p>
-            Choisissez parmi nos destinations mystères : Que vous rêviez de
-            plages ensoleillées, d'aventures en montagne, ou de week-ends
-            culturels, nous avons une sélection de destinations prêtes à vous
-            surprendre.👉 Cliquez sur "Nos destinations mystères" pour explorer
-            !
+            Que vous rêviez de plages ensoleillées, d'aventures en montagne, ou
+            de week-ends culturels, nous avons une sélection de destinations
+            prêtes à vous surprendre !
           </p>
+          <Link to="/myst-destination">Nos destinations mystères</Link>
         </div>
         <div>
           <p>
-            Choisissez un voyage sur-mesure et laissez-vous surprendre : Vous ne
-            voulez pas choisir ? Remplissez simplement notre formulaire, et nous
-            prendrons tout en charge ! 👉 Cliquez sur "Surprenez-Moi", et votre
-            prochaine grande aventure commencera !
+            Vous ne voulez pas choisir ? Remplissez simplement notre formulaire,
+            et nous prendrons tout en charge !
           </p>
+          <Link to="/customized-trip">Surprenez-Moi</Link>
         </div>
       </section>
 
       <section>
-        <h2>Pourquoi choisir le mystère ?</h2>
+        <h3>Pourquoi choisir le mystère ?</h3>
         <p>
           Les plus belles découvertes ne sont pas planifiées. Le simple fait de
           ne pas savoir où vous vous réveillerez demain apporte une excitation
@@ -48,7 +48,7 @@ function Home() {
       </section>
 
       <section>
-        <h2>Des destinations pour s’évader</h2>
+        <h3>Des destinations pour s’évader</h3>
         <p>
           Des villes vibrantes où l’histoire se mêle à la modernité, aux plages
           isolées où le temps semble s’être arrêté, en passant par des montagnes
@@ -59,13 +59,11 @@ function Home() {
       </section>
 
       <section>
-        <h2>Prêt pour l'aventure ?</h2>
+        <h3>Prêt pour l'aventure ?</h3>
         <p>
           La vie est trop courte pour toujours rester dans sa zone de confort.
           Embarquez pour une expérience unique qui changera votre vision du
-          voyage… et peut-être même de la vie. Cliquez sur "Surprenez-Moi" et
-          laissez l’aventure commencer. Ou explorez nos destinations mystères et
-          trouvez la prochaine étape de votre voyage !
+          voyage… et peut-être même de la vie.
         </p>
       </section>
     </main>

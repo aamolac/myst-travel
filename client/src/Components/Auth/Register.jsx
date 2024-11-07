@@ -83,12 +83,13 @@ function Register() {
     <main>
       <div id="register">
         <h2>Inscription</h2>
-        {/* Si 'msg' contient un message, on l'affiche à l'écran */}
+
         {msg && <p>{msg}</p>}
         <form onSubmit={submitHandler}>
           <label htmlFor="firstname">Prénom</label>
           <input
             type="text"
+            id="firstname"
             name="firstname"
             placeholder="Entrer votre prénom"
             value={firstname} // La valeur de l'input est liée à l'état 'firstname'
@@ -98,6 +99,7 @@ function Register() {
           <label htmlFor="lastname">Nom</label>
           <input
             type="text"
+            id="lastname"
             name="lastname"
             placeholder="Entrer votre nom"
             value={lastname}
@@ -107,6 +109,7 @@ function Register() {
           <label htmlFor="email">Email</label>
           <input
             type="email"
+            id="email"
             name="email"
             placeholder="Entrer votre adresse mail"
             value={email}
@@ -116,6 +119,7 @@ function Register() {
           <label htmlFor="password">Mot de passe</label>
           <input
             type="password"
+            id="password"
             name="password"
             placeholder="Entrer votre mot de passe"
             value={password}

@@ -1,6 +1,7 @@
 import express from "express";
 import {
   getAll,
+  getById,
   update,
   remove,
   addRequest,
@@ -20,6 +21,9 @@ router.get("/choices", withAuth, getAllChoices);
 //ADMIN
 //afficher les demandes de voyages sur-mesure
 router.get("/list", adminAuth, getAll);
+//afficher toutes les infos d'une demande par son id
+router.get("/:id", adminAuth, getById);
+
 //modifier le status d'une demande
 router.patch("/update/:id", adminAuth, update);
 //supprimer une demande
