@@ -41,15 +41,19 @@ function ReservationDetail() {
       </button>
       <p>Identifiant de l'utilisateur : {reservation.user_id}</p>
       <p>Email de l'utilisateur : {reservation.userEmail}</p>
-      <p>Destination mystère : {reservation.mystDestination_id}</p>
-      <p>Date de départ: {reservation.startDate} </p>
+      <p>
+        Destination mystère : identifiant {reservation.mystDestination_id} -{" "}
+        {reservation.mystDestTitle}
+      </p>
+      <p>Date de départ: {reservation.startDate}</p>
       <p>Date de fin : {reservation.endDate}</p>
       <p>Nombre d'adulte (à partir de 12 ans) : {reservation.numberAdult}</p>
       <p>
-        Nombre d'enfant :{reservation.numberChild ? reservation.numberChild : 0}
+        Nombre d'enfant :{" "}
+        {reservation.numberChild ? reservation.numberChild : 0}
       </p>
       <p>Date : {reservation.createdDate}</p>
-      <p>Status : {reservation.status}</p>
+      <p>Status : {reservation.reservationStatus}</p>
     </main>
   );
 }

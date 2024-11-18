@@ -70,7 +70,7 @@ function User() {
       </button>
       <h2>Liste des utilisateurs de Myst'Travel</h2>
 
-      {msg && <p>{msg}</p>}
+      {msg && <p className="message">{msg}</p>}
       <table>
         <thead>
           <tr>

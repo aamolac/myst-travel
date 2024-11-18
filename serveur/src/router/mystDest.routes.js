@@ -5,6 +5,7 @@ import {
   update,
   remove,
   create,
+  updateStatus,
 } from "../controller/mystDest.js";
 
 import { add } from "../controller/reservation.js";
@@ -31,5 +32,7 @@ router.post("/add", adminAuth, create);
 router.patch("/update/:id", adminAuth, update);
 //supprimer une destination
 router.delete("/delete/:id", adminAuth, remove);
+//modifier le status d'une destination
+router.patch("/updateStatus/:id", adminAuth, updateStatus);
 
 export default router;

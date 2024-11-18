@@ -1,0 +1,50 @@
+footer {
+  background-color: $blue;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  h1,
+  h4,
+  p {
+    color: $creamy-white;
+    line-height: 1.5rem;
+  }
+  h1 {
+    text-align: center;
+    padding: 2rem;
+  }
+  a {
+    color: $creamy-white;
+  }
+  section {
+    padding: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    width: 40%;
+    margin: auto;
+    nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+  }
+
+  section:nth-of-type(4) {
+    div {
+      display: flex;
+      justify-content: space-around;
+    }
+    a {
+      padding-top: 1rem;
+      font-size: 3rem;
+    }
+  }
+
+  section:last-of-type {
+    a,
+    p {
+      text-align: center;
+    }
+  }
+}

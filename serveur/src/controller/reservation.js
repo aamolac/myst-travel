@@ -50,11 +50,11 @@ const update = async (req, res) => {
     if (result[0].affectedRows === 0) {
       return res
         .status(404)
-        .json({ msg: "Le status de la réservation n'a pas pu être modifié" });
+        .json({ msg: "Le status de la réservation n'a pas pu être modifié." });
     }
 
     // Renvoie une réponse JSON confirmant la mise à jour
-    res.json({ msg: "Le status de la réservation a été modifié" });
+    res.json({ msg: "Le status de la réservation a été modifié." });
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }
@@ -71,11 +71,11 @@ const remove = async (req, res) => {
     if (result[0].affectedRows === 0) {
       return res
         .status(404)
-        .json({ msg: "La réservation n'a pas été trouvée" });
+        .json({ msg: "La réservation n'a pas été trouvée." });
     }
 
     // Si la réservation a bien été supprimée
-    res.json({ msg: "La réservation a été supprimée" });
+    res.json({ msg: "La réservation a été supprimée." });
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }

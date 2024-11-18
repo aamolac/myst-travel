@@ -11,7 +11,7 @@ function PrivacyPolicy() {
         <FontAwesomeIcon icon={faArrowLeft} /> Retour
       </button>
       <div className="privacy-container">
-        <h2>Politique de Confidentialité</h2>
+        <h2>Politique de confidentialité</h2>
 
         <section>
           <h3>1. Introduction</h3>

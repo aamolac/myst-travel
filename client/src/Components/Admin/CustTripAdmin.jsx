@@ -111,7 +111,7 @@ function CustTrip() {
       </button>
       <h2>Demande de voyage sur-mesure</h2>
 
-      {msg && <p>{msg}</p>}
+      {msg && <p className="message">{msg}</p>}
       <table>
         <thead>
           <tr>

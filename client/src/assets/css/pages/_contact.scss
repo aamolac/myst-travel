@@ -1,0 +1,55 @@
+#contact {
+  h2 {
+    color: $creamy-white;
+    text-align: center;
+    padding: 1rem;
+    border: 3px solid $creamy-white;
+  }
+  svg {
+    font-size: 2.5rem;
+    color: $blue;
+  }
+  h3 {
+    padding: 1rem;
+  }
+  section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 2rem;
+    div {
+      text-align: center;
+    }
+    div:not(:last-child)::after {
+      content: "";
+      display: block;
+      width: 50%;
+      height: 2px;
+      background-color: $blue;
+      margin: 2rem auto;
+    }
+    a {
+      color: black;
+    }
+    label {
+      @include label-style;
+    }
+  }
+
+  .title {
+    height: 25rem;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)),
+      url("/src/assets/images/contact-5.webp");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .connect div {
+    display: flex;
+    gap: 3rem;
+  }
+}

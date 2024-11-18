@@ -6,12 +6,12 @@ function TermsOfUse() {
   const navigate = useNavigate();
 
   return (
-    <main>
+    <main id="terms-of-use">
       <button onClick={() => navigate(-1)} title="Retour à la page précédente">
         <FontAwesomeIcon icon={faArrowLeft} /> Retour
       </button>
       <div className="terms-container">
-        <h2>Conditions Générales d'Utilisation</h2>
+        <h2>Conditions générales d'utilisation</h2>
 
         <section>
           <h3>1. Présentation du site</h3>

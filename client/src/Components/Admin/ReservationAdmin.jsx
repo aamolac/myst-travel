@@ -112,13 +112,14 @@ function Reservation() {
       </button>
       <h2>Demande de réservation de voyages mystères</h2>
 
-      {msg && <p>{msg}</p>}
+      {msg && <p className="message">{msg}</p>}
       <table>
         <thead>
           <tr>
             <th>Numéro de réservation</th>
             <th>Identifiant de l'utilisateur</th>
             <th>Email de l'utilisateur</th>
+            <th>Destination mystère</th>
             <th>Date</th>
             <th>Status</th>
           </tr>
@@ -129,8 +130,9 @@ function Reservation() {
               <td>{reserve.id}</td>
               <td>{reserve.user_id}</td>
               <td>{reserve.userEmail}</td>
+              <td>{reserve.mystDestTitle}</td>
               <td>{reserve.createdDate}</td>
-              <td>{reserve.status}</td>
+              <td>{reserve.reservationStatus}</td>
               <td>
                 <button
                   onClick={() => {
@@ -140,7 +142,7 @@ function Reservation() {
                 >
                   Voir
                 </button>
-                {getStatusValue(reserve.status) === 0 && (
+                {getStatusValue(reserve.reservationStatus) === 0 && (
                   <button
                     onClick={() =>
                       updateStatus(reserve.id, "En cours de traitement")
@@ -149,7 +151,7 @@ function Reservation() {
                     En cours de traitement
                   </button>
                 )}
-                {getStatusValue(reserve.status) === 1 && (
+                {getStatusValue(reserve.reservationStatus) === 1 && (
                   <button onClick={() => updateStatus(reserve.id, "Traité")}>
                     Traité
                   </button>

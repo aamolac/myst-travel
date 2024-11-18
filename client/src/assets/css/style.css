@@ -1,18 +1,433 @@
+/* Reset CSS par Eric Meyer */
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+@font-face {
+  font-family: "Lora-Regular";
+  src: url("../font/Lora/static/Lora-Regular.ttf");
+}
+@font-face {
+  font-family: "Lora-Medium";
+  src: url("../font/Lora/static/Lora-Medium.ttf");
+}
+@font-face {
+  font-family: "Poppins-Regular";
+  src: url("../font/Poppins/Poppins-Regular.ttf");
+}
+@font-face {
+  font-family: "Poppins-Medium";
+  src: url("../font/Poppins/Poppins-Medium.ttf");
+}
+header {
+  background-color: #274c77;
+}
+header section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 0.5rem;
+  gap: 2rem;
+}
+header h1 {
+  color: #fdfdfd;
+  padding: 2rem;
+}
+header nav {
+  color: #fdfdfd;
+  font-size: 1.6rem;
+  font-family: "Lora-Regular";
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+}
+header a {
+  color: #fdfdfd;
+  display: block;
+  padding: 1.4rem;
+  border-radius: 1rem;
+  text-align: center;
+}
+header .active {
+  background-color: #fdfdfd;
+  color: #274c77;
+}
+
+footer {
+  background-color: #274c77;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+footer h1,
+footer h4,
+footer p {
+  color: #fdfdfd;
+  line-height: 1.5rem;
+}
+footer h1 {
+  text-align: center;
+  padding: 2rem;
+}
+footer a {
+  color: #fdfdfd;
+}
+footer section {
+  padding: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  width: 40%;
+  margin: auto;
+}
+footer section nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+footer section:nth-of-type(4) div {
+  display: flex;
+  justify-content: space-around;
+}
+footer section:nth-of-type(4) a {
+  padding-top: 1rem;
+  font-size: 3rem;
+}
+footer section:last-of-type a,
+footer section:last-of-type p {
+  text-align: center;
+}
+
+#home h2 {
+  text-align: center;
+  padding: 10rem;
+}
+#home h3 {
+  text-align: center;
+  padding-bottom: 2rem;
+}
+#home section {
+  padding: 2rem 5rem;
+}
+#home .offer {
+  display: flex;
+  flex-direction: row;
+  gap: 5rem;
+}
+#home .offer div {
+  width: 49%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+#home .offer a {
+  background-color: #274c77;
+  color: #fdfdfd;
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  text-align: center;
+}
+
 form {
   display: flex;
   flex-direction: column;
   gap: 5px;
-} /*# sourceMappingURL=style.css.map */
-
-article img {
-  /* display: block; */
-  max-width: 30%;
-  height: auto;
-  margin: 10px auto;
 }
 
-img {
-  max-width: 60%;
-  height: auto;
-  margin: 10px auto;
+#auth {
+  width: 60%;
+  margin: 5rem auto;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 }
+#auth h2 {
+  text-align: center;
+  padding-bottom: 2rem;
+}
+#auth form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+#auth label {
+  font-size: 1.5rem;
+  font-family: "Lora-Medium";
+}
+#auth input {
+  border-radius: 0.5rem;
+  border: 0.1rem solid black;
+  margin-bottom: 0.7rem;
+  padding-left: 0.5rem;
+  height: 3rem;
+}
+#auth .password-condition {
+  font-style: italic;
+  font-size: 1.1rem;
+}
+#auth div:last-of-type {
+  display: flex;
+  gap: 1rem;
+  padding: 2rem;
+}
+#auth div:last-of-type label {
+  font-size: 1.4rem;
+}
+#auth button {
+  background-color: #274c77;
+  color: #fdfdfd;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  width: 30%;
+  display: block;
+  margin: 0.5rem auto;
+}
+#auth a {
+  color: #274c77;
+  font-style: italic;
+  font-family: "Lora-Medium";
+}
+
+#contact h2 {
+  color: #fdfdfd;
+  text-align: center;
+  padding: 1rem;
+  border: 3px solid #fdfdfd;
+}
+#contact svg {
+  font-size: 2.5rem;
+  color: #274c77;
+}
+#contact h3 {
+  padding: 1rem;
+}
+#contact section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 2rem;
+}
+#contact section div {
+  text-align: center;
+}
+#contact section div:not(:last-child)::after {
+  content: "";
+  display: block;
+  width: 50%;
+  height: 2px;
+  background-color: #274c77;
+  margin: 2rem auto;
+}
+#contact section a {
+  color: black;
+}
+#contact section label {
+  font-size: 1.5rem;
+  font-family: "Lora-Medium";
+}
+#contact .title {
+  height: 25rem;
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url("/src/assets/images/contact-5.webp");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#contact .connect div {
+  display: flex;
+  gap: 3rem;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  background-color: #fdfdfd;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: #274c77;
+  font-family: "Poppins-Medium";
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h2 {
+  font-size: 2.7rem;
+}
+
+h3 {
+  font-size: 2rem;
+}
+
+h4 {
+  font-size: 1.8rem;
+}
+
+p {
+  font-family: "Lora-Regular";
+  font-size: 1.6rem;
+  text-align: justify;
+  line-height: 3rem;
+}
+
+a {
+  font-family: "Lora-Regular";
+  text-decoration: none;
+  font-size: 1.6rem;
+  display: inline-block;
+}
+
+.message {
+  color: #b22234;
+}/*# sourceMappingURL=style.css.map */

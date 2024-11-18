@@ -124,11 +124,11 @@ const addRequest = async (req, res) => {
       return res.status(400).json({ msg: "Tous les champs sont requis." });
     }
 
-    // Validation que la durée soit au moins de 2 jours
-    if (duration < 2) {
+    // Validation que la durée soit comprise entre 2 et 21 jours
+    if (duration < 2 || duration > 21) {
       return res
         .status(400)
-        .json({ msg: "La durée doit être d'au moins 2 jours." });
+        .json({ msg: "La durée doit être comprise entre 2 et 21 jours." });
     }
 
     // Vérifier que le nombre d'adultes est au moins égal à 1
@@ -153,7 +153,7 @@ const addRequest = async (req, res) => {
       sessionUserId
     );
     res.json({
-      msg: "Votre demande de destination sur-mesure a bien été effectuée. L'agence reviendra vers vous par mail dans les plus brefs délais.",
+      msg: "Votre demande de destination sur-mesure a bien été effectuée ! L'agence reviendra vers vous par mail dans les plus brefs délais.",
     });
   } catch (err) {
     res.status(500).json({ msg: err.message });

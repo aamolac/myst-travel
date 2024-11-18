@@ -1,2 +1,76 @@
-@import "./pages/home";
-@import "./pages/aboutus";
+@import "./pages/_reset";
+
+@import "./pages/general";
+
+@import "./pages/_header";
+@import "./pages/_footer";
+@import "./pages/_home";
+@import "./pages/_aboutus";
+@import "./pages/_auth";
+@import "./pages/contact";
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  background-color: $creamy-white;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: $blue;
+  font-family: "Poppins-Medium";
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h2 {
+  font-size: 2.7rem;
+}
+
+h3 {
+  font-size: 2rem;
+}
+
+h4 {
+  font-size: 1.8rem;
+}
+
+p {
+  font-family: "Lora-Regular";
+  font-size: 1.6rem;
+  text-align: justify;
+  line-height: 3rem;
+}
+
+a {
+  font-family: "Lora-Regular";
+  text-decoration: none;
+  font-size: 1.6rem;
+  display: inline-block;
+}
+
+.message {
+  color: $red;
+}
+
+//media queries pour ordi
+// button:hover {
+//   cursor: pointer;
+// }

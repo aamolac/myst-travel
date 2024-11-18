@@ -44,7 +44,7 @@ const update = async (req, res) => {
   try {
     // Récupération de l'ID à partir des paramètres de l'URL
     const mystDestId = req.params.id;
-    console.log("ID de la destination:", mystDestId);
+
     // Récupération des informations actuelles de la destination
     const [mystDests] = await MystDest.findById(mystDestId);
 
@@ -55,7 +55,6 @@ const update = async (req, res) => {
 
     // Récupérer les informations actuelles de la destination, y compris l'URL de l'image
     const currentImage = mystDests[0].image;
-    console.log("URL actuelle de l'image:", currentImage);
 
     // Récupération de la nouvelle information à partir du corps de la requête
     const fieldsToUpdate = req.body;
@@ -99,6 +98,30 @@ const update = async (req, res) => {
     // Vérifier si des champs ont été fournis pour la mise à jour
     if (Object.keys(fieldsToUpdate).length === 0) {
       return res.status(400).json({ msg: "Pas de champs trouvé à modifier" });
+    }
+
+    // Conversion des champs en nombres
+    fieldsToUpdate.budget = parseFloat(fieldsToUpdate.budget);
+    fieldsToUpdate.maxDuration = Number(fieldsToUpdate.maxDuration);
+    fieldsToUpdate.minDuration = Number(fieldsToUpdate.minDuration);
+
+    // Vérification des valeurs de minDuration et maxDuration
+    if (
+      (fieldsToUpdate.minDuration &&
+        (fieldsToUpdate.minDuration < 2 || fieldsToUpdate.minDuration > 21)) ||
+      (fieldsToUpdate.maxDuration &&
+        (fieldsToUpdate.maxDuration < 2 || fieldsToUpdate.maxDuration > 21))
+    ) {
+      return res.status(400).json({
+        msg: "La durée minimale est de 2 jours et la durée maximale de 21 jours.",
+      });
+    }
+
+    // Vérification de la durée maximale
+    if (fieldsToUpdate.maxDuration <= fieldsToUpdate.minDuration) {
+      return res.status(400).json({
+        msg: "La durée maximale doit être supérieure à la durée minimale.",
+      });
     }
 
     // Mise à jour de la destination
@@ -175,27 +198,61 @@ const create = async (req, res) => {
   try {
     const {
       title,
+      climateClue,
       climate,
-      experience,
+      experienceClue,
+      accomodation,
+      activityClue,
       activity,
-      location,
+      locationClue,
+      continent,
       budget,
-      recoDuration,
+      minDuration,
+      maxDuration,
       alt,
     } = req.body;
 
     // Validation de tout les champs requis
     if (
       !title ||
+      !climateClue ||
       !climate ||
-      !experience ||
+      !experienceClue ||
+      !accomodation ||
+      !activityClue ||
       !activity ||
-      !location ||
+      !locationClue ||
+      !continent ||
       !budget ||
-      !recoDuration ||
+      !minDuration ||
+      !maxDuration ||
       !alt
     ) {
       return res.status(400).json({ msg: "Tous les champs sont requis." });
+    }
+
+    // Conversion des champs en nombres
+    const budgetNum = parseFloat(budget);
+    const minDurationNum = Number(minDuration);
+    const maxDurationNum = Number(maxDuration);
+
+    // Vérification des valeurs de minDuration et maxDuration
+    if (
+      minDurationNum < 2 ||
+      minDurationNum > 21 ||
+      maxDurationNum < 2 ||
+      maxDurationNum > 21
+    ) {
+      return res.status(400).json({
+        msg: "La durée minimale est de 2 jours et la durée maximale de 21 jours.",
+      });
+    }
+
+    // Vérification de la durée maximale
+    if (maxDurationNum <= minDurationNum) {
+      return res.status(400).json({
+        msg: "La durée maximale doit être supérieure à la durée minimale.",
+      });
     }
 
     // Upload de l'image
@@ -206,12 +263,17 @@ const create = async (req, res) => {
 
     await MystDest.add(
       title,
+      climateClue,
       climate,
-      experience,
+      experienceClue,
+      accomodation,
+      activityClue,
       activity,
-      location,
-      budget,
-      recoDuration,
+      locationClue,
+      continent,
+      budgetNum,
+      minDurationNum,
+      maxDurationNum,
       imageUrl,
       alt
     );
@@ -221,4 +283,29 @@ const create = async (req, res) => {
   }
 };
 
-export { getAll, getById, update, remove, create };
+//MODIFIER LE STATUS D'UNE DESTINATION
+const updateStatus = async (req, res) => {
+  try {
+    // Récupération de l'ID à partir des paramètres de l'URL
+    const mystDestStatusId = req.params.id;
+    // Récupération du nouveau statut à partir du corps de la requête
+    const { status } = req.body;
+
+    // Mise à jour du statut
+    const result = await MystDest.updateStat(mystDestStatusId, status);
+
+    // Vérification si la mise à jour a réussi
+    if (result[0].affectedRows === 0) {
+      return res.status(404).json({
+        msg: "Le status de la destination n'a pas pu être modifié",
+      });
+    }
+
+    // Renvoie une réponse JSON confirmant la mise à jour
+    res.json({ msg: "Le status de la destination a bien été modifié" });
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+};
+
+export { getAll, getById, update, remove, create, updateStatus };

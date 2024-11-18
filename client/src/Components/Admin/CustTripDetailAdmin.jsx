@@ -45,7 +45,7 @@ function CustTripDetail() {
       <p>Email de l'utilisateur : {custTrips.userEmail}</p>
       <p>Type d'expérience : {custTrips.typeExperienceChoice} </p>
       <p>Durée du séjour : {custTrips.duration}</p>
-      <p>Budget par personne : {custTrips.budget}</p>
+      <p>Budget total par personne : {custTrips.budget}</p>
       <p>Climat : {custTrips.climateChoice}</p>
       <p>Hébergement : {custTrips.accomodationChoice}</p>
       <p>Activité : {custTrips.activityChoice}</p>

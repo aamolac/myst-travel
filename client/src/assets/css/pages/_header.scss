@@ -1,0 +1,40 @@
+header {
+  background-color: $blue;
+  section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 0.5rem;
+    gap: 2rem;
+  }
+  h1 {
+    color: $creamy-white;
+    padding: 2rem;
+  }
+  nav {
+    color: $creamy-white;
+    font-size: 1.6rem;
+    font-family: "Lora-Regular";
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+  }
+  a {
+    color: $creamy-white;
+    display: block;
+    padding: 1.4rem;
+    border-radius: 1rem;
+    text-align: center;
+  }
+  .active {
+    background-color: $creamy-white;
+    color: $blue;
+  }
+  //media queries car pas besoin pour mobile et tablette
+  // a:hover{
+  //   background-color: $creamy-white;
+  //   color: $blue;
+  // }
+}

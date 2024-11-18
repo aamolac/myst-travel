@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Home() {
   return (
-    <main>
+    <main id="home">
       <h2>Bienvenue chez Myst’Travel</h2>
       <section>
         <p>
@@ -18,20 +18,22 @@ function Home() {
       </section>
       <section>
         <h3>Comment ça marche ?</h3>
-        <div>
-          <p>
-            Que vous rêviez de plages ensoleillées, d'aventures en montagne, ou
-            de week-ends culturels, nous avons une sélection de destinations
-            prêtes à vous surprendre !
-          </p>
-          <Link to="/myst-destination">Nos destinations mystères</Link>
-        </div>
-        <div>
-          <p>
-            Vous ne voulez pas choisir ? Remplissez simplement notre formulaire,
-            et nous prendrons tout en charge !
-          </p>
-          <Link to="/customized-trip">Surprenez-Moi</Link>
+        <div className="offer">
+          <div>
+            <p>
+              Que vous rêviez de plages ensoleillées, d'aventures en montagne ou
+              de week-ends culturels, nous avons une sélection de destinations
+              prêtes à vous surprendre !
+            </p>
+            <Link to="/myst-destination">Nos destinations mystères</Link>
+          </div>
+          <div>
+            <p>
+              Vous ne voulez pas choisir ? Remplissez simplement notre
+              formulaire et nous prendrons tout en charge !
+            </p>
+            <Link to="/customized-trip">Surprenez-Moi</Link>
+          </div>
         </div>
       </section>
 

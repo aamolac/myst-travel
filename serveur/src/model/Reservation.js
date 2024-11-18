@@ -3,26 +3,28 @@ import pool from "../config/db.js";
 class Reservation {
   // Requête pour afficher toutes les réservations
   static async findAll() {
-    const q = `SELECT reservation.id, reservation.user_id, DATE_FORMAT (reservation.createdDate, '%d/%m/%Y %H:%i') AS createdDate, CASE
-    WHEN status=0 THEN "Non traité"
-    WHEN status=1 THEN "En cours de traitement"
+    const q = `SELECT reservation.id, reservation.user_id, reservation.mystDestination_id, DATE_FORMAT (reservation.createdDate, '%d/%m/%Y %H:%i') AS createdDate, CASE
+    WHEN reservation.status=0 THEN "Non traité"
+    WHEN reservation.status=1 THEN "En cours de traitement"
     ELSE "Traité"
-    END AS status, user.email AS userEmail 
+    END AS reservationStatus, user.email AS userEmail, mystDestination.title AS mystDestTitle 
       FROM reservation
       JOIN user ON reservation.user_id = user.id
+      JOIN mystDestination ON reservation.mystDestination_id = mystDestination.id
       ORDER BY createdDate DESC`;
     return await pool.query(q);
   }
 
   // Requête pour afficher toutes les infos de la réservation par son ID
   static async findById(id) {
-    const q = `SELECT reservation.id, DATE_FORMAT (startDate, '%d/%m/%Y %H') AS startDate, DATE_FORMAT (endDate, '%d/%m/%Y %H') AS endDate, numberAdult, numberChild, reservation.user_id, mystDestination_id, DATE_FORMAT (reservation.createdDate, '%d/%m/%Y %H:%i') AS createdDate, CASE
-    WHEN status=0 THEN "Non traité"
-    WHEN status=1 THEN "En cours de traitement"
+    const q = `SELECT reservation.id, DATE_FORMAT (startDate, '%d/%m/%Y') AS startDate, DATE_FORMAT (endDate, '%d/%m/%Y') AS endDate, numberAdult, numberChild, reservation.user_id, reservation.mystDestination_id, DATE_FORMAT (reservation.createdDate, '%d/%m/%Y %H:%i') AS createdDate, CASE
+    WHEN reservation.status=0 THEN "Non traité"
+    WHEN reservation.status=1 THEN "En cours de traitement"
     ELSE "Traité"
-    END AS status, user.email AS userEmail 
+    END AS reservationStatus, user.email AS userEmail, mystDestination.title AS mystDestTitle 
       FROM reservation
       JOIN user ON reservation.user_id = user.id
+      JOIN mystDestination ON reservation.mystDestination_id = mystDestination.id
       WHERE reservation.id = ?
       ORDER BY createdDate DESC`;
     return await pool.execute(q, [id]);

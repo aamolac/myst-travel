@@ -44,32 +44,41 @@ function MystDestDetail() {
         onClick={() => navigate("/myst-destination")}
         title="Retour à la page des destinations mystères"
       >
-        <FontAwesomeIcon icon={faArrowLeft} /> Retour
+        <FontAwesomeIcon icon={faArrowLeft} /> Retour aux destinations mystères
       </button>
       <h2>{destination.title}</h2>
       <img
         src={`http://localhost:9000/img/upload-MystDest/${destination.image}`}
         alt={destination.alt}
       />
-      <h3>Indice n°1 : Le Climat</h3>
-      <p>{destination.climate}</p>
+      <h3>Indice n°1 : La région géographique</h3>
+      <p>{destination.locationClue}</p>
+      <p>Continent : {destination.continent}</p>
 
-      <h3>Indice n°2 : Le Type d'Expérience</h3>
-      <p>{destination.experience}</p>
+      <h3>Indice n°2 : Le climat</h3>
+      <p>{destination.climateClue}</p>
+      <p>Climat : {destination.climate}</p>
 
-      <h3>Indice n°3 : Le Niveau d’Activité Physique</h3>
-      <p>{destination.activity}</p>
+      <h3>Indice n°3 : Le type d'expérience</h3>
+      <p>{destination.experienceClue}</p>
+      <p>{destination.accomodation}</p>
 
-      <h3>Indice n°4 : La Région Géographique</h3>
-      <p>{destination.location}</p>
+      <h3>Indice n°4 : Le niveau d’activité physique</h3>
+      <p>{destination.activityClue}</p>
+      <p>Activité : {destination.activity}</p>
 
-      <h3>Budget et durée recommandée</h3>
-      <p>{destination.budget} €</p>
+      <h3>Budget et durée</h3>
+      <p>Budget par jour/personne : {destination.budget} €</p>
       <p>
-        Veuillez noter que le coût du billet d'avion n'est pas inclus dans ce
-        prix et peut varier en fonction de votre lieu de départ et de la saison.
+        Veuillez noter que les frais de transport aérien ne sont pas inclus dans
+        ce tarif et peuvent varier en fonction de votre lieu de départ, de la
+        saison, de la demande et des compagnies aériennes sélectionnées.
+        Réserver à l'avance peut contribuer à réduire le coût total du
+        transport.
       </p>
-      <p>Durée recommandée : {destination.recoDuration} jours</p>
+      <p>
+        Durée : {destination.minDuration} à {destination.maxDuration} jours
+      </p>
 
       <h3>À Vous de Jouer</h3>
       <p>

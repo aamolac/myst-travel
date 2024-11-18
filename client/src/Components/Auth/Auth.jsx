@@ -4,11 +4,10 @@ import { LoginContext } from "../../store/user/Context.jsx";
 
 function Auth() {
   // useContext permet d'accéder au contexte global 'Context', ici il contient l'état global et les fonctions comme 'login'
-  const { user, login } = useContext(LoginContext);
+  const { login } = useContext(LoginContext);
   // États pour stocker les données du formulaire
   const [email, setEmail] = useState(""); // Changement de 'username' à 'email'
   const [password, setPassword] = useState("");
-  const [acceptedTerms, setAcceptedTerms] = useState(false); //
 
   // useState pour gérer les messages d'erreur ou d'information. 'msg' stocke le message, 'setMsg' le modifie.
   const [msg, setMsg] = useState(null);
@@ -27,14 +26,6 @@ function Auth() {
     // Validation du mot de passe
     if (!password || password.length < 8) {
       setMsg("Le mot de passe doit contenir au moins 8 caractères.");
-      return;
-    }
-
-    // Vérification de la case à cocher
-    if (!acceptedTerms) {
-      setMsg(
-        "Vous devez accepter les conditions générales d'utilisation et la politique de confidentialité."
-      );
       return;
     }
 
@@ -60,10 +51,10 @@ function Auth() {
 
   return (
     <main>
-      <div id="login">
+      <section id="auth">
         <h2>Connexion</h2>
 
-        {msg && <p>{msg}</p>}
+        {msg && <p className="message">{msg}</p>}
         <form onSubmit={submitHandler}>
           <label htmlFor="email">Email</label>
           <input
@@ -86,31 +77,16 @@ function Auth() {
             required
           />
 
-          <div>
-            <input
-              type="checkbox"
-              id="acceptTerms"
-              name="acceptTerms"
-              checked={acceptedTerms}
-              onChange={(e) => setAcceptedTerms(e.target.checked)}
-            />
-            <label htmlFor="acceptTerms">
-              J’accepte les{" "}
-              <Link to="/terms-of-use">conditions générales d'utilisation</Link>{" "}
-              et la{" "}
-              <Link to="/privacy-policy">politique de confidentialité</Link>.
-            </label>
-          </div>
-
           <button type="submit">Se connecter</button>
           <p>
             Pas encore de compte ?
             <Link to="/register" id="account">
+              {" "}
               S'inscrire
             </Link>
           </p>
         </form>
-      </div>
+      </section>
     </main>
   );
 }

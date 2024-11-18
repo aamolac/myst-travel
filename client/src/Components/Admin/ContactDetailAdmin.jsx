@@ -72,7 +72,7 @@ function ContactDetail() {
       {contacts.status !== "Répondu" && (
         <button onClick={markAsReplied}>Répondu</button>
       )}
-      {msg && <p>{msg}</p>}
+      {msg && <p className="message">{msg}</p>}
     </main>
   );
 }

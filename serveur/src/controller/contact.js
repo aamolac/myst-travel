@@ -110,7 +110,9 @@ const addRequest = async (req, res) => {
     }
 
     await Contact.add(email, objectContact_id, message);
-    res.json({ msg: "La demande de contact a bien été envoyée" });
+    res.json({
+      msg: "Votre demande a bien été envoyée ! L'agence Myst'Travel reviendra vers vous dans les plus brefs délais.",
+    });
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }

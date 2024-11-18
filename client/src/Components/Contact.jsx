@@ -112,8 +112,10 @@ function Contact() {
   }, []);
 
   return (
-    <main>
-      <h2>Nous contacter</h2>
+    <main id="contact">
+      <section className="title">
+        <h2>Nous contacter</h2>
+      </section>
       <section>
         <div>
           <FontAwesomeIcon icon={faLocationDot} />
@@ -125,24 +127,25 @@ function Contact() {
         <div>
           <FontAwesomeIcon icon={faEnvelope} />
           <h3>Email</h3>
-          <p>contact@myst-travel.com</p>
+          <a href="mailto:contact@myst-travel.com">contact@myst-travel.com</a>
         </div>
         <div>
           <FontAwesomeIcon icon={faPhone} />
           <h3>Numéro de téléphone</h3>
-          <p>+33 1 23 45 67 89</p>
+          <a href="tel:+33123456789">+33 1 23 45 67 89</a>
         </div>
       </section>
-      <section id="contact">
+      <section>
         <h3>
           Si vous avez des questions, n'hésitez pas à nous envoyer un message.
         </h3>
 
-        {msg && <p>{msg}</p>}
+        {msg && <p className="message">{msg}</p>}
         <form onSubmit={submitHandler}>
           <label htmlFor="email">Email</label>
           <input
             type="email"
+            id="email"
             name="email"
             placeholder="Entrer votre adresse mail"
             value={formContact.email} // La valeur de l'input est liée à l'état 'email'
@@ -174,25 +177,27 @@ function Contact() {
           <button type="submit">Envoyer un message</button>
         </form>
       </section>
-      <section>
+      <section className="connect">
         <h3>Rejoins-nous sur les réseaux</h3>
-        <Link
-          to="https://www.facebook.com"
-          target="_blank"
-          aria-label="Facebook"
-        >
-          <FontAwesomeIcon icon={faFacebookF} />
-        </Link>
-        <Link
-          to="https://www.instagram.com"
-          target="_blank"
-          aria-label="Instagram"
-        >
-          <FontAwesomeIcon icon={faInstagram} />
-        </Link>
-        <Link to="https://x.com/" target="_blank" aria-label="Twitter">
-          <FontAwesomeIcon icon={faXTwitter} />
-        </Link>
+        <div>
+          <Link
+            to="https://www.facebook.com"
+            target="_blank"
+            aria-label="Facebook"
+          >
+            <FontAwesomeIcon icon={faFacebookF} />
+          </Link>
+          <Link
+            to="https://www.instagram.com"
+            target="_blank"
+            aria-label="Instagram"
+          >
+            <FontAwesomeIcon icon={faInstagram} />
+          </Link>
+          <Link to="https://x.com/" target="_blank" aria-label="Twitter">
+            <FontAwesomeIcon icon={faXTwitter} />
+          </Link>
+        </div>
       </section>
     </main>
   );

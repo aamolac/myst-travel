@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { LoginContext } from "../../store/user/Context.jsx";
 
 function Register() {
@@ -11,6 +11,7 @@ function Register() {
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   // useState pour gérer les messages d'erreur ou d'information. 'msg' stocke le message, 'setMsg' le modifie.
   const [msg, setMsg] = useState(null);
@@ -57,6 +58,14 @@ function Register() {
       return;
     }
 
+    // Vérification de la case à cocher
+    if (!acceptedTerms) {
+      setMsg(
+        "Vous devez accepter les conditions générales d'utilisation et la politique de confidentialité."
+      );
+      return;
+    }
+
     const response = await fetch("http://localhost:9000/api/v1/auth/register", {
       method: "POST", // quelle méthode de la route on veut atteindre sur notre back
       headers: {
@@ -81,10 +90,10 @@ function Register() {
 
   return (
     <main>
-      <div id="register">
+      <section id="auth">
         <h2>Inscription</h2>
 
-        {msg && <p>{msg}</p>}
+        {msg && <p className="message">{msg}</p>}
         <form onSubmit={submitHandler}>
           <label htmlFor="firstname">Prénom</label>
           <input
@@ -117,6 +126,10 @@ function Register() {
             required
           />
           <label htmlFor="password">Mot de passe</label>
+          <p className="password-condition">
+            Minimum 8 caractères, 1 minuscule, 1 majuscule, 1 chiffre, 1
+            caractère spécial
+          </p>
           <input
             type="password"
             id="password"
@@ -126,9 +139,24 @@ function Register() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          <div>
+            <input
+              type="checkbox"
+              id="acceptTerms"
+              name="acceptTerms"
+              checked={acceptedTerms}
+              onChange={(e) => setAcceptedTerms(e.target.checked)}
+            />
+            <label htmlFor="acceptTerms">
+              J’accepte les{" "}
+              <Link to="/terms-of-use">conditions générales d'utilisation</Link>{" "}
+              et la{" "}
+              <Link to="/privacy-policy">politique de confidentialité</Link>.
+            </label>
+          </div>
           <button type="submit">S'inscrire</button>
         </form>
-      </div>
+      </section>
     </main>
   );
 }
