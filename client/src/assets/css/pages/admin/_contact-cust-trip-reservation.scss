@@ -1,0 +1,24 @@
+.contact-cust-trip-reservation {
+  .back {
+    @include button-back-style;
+  }
+  h2 {
+    text-align: center;
+  }
+  section {
+    width: 90%;
+    margin: 2rem auto;
+    span {
+      @include info-label;
+    }
+    a {
+      color: $blue;
+      font-family: "Lora-Bold";
+    }
+    button {
+      @include button-style;
+      margin: 1rem auto;
+      display: block;
+    }
+  }
+}

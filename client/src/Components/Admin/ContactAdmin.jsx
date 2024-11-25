@@ -1,5 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faTrashCan,
+  faEye,
+} from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -92,58 +96,63 @@ function Contact() {
   }, []);
 
   return (
-    <main>
-      <button
-        onClick={() => navigate("/dashboard")}
-        title="Retour à la page du dashboard"
-      >
-        <FontAwesomeIcon icon={faArrowLeft} /> Retour
+    <main id="summary-table">
+      <button onClick={() => navigate("/dashboard")} className="back">
+        <FontAwesomeIcon icon={faArrowLeft} /> Retour au tableau de bord
       </button>
       <h2>Demande de contact</h2>
 
       {msg && <p className="message">{msg}</p>}
-      <table>
-        <thead>
-          <tr>
-            <th>Numéro de la demande</th>
-            <th>Adresse mail</th>
-            <th>Objet</th>
-            <th>Message</th>
-            <th>Date</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {contacts.map((contact) => (
-            <tr key={contact.id}>
-              <td>{contact.id}</td>
-              <td>{contact.email}</td>
-              <td>{contact.choice}</td>
-              <td>
-                {contact.message.length > 50
-                  ? `${contact.message.slice(0, 50)}...`
-                  : contact.message}
-              </td>
-              <td>{contact.publishDate}</td>
-              <td>{contact.status}</td>
-              <td>
-                <button
-                  onClick={() => {
-                    markAsRead(contact.id);
-                    navigate(`/dashboard/contact/${contact.id}`);
-                  }}
-                  title={`Aller à la page de la demande de contact ${contact.id}`}
-                >
-                  Voir
-                </button>
-                <button onClick={() => deleteContact(contact.id)}>
-                  Supprimer
-                </button>
-              </td>
+      <section>
+        <table>
+          <thead>
+            <tr>
+              <th>N° demande</th>
+              <th>Adresse mail</th>
+              <th>Objet</th>
+              <th>Message</th>
+              <th>Date</th>
+              <th>Status</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {contacts.map((contact) => (
+              <tr
+                key={contact.id}
+                className={contact.status === "Non lu" ? "bold-status" : ""}
+              >
+                <td>{contact.id}</td>
+                <td>{contact.email}</td>
+                <td>{contact.choice}</td>
+                <td>
+                  {contact.message.length > 50
+                    ? `${contact.message.slice(0, 50)}...`
+                    : contact.message}
+                </td>
+                <td>{contact.publishDate}</td>
+                <td>{contact.status}</td>
+                <td className="contact-button">
+                  <button
+                    onClick={() => {
+                      markAsRead(contact.id);
+                      navigate(`/dashboard/contact/${contact.id}`);
+                    }}
+                    title={`Aller à la page de la demande de contact ${contact.id}`}
+                  >
+                    <FontAwesomeIcon icon={faEye} />
+                  </button>
+                  <button
+                    onClick={() => deleteContact(contact.id)}
+                    title={`Supprimer de la demande de contact ${contact.id}`}
+                  >
+                    <FontAwesomeIcon icon={faTrashCan} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
     </main>
   );
 }

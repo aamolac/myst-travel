@@ -9,39 +9,39 @@ const register = async (req, res) => {
     let { firstname, lastname, email, password } = req.body;
 
     // Vérification des infos
-    if (firstname.length <= 1 || !/^[A-Za-z]+$/.test(firstname)) {
+    if (firstname.length < 2 || !/^[A-Za-zÀ-ÿ]+$/.test(firstname)) {
       return res.status(400).json({
-        msg: "Champ invalide : le prénom doit avoir au moins 2 caractères et ne contenir que des lettres.",
+        msg: "Le prénom doit avoir au moins 2 caractères et ne contenir que des lettres.",
       });
     }
 
-    if (lastname.length <= 1 || !/^[A-Za-z]+$/.test(lastname)) {
+    if (lastname.length < 2 || !/^[A-Za-zÀ-ÿ]+$/.test(lastname)) {
       return res.status(400).json({
-        msg: "Champ invalide : le nom doit avoir au moins 2 caractères et ne contenir que des lettres.",
+        msg: "Le nom doit avoir au moins 2 caractères et ne contenir que des lettres.",
       });
     }
 
     // Validation simplifiée de l'email
     //vérifie uniquement qu'il y a un '@' et un '.'
     //.+ : Signifie "au moins un caractère" avant et après
-    const emailValidate = /.+@.+\..+/;
+    const emailValidate = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     if (!emailValidate.test(email)) {
       return res.status(400).json({
-        msg: "Champ invalide : l'adresse email n'est pas valide.",
+        msg: "L'adresse email n'est pas valide.",
       });
     }
 
     // Validation du mdp
     if (
-      password.length <= 8 ||
+      password.length < 8 ||
       !/[a-z]/.test(password) ||
       !/[A-Z]/.test(password) ||
       !/\d/.test(password) ||
       !/[\W_]/.test(password)
     ) {
       return res.status(400).json({
-        msg: "Champ invalide : le mot de passe doit avoir au moins 8 caractères et au moins une minuscule, une majuscule, un chiffre et un caractère spécial.",
+        msg: "Le mot de passe doit avoir au moins 8 caractères et au moins une minuscule, une majuscule, un chiffre et un caractère spécial.",
       });
     }
 
@@ -51,8 +51,9 @@ const register = async (req, res) => {
     // vérifier si l'email existe déjà
     const existingUser = await Auth.getOneByEmail(email);
     if (existingUser) {
-      return res.status(400).json({ msg: "L'adresse email existe déjà" });
+      return res.status(400).json({ msg: "L'adresse email existe déjà." });
     }
+
     // Hashage du mdp
     // méthode hash, prend en paramètre le mdp et le nbre de tours de la fonction de hachage
     //plus la valeur est élevée plus le hash est sécurisé et coûteux en ressources
@@ -114,7 +115,7 @@ const login = async (req, res) => {
     }
 
     return res.status(500).json({
-      msg: "Echec de la connexion. Veuillez vérifier vos informations : mauvaise adresse email et/ou de mot de passe",
+      msg: "Echec de la connexion. L'adresse email et le mot de passe ne correspondent pas.",
     });
   } catch (err) {
     res.status(500).json({ msg: err.message });

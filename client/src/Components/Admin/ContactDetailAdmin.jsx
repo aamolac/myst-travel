@@ -57,22 +57,36 @@ function ContactDetail() {
   if (!contacts) return <p>Chargement...</p>;
 
   return (
-    <main>
+    <main className="contact-cust-trip-reservation">
       <button
         onClick={() => navigate(-1)}
         title="Retour à la page des demandes de contact"
+        className="back"
       >
         <FontAwesomeIcon icon={faArrowLeft} /> Retour
       </button>
-      <p>Adresse mail : {contacts.email} </p>
-      <p>Objet : {contacts.choice}</p>
-      <p>Message : {contacts.message}</p>
-      <p>Date : {contacts.publishDate}</p>
-      {contacts.status === "Répondu" && <p>Status : {contacts.status}</p>}
-      {contacts.status !== "Répondu" && (
-        <button onClick={markAsReplied}>Répondu</button>
-      )}
+      <h2>Message</h2>
       {msg && <p className="message">{msg}</p>}
+      <section>
+        <p>
+          <span>Date de la demande :</span> {contacts.publishDate}
+        </p>
+        <p>
+          <span>Adresse mail :</span>{" "}
+          <a href={`mailto:${contacts.email}`}>{contacts.email}</a>{" "}
+        </p>
+        <p>
+          <span>Objet :</span> {contacts.choice}
+        </p>
+        <p>
+          <span>Message :</span> {contacts.message}
+        </p>
+
+        {contacts.status === "Répondu" && <p>Status : {contacts.status}</p>}
+        {contacts.status !== "Répondu" && (
+          <button onClick={markAsReplied}>Répondu</button>
+        )}
+      </section>
     </main>
   );
 }

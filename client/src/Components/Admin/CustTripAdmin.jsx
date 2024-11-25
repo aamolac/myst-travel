@@ -1,5 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faTrashCan,
+  faEye,
+} from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -102,65 +106,76 @@ function CustTrip() {
   }, []);
 
   return (
-    <main>
-      <button
-        onClick={() => navigate("/dashboard")}
-        title="Retour à la page du dashboard"
-      >
-        <FontAwesomeIcon icon={faArrowLeft} /> Retour
+    <main id="summary-table">
+      <button onClick={() => navigate("/dashboard")} className="back">
+        <FontAwesomeIcon icon={faArrowLeft} /> Retour au tableau de bord
       </button>
       <h2>Demande de voyage sur-mesure</h2>
 
       {msg && <p className="message">{msg}</p>}
-      <table>
-        <thead>
-          <tr>
-            <th>Numéro de la demande</th>
-            <th>Identifiant de l'utilisateur</th>
-            <th>Email de l'utilisateur</th>
-            <th>Date</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {custTrips.map((trip) => (
-            <tr key={trip.id}>
-              <td>{trip.id}</td>
-              <td>{trip.user_id}</td>
-              <td>{trip.userEmail}</td>
-              <td>{trip.createdDate}</td>
-              <td>{trip.status}</td>
-              <td>
-                <button
-                  onClick={() => {
-                    navigate(`/dashboard/customized-trip/${trip.id}`);
-                  }}
-                  title={`Aller à la page de la demande de destination sur-mesure ${trip.id}`}
-                >
-                  Voir
-                </button>
-                {getStatusValue(trip.status) === 0 && (
-                  <button
-                    onClick={() =>
-                      updateStatus(trip.id, "En cours de traitement")
-                    }
-                  >
-                    En cours de traitement
-                  </button>
-                )}
-                {getStatusValue(trip.status) === 1 && (
-                  <button onClick={() => updateStatus(trip.id, "Traité")}>
-                    Traité
-                  </button>
-                )}
-                <button onClick={() => deleteCustTrip(trip.id)}>
-                  Supprimer
-                </button>
-              </td>
+      <section>
+        <table>
+          <thead>
+            <tr>
+              <th>N° demande</th>
+              <th>Identifiant utilisateur</th>
+              <th>Email utilisateur</th>
+              <th>Date</th>
+              <th>Status</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {custTrips.map((trip) => (
+              <tr key={trip.id}>
+                <td>{trip.id}</td>
+                <td>{trip.user_id}</td>
+                <td>{trip.userEmail}</td>
+                <td>{trip.createdDate}</td>
+                <td>{trip.status}</td>
+                <td className="table-button">
+                  {getStatusValue(trip.status) === 0 && (
+                    <button
+                      onClick={() =>
+                        updateStatus(trip.id, "En cours de traitement")
+                      }
+                    >
+                      En cours de traitement
+                    </button>
+                  )}
+                  {getStatusValue(trip.status) === 1 && (
+                    <button onClick={() => updateStatus(trip.id, "Traité")}>
+                      Traité
+                    </button>
+                  )}
+                  {getStatusValue(trip.status) === 2 && (
+                    <button
+                      onClick={() =>
+                        updateStatus(trip.id, "En cours de traitement")
+                      }
+                    >
+                      En cours de traitement
+                    </button>
+                  )}
+                  <button
+                    onClick={() => {
+                      navigate(`/dashboard/customized-trip/${trip.id}`);
+                    }}
+                    title={`Aller à la page de la demande de destination sur-mesure ${trip.id}`}
+                  >
+                    <FontAwesomeIcon icon={faEye} />
+                  </button>
+                  <button
+                    onClick={() => deleteCustTrip(trip.id)}
+                    title={`Supprimer la demande de destination sur-mesure ${trip.id}`}
+                  >
+                    <FontAwesomeIcon icon={faTrashCan} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
     </main>
   );
 }

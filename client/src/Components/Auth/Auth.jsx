@@ -6,12 +6,11 @@ function Auth() {
   // useContext permet d'accéder au contexte global 'Context', ici il contient l'état global et les fonctions comme 'login'
   const { login } = useContext(LoginContext);
   // États pour stocker les données du formulaire
-  const [email, setEmail] = useState(""); // Changement de 'username' à 'email'
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // useState pour gérer les messages d'erreur ou d'information. 'msg' stocke le message, 'setMsg' le modifie.
+  // useState pour gérer les messages d'erreur ou d'information
   const [msg, setMsg] = useState(null);
-  // useNavigate est un hook de React Router qui permet de rediriger l'utilisateur vers une autre page
   const navigate = useNavigate();
 
   async function submitHandler(e) {
@@ -25,7 +24,9 @@ function Auth() {
 
     // Validation du mot de passe
     if (!password || password.length < 8) {
-      setMsg("Le mot de passe doit contenir au moins 8 caractères.");
+      setMsg(
+        "Le mot de passe doit contenir au moins 8 caractères, avec au moins une minuscule, une majuscule, un chiffre et un caractère spécial."
+      );
       return;
     }
 
@@ -36,14 +37,14 @@ function Auth() {
         "Content-Type": "application/json",
       },
       credentials: "include",
-      body: JSON.stringify({ email, password }), // Utilisation de 'email' au lieu de 'username'
+      body: JSON.stringify({ email, password }),
     });
 
     const data = await response.json();
 
     if (response.ok) {
       login(data.user); // Met à jour le contexte global avec les données utilisateur
-      navigate(-1); // Redirige vers la page précédente après la connexion
+      navigate(-1);
     } else {
       setMsg(data.msg); // Affiche un message d'erreur si la connexion échoue
     }
@@ -62,7 +63,7 @@ function Auth() {
             id="email"
             name="email"
             placeholder="Entrer votre adresse mail"
-            value={email} // La valeur de l'input est liée à l'état 'username'
+            value={email}
             onChange={(e) => setEmail(e.target.value)} // Met à jour 'username' à chaque saisie
             required
           />
@@ -72,17 +73,16 @@ function Auth() {
             id="password"
             name="password"
             placeholder="Entrer votre mot de passe"
-            value={password} // La valeur de l'input est liée à l'état 'password'
+            value={password}
             onChange={(e) => setPassword(e.target.value)} // Met à jour 'password' à chaque saisie
             required
           />
 
           <button type="submit">Se connecter</button>
           <p>
-            Pas encore de compte ?
+            Vous n'avez pas encore de compte ?{" "}
             <Link to="/register" id="account">
-              {" "}
-              S'inscrire
+              Inscrivez-vous
             </Link>
           </p>
         </form>

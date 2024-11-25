@@ -1,7 +1,15 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPlane,
+  faQuestionCircle,
+  faHiking,
+  faUsers,
+} from "@fortawesome/free-solid-svg-icons";
+
 function AboutUs() {
   return (
-    <main>
-      <h2>À propos de Myst'Travel</h2>
+    <main id="about-us">
+      <h2 className="about-title">À propos de Myst'Travel</h2>
       <section>
         <p>
           Myst'Travel est né de la passion pour l’aventure et la conviction que
@@ -10,9 +18,14 @@ function AboutUs() {
           notre agence a pour mission de réinventer la manière dont vous
           explorez le monde.
         </p>
+        <img
+          src="/src/assets/images/about-us/city-color-with-boat.webp"
+          alt="Des maisons colorées, avec un courant d'eau qui traverse la ville."
+        />
       </section>
-      <section>
+      <section className="why-myst-travel">
         <div>
+          <FontAwesomeIcon icon={faPlane} />
           <h3>L'Art de l'Évasion</h3>
           <p>
             Chez Myst'Travel, nous croyons que chaque voyage doit être une
@@ -22,6 +35,7 @@ function AboutUs() {
           </p>
         </div>
         <div>
+          <FontAwesomeIcon icon={faQuestionCircle} />
           <h3>Le Mystère, Notre Signature</h3>
           <p>
             Pourquoi révéler tout avant de partir ? Nous pensons que le mystère
@@ -30,6 +44,8 @@ function AboutUs() {
           </p>
         </div>
         <div>
+          <FontAwesomeIcon icon={faHiking} />
+
           <h3>Réveillez votre Esprit d’Aventure</h3>
           <p>
             Le mystère stimule la curiosité et la spontanéité. Nos voyages vous
@@ -38,6 +54,7 @@ function AboutUs() {
           </p>
         </div>
         <div>
+          <FontAwesomeIcon icon={faUsers} />
           <h3>L'Aventure Accessible à Tous</h3>
           <p>
             Que vous soyez un grand explorateur ou un voyageur débutant, nos
@@ -45,17 +62,6 @@ function AboutUs() {
             confort en toute simplicité et laissez-vous surprendre.
           </p>
         </div>
-      </section>
-      <section>
-        <h2>Quelques chiffres qui parlent d’eux-mêmes :</h2>
-        <ul>
-          <li>
-            50+ destinations dans le monde entier, prêtes à vous surprendre
-          </li>
-          <li>300+ clients satisfaits chaque année</li>
-          <li>200 voyages mystères organisés depuis notre lancement</li>
-          <li>100% d’aventures conçues pour vous faire sortir de la routine</li>
-        </ul>
       </section>
       <section>
         <h2>Notre Équipe</h2>
@@ -67,7 +73,29 @@ function AboutUs() {
           d’une aventure plus lointaine, nous faisons en sorte que chaque voyage
           devienne une expérience unique et surprenante.
         </p>
+        <img
+          src="/src/assets/images/about-us/peoples-jump-beach.webp"
+          alt="Un groupe de personne qui saute sur le sable, avec la mer derrière"
+        />
       </section>
+      <section className="number">
+        <h2>Quelques chiffres qui parlent d’eux-mêmes :</h2>
+        <ul>
+          <li>
+            <span>50+</span> destinations dans le monde entier
+          </li>
+          <li>
+            <span>300+</span> clients satisfaits chaque année
+          </li>
+          <li>
+            <span>200</span> voyages mystères organisés
+          </li>
+          <li>
+            <span>100%</span> d’aventures uniques
+          </li>
+        </ul>
+      </section>
+
       <section>
         <h2>Faites partie du voyage</h2>
         <p>
@@ -75,13 +103,10 @@ function AboutUs() {
           promet plus qu'une destination : une expérience qui vous transformera.
           Prêt à vous laisser surprendre ?
         </p>
-      </section>
-      <section>
-        <p>
-          Myst'Travel propose une expérience de voyage unique et excitante, où
-          le mystère et l'aventure sont au cœur de chaque interaction avec les
-          clients.
-        </p>
+        <img
+          src="/src/assets/images/about-us/plane-and-moutain.webp"
+          alt="Un avion survolant le ciel, au loin des montagnes enneigées"
+        />
       </section>
     </main>
   );

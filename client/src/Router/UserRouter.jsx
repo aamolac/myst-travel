@@ -12,6 +12,8 @@ import Register from "../Components/Auth/Register.jsx";
 import useCheckAuth from "../HOOK/useCheckAuth.jsx";
 import TermsOfUse from "../Components/TermsOfUse.jsx";
 import PrivacyPolicy from "../Components/PrivacyPolicy.jsx";
+import LegalInformation from "../Components/LegalInformation.jsx";
+import PageNotFound from "../Components/PageNotFound.jsx";
 
 import ProtectedRoute from "../HOC/ProtectedRoute.jsx";
 
@@ -51,8 +53,9 @@ function UserRouter() {
         <Route path="/register" element={<Register />} />
         <Route path="/terms-of-use" element={<TermsOfUse />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/legal-information" element={<LegalInformation />} />
 
-        <Route path="*" element={<h1>404 NOT FOUND USER</h1>} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>
   );

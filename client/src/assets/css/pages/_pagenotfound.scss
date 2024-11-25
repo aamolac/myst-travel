@@ -1,0 +1,17 @@
+#page-not-found {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  svg {
+    font-size: 5rem;
+    display: block;
+    padding: 1rem;
+  }
+  p {
+    text-align: center;
+    font-size: 2rem;
+    font-family: "Lora-Medium";
+  }
+}

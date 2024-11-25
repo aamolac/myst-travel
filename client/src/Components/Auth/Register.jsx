@@ -13,10 +13,8 @@ function Register() {
   const [password, setPassword] = useState("");
   const [acceptedTerms, setAcceptedTerms] = useState(false);
 
-  // useState pour gérer les messages d'erreur ou d'information. 'msg' stocke le message, 'setMsg' le modifie.
+  // useState pour gérer les messages d'erreur ou d'information
   const [msg, setMsg] = useState(null);
-
-  // useNavigate est un hook de React Router qui permet de rediriger l'utilisateur vers une autre page
   const navigate = useNavigate();
 
   // Fonction appelée lors de la soumission du formulaire
@@ -67,14 +65,13 @@ function Register() {
     }
 
     const response = await fetch("http://localhost:9000/api/v1/auth/register", {
-      method: "POST", // quelle méthode de la route on veut atteindre sur notre back
+      method: "POST",
       headers: {
-        // configuration des headers
-        // ici on lui dit que ce sont des données au format JSON qui vont transiter
+        // des données au format JSON qui vont transiter
         "Content-Type": "application/json",
       },
       credentials: "include",
-      // et le fameux body qui contient les données qu'on converti en JSON
+      // body contient les données qu'on converti en JSON
       body: JSON.stringify({ firstname, lastname, email, password }),
     });
     // conversion de notre réponse json envoyé depuis le back
@@ -82,7 +79,7 @@ function Register() {
 
     if (response.ok) {
       register(data.user); // Met à jour le contexte global avec le nom d'utilisateur
-      navigate("/auth"); // Redirige vers la page d'accueil après la connexion
+      navigate("/auth");
     } else {
       setMsg(data.msg); // Affiche un message d'erreur si la connexion échoue
     }
@@ -101,7 +98,7 @@ function Register() {
             id="firstname"
             name="firstname"
             placeholder="Entrer votre prénom"
-            value={firstname} // La valeur de l'input est liée à l'état 'firstname'
+            value={firstname}
             onChange={(e) => setFirstname(e.target.value)} // Met à jour 'firstname' à chaque saisie
             required
           />

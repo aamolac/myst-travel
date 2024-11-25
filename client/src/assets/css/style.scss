@@ -1,13 +1,25 @@
 @import "./pages/_reset";
 
-@import "./pages/general";
+@import "./pages/_general";
 
 @import "./pages/_header";
 @import "./pages/_footer";
 @import "./pages/_home";
-@import "./pages/_aboutus";
+@import "./pages/_myst-dest";
+@import "./pages/_myst-dest-detail";
+@import "./pages/_reservation";
+@import "./pages/_cust-trip";
+@import "./pages/_about-us";
 @import "./pages/_auth";
-@import "./pages/contact";
+@import "./pages/_contact";
+@import "./pages/pagenotfound";
+
+@import "./pages/admin/_dashboard";
+@import "./pages/admin/_summary-table";
+@import "./pages/admin/_contact-cust-trip-reservation";
+@import "./pages/admin/_myst-dest-add-update";
+
+@import "./pages/_legal-doc";
 
 * {
   box-sizing: border-box;
@@ -23,12 +35,15 @@ body {
   background-color: $creamy-white;
 }
 
+main {
+  min-height: 90vh;
+}
+
 .container {
   max-width: 1200px;
   margin: auto;
 }
 
-h1,
 h2,
 h3,
 h4 {
@@ -36,23 +51,23 @@ h4 {
   font-family: "Poppins-Medium";
 }
 
-h1 {
-  font-size: 3rem;
-}
-
 h2 {
-  font-size: 2.7rem;
+  font-size: 3rem;
+  padding: 1rem;
 }
 
 h3 {
   font-size: 2rem;
+  padding-bottom: 2rem;
 }
 
 h4 {
   font-size: 1.8rem;
 }
 
-p {
+p,
+li,
+fieldset {
   font-family: "Lora-Regular";
   font-size: 1.6rem;
   text-align: justify;
@@ -68,6 +83,7 @@ a {
 
 .message {
   color: $red;
+  font-family: "Lora-Medium";
 }
 
 //media queries pour ordi

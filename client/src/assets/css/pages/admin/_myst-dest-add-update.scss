@@ -1,0 +1,37 @@
+.add-update-myst-dest {
+  .back {
+    @include button-back-style;
+  }
+  h2 {
+    text-align: center;
+    margin: 2rem;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 90%;
+    margin: 2rem auto;
+    label {
+      @include label-style;
+    }
+    select {
+      @include select-style;
+    }
+    input {
+      @include input-style;
+    }
+    textarea {
+      @include textarea-style;
+    }
+    button {
+      @include button-style;
+      width: 50%;
+      display: block;
+      margin: 0.5rem auto;
+    }
+    span {
+      font-family: "Lora-Bold";
+    }
+  }
+}

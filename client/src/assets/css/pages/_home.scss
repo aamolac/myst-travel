@@ -1,33 +1,84 @@
 #home {
-  h2 {
-    text-align: center;
-    padding: 10rem;
-  }
+  h2,
   h3 {
     text-align: center;
-    padding-bottom: 2rem;
+    padding: 3rem 0;
   }
-  section {
-    padding: 2rem 5rem;
+  span {
+    font-family: "Lora-Bold";
+  }
+
+  .welcome {
+    background: url("/src/assets/images/home/beach.webp");
+    background-size: cover;
+    background-position: center;
+    color: $blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40rem;
+  }
+  img {
+    display: block;
+    width: 80%;
+    margin: 2rem auto 0 auto;
+  }
+  .presentation {
+    padding: 5rem;
   }
   .offer {
+    background: linear-gradient(
+        rgba(255, 255, 255, 0.3),
+        rgba(255, 255, 255, 0.3)
+      ),
+      url("/src/assets/images/home/word-map.webp");
+    background-size: cover;
+    background-position: center;
+    background-color: rgba(255, 255, 255, 0.5);
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 5rem;
+    padding: 3rem;
     div {
-      width: 49%;
+      background-color: rgba(255, 255, 255, 0.85);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-    }
-    a {
-      background-color: $blue;
-      color: $creamy-white;
-      margin-top: 1rem;
-      padding: 1rem;
+      width: 60%;
+      padding: 2rem;
       border-radius: 1rem;
-      text-align: center;
+      a {
+        @include button-style;
+        margin-top: 3rem;
+        margin-bottom: 1rem;
+      }
     }
+  }
+  .mystery {
+    margin: 2rem 0;
+    padding: 5rem;
+  }
+  .destination-escape {
+    background-image: url("/src/assets/images/home/plane-in-sky.webp");
+    background-size: cover;
+    background-position: center;
+    padding: 2rem;
+    div {
+      display: flex;
+      flex-direction: column;
+      width: 70%;
+      margin: auto;
+      padding: 2rem;
+      p,
+      h3 {
+        color: $creamy-white;
+      }
+    }
+  }
+  .ready-for-adventure {
+    padding: 5rem;
   }
 }

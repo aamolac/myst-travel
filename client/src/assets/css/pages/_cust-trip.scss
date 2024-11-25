@@ -1,0 +1,32 @@
+#cust-trip {
+  margin: 2rem;
+  h2 {
+    text-align: center;
+    padding: 5rem;
+  }
+  span {
+    font-family: "Lora-Bold";
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 90%;
+    margin: 2rem auto;
+    label {
+      @include label-style;
+    }
+    select {
+      @include select-style;
+    }
+    input {
+      @include input-style;
+    }
+    button {
+      @include button-style;
+      width: 20%;
+      display: block;
+      margin: 0.5rem auto;
+    }
+  }
+}

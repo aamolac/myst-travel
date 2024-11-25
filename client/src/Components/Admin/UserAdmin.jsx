@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -61,41 +61,45 @@ function User() {
   }, []);
 
   return (
-    <main>
-      <button
-        onClick={() => navigate("/dashboard")}
-        title="Retour à la page du dashboard"
-      >
-        <FontAwesomeIcon icon={faArrowLeft} /> Retour
+    <main id="summary-table">
+      <button onClick={() => navigate("/dashboard")} className="back">
+        <FontAwesomeIcon icon={faArrowLeft} /> Retour au tableau de bord
       </button>
-      <h2>Liste des utilisateurs de Myst'Travel</h2>
+      <h2>Liste des utilisateurs</h2>
 
       {msg && <p className="message">{msg}</p>}
-      <table>
-        <thead>
-          <tr>
-            <th>Identifiant</th>
-            <th>Prénom</th>
-            <th>Nom</th>
-            <th>Adresse mail</th>
-            <th>Date de création du compte</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.id}>
-              <td>{user.id}</td>
-              <td>{user.firstname}</td>
-              <td>{user.lastname}</td>
-              <td>{user.email}</td>
-              <td>{user.createdDate}</td>
-              <td>
-                <button onClick={() => deleteUser(user.id)}>Supprimer</button>
-              </td>
+      <section>
+        <table>
+          <thead>
+            <tr>
+              <th>Identifiant</th>
+              <th>Prénom</th>
+              <th>Nom</th>
+              <th>Adresse mail</th>
+              <th>Date de création du compte</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user.id}>
+                <td>{user.id}</td>
+                <td>{user.firstname}</td>
+                <td>{user.lastname}</td>
+                <td>{user.email}</td>
+                <td>{user.createdDate}</td>
+                <td>
+                  <button
+                    onClick={() => deleteUser(user.id)}
+                    title={`Supprimer l'utilisateur ${user.id}`}
+                  >
+                    <FontAwesomeIcon icon={faTrashCan} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
     </main>
   );
 }

@@ -1,5 +1,13 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faEarthAmericas,
+  faTemperatureThreeQuarters,
+  faMountainCity,
+  faPersonRunning,
+  faSackDollar,
+  faCalendarDays,
+} from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -151,21 +159,22 @@ function UpdateMystDest() {
   };
 
   return (
-    <main>
+    <main className="add-update-myst-dest">
       <button
         onClick={() => navigate("/dashboard/myst-destination")}
-        title="Retour à la page du dashboard"
+        title="Retour à la page des destinations mystères"
+        className="back"
       >
         <FontAwesomeIcon icon={faArrowLeft} /> Retour
       </button>
       <h2>Modifier la destination mystère</h2>
       {showConfirmation ? (
-        <div className="confirmation-popup">
+        <section>
           <p>La destination a bien été modifiée !</p>
           <p>
             Vous allez être redirigé vers la page de toutes les destinations ...
           </p>
-        </div>
+        </section>
       ) : (
         <>
           {msg && <p className="message">{msg}</p>}
@@ -181,10 +190,11 @@ function UpdateMystDest() {
             />
 
             <label htmlFor="locationClue">
-              Indice n°1 : La région géographique
+              <FontAwesomeIcon icon={faEarthAmericas} /> Indice n°1 : La région
+              géographique
             </label>
             <textarea
-              type="text"
+              id="locationClue"
               name="locationClue"
               value={mystDest.locationClue}
               onChange={handleChange}
@@ -193,14 +203,13 @@ function UpdateMystDest() {
 
             <label htmlFor="continent">Continent</label>
             <select
-              type="text"
               id="continent"
               name="continent"
               value={mystDest.continent}
               onChange={handleChange}
               required
             >
-              <option value="">Sélectionnez un continent</option>
+              <option value="">Choisir le continent</option>
               <option value="Europe">Europe</option>
               <option value="Amérique">Amérique</option>
               <option value="Asie">Asie</option>
@@ -208,9 +217,12 @@ function UpdateMystDest() {
               <option value="Océanie">Océanie</option>
             </select>
 
-            <label htmlFor="climateClue">Indice n°2 : Le climat</label>
+            <label htmlFor="climateClue">
+              <FontAwesomeIcon icon={faTemperatureThreeQuarters} /> Indice n°2 :
+              Le climat
+            </label>
             <textarea
-              type="text"
+              id="climateClue"
               name="climateClue"
               value={mystDest.climateClue}
               onChange={handleChange}
@@ -219,7 +231,6 @@ function UpdateMystDest() {
 
             <label htmlFor="climate">Climat</label>
             <select
-              type="text"
               id="climate"
               name="climate"
               value={mystDest.climate}
@@ -235,10 +246,11 @@ function UpdateMystDest() {
             </select>
 
             <label htmlFor="experienceClue">
-              Indice n°3 : Le type d'expérience
+              <FontAwesomeIcon icon={faMountainCity} /> Indice n°3 : Le type
+              d'expérience
             </label>
             <textarea
-              type="text"
+              id="experienceClue"
               name="experienceClue"
               value={mystDest.experienceClue}
               onChange={handleChange}
@@ -246,14 +258,13 @@ function UpdateMystDest() {
             ></textarea>
             <label htmlFor="accomodation">Type d'hébergement</label>
             <select
-              type="text"
               id="accomodation"
               name="accomodation"
               value={mystDest.accomodation}
               onChange={handleChange}
               required
             >
-              <option value="">Sélectionnez le type d'hébergement</option>
+              <option value="">Choisir le type d'hébergement</option>
               <option value="Classique et Confortable">
                 Classique et Confortable
               </option>
@@ -269,10 +280,11 @@ function UpdateMystDest() {
             </select>
 
             <label htmlFor="activityClue">
-              Indice n°4 : Le niveau d’activité physique
+              <FontAwesomeIcon icon={faPersonRunning} /> Indice n°4 : Le niveau
+              d’activité physique
             </label>
             <textarea
-              type="text"
+              id="activityClue"
               name="activityClue"
               value={mystDest.activityClue}
               onChange={handleChange}
@@ -280,16 +292,13 @@ function UpdateMystDest() {
             ></textarea>
             <label htmlFor="activity">Activité</label>
             <select
-              type="text"
               id="activity"
               name="activity"
               value={mystDest.activity}
               onChange={handleChange}
               required
             >
-              <option value="">
-                Sélectionnez un niveau d'activité physique
-              </option>
+              <option value="">Choisir le niveau d'activité physique</option>
               <option value="Relax">Relax</option>
               <option value="Modéré">Modéré</option>
               <option value="Dynamique">Dynamique</option>
@@ -297,7 +306,10 @@ function UpdateMystDest() {
               <option value="Aventureux">Aventureux</option>
             </select>
 
-            <label htmlFor="budget">Budget par jour/personne (en €)</label>
+            <label htmlFor="budget">
+              <FontAwesomeIcon icon={faSackDollar} /> Budget par jour/personne
+              (en €)
+            </label>
             <input
               type="number"
               id="budget"
@@ -307,7 +319,10 @@ function UpdateMystDest() {
               required
             />
 
-            <label htmlFor="minDuration">Durée minimale (en jours)</label>
+            <label htmlFor="minDuration">
+              <FontAwesomeIcon icon={faCalendarDays} /> Durée minimale (en
+              jours)
+            </label>
             <input
               type="number"
               id="minDuration"
@@ -318,7 +333,10 @@ function UpdateMystDest() {
               onChange={handleChange}
               required
             />
-            <label htmlFor="maxDuration">Durée maximale (en jours)</label>
+            <label htmlFor="maxDuration">
+              <FontAwesomeIcon icon={faCalendarDays} /> Durée maximale (en
+              jours)
+            </label>
             <input
               type="number"
               id="maxDuration"
@@ -330,11 +348,13 @@ function UpdateMystDest() {
               required
             />
 
-            <label htmlFor="image">
-              L'image (extensions autorisées : .png, .jpg, .jpeg, .webp ;
-              privilégier l'extension .webp pour un format d'image optimisé ;
-              taille maximale de l'image : 2 Mo)
-            </label>
+            <label htmlFor="image">L'image</label>
+            <p>
+              Les extensions autorisées sont :{" "}
+              <span>.png, .jpg, .jpeg, .webp.</span> Il faut privilégier
+              l'extension <span>.webp</span> pour un format d'image optimisé. La
+              taille maximale de l'image es de <span>2 Mo</span>.
+            </p>
             <input
               type="file"
               id="image"

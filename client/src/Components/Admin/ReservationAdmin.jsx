@@ -1,5 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faTrashCan,
+  faEye,
+} from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -103,67 +107,78 @@ function Reservation() {
   }, []);
 
   return (
-    <main>
-      <button
-        onClick={() => navigate("/dashboard")}
-        title="Retour à la page du dashboard"
-      >
-        <FontAwesomeIcon icon={faArrowLeft} /> Retour
+    <main id="summary-table">
+      <button onClick={() => navigate("/dashboard")} className="back">
+        <FontAwesomeIcon icon={faArrowLeft} /> Retour au tableau de bord
       </button>
       <h2>Demande de réservation de voyages mystères</h2>
 
       {msg && <p className="message">{msg}</p>}
-      <table>
-        <thead>
-          <tr>
-            <th>Numéro de réservation</th>
-            <th>Identifiant de l'utilisateur</th>
-            <th>Email de l'utilisateur</th>
-            <th>Destination mystère</th>
-            <th>Date</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {reservations.map((reserve) => (
-            <tr key={reserve.id}>
-              <td>{reserve.id}</td>
-              <td>{reserve.user_id}</td>
-              <td>{reserve.userEmail}</td>
-              <td>{reserve.mystDestTitle}</td>
-              <td>{reserve.createdDate}</td>
-              <td>{reserve.reservationStatus}</td>
-              <td>
-                <button
-                  onClick={() => {
-                    navigate(`/dashboard/reservation/${reserve.id}`);
-                  }}
-                  title={`Aller à la page de la demande de réservation ${reserve.id}`}
-                >
-                  Voir
-                </button>
-                {getStatusValue(reserve.reservationStatus) === 0 && (
-                  <button
-                    onClick={() =>
-                      updateStatus(reserve.id, "En cours de traitement")
-                    }
-                  >
-                    En cours de traitement
-                  </button>
-                )}
-                {getStatusValue(reserve.reservationStatus) === 1 && (
-                  <button onClick={() => updateStatus(reserve.id, "Traité")}>
-                    Traité
-                  </button>
-                )}
-                <button onClick={() => deleteReservation(reserve.id)}>
-                  Supprimer
-                </button>
-              </td>
+      <section>
+        <table>
+          <thead>
+            <tr>
+              <th>N° réservation</th>
+              <th>Identifiant utilisateur</th>
+              <th>Email utilisateur</th>
+              <th>Destination mystère</th>
+              <th>Date</th>
+              <th>Status</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {reservations.map((reserve) => (
+              <tr key={reserve.id}>
+                <td>{reserve.id}</td>
+                <td>{reserve.user_id}</td>
+                <td>{reserve.userEmail}</td>
+                <td>{reserve.mystDestTitle}</td>
+                <td>{reserve.createdDate}</td>
+                <td>{reserve.reservationStatus}</td>
+                <td className="table-button">
+                  {getStatusValue(reserve.reservationStatus) === 0 && (
+                    <button
+                      onClick={() =>
+                        updateStatus(reserve.id, "En cours de traitement")
+                      }
+                    >
+                      En cours de traitement
+                    </button>
+                  )}
+                  {getStatusValue(reserve.reservationStatus) === 1 && (
+                    <button onClick={() => updateStatus(reserve.id, "Traité")}>
+                      Traité
+                    </button>
+                  )}
+                  {getStatusValue(reserve.reservationStatus) === 2 && (
+                    <button
+                      onClick={() =>
+                        updateStatus(reserve.id, "En cours de traitement")
+                      }
+                    >
+                      En cours de traitement
+                    </button>
+                  )}
+                  <button
+                    onClick={() => {
+                      navigate(`/dashboard/reservation/${reserve.id}`);
+                    }}
+                    title={`Aller à la page de la demande de réservation ${reserve.id}`}
+                  >
+                    <FontAwesomeIcon icon={faEye} />
+                  </button>
+                  <button
+                    onClick={() => deleteReservation(reserve.id)}
+                    title={`Supprimer la demande de réservation ${reserve.id}`}
+                  >
+                    <FontAwesomeIcon icon={faTrashCan} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
     </main>
   );
 }

@@ -1,22 +1,32 @@
 #contact {
-  h2 {
-    color: $creamy-white;
-    text-align: center;
-    padding: 1rem;
-    border: 3px solid $creamy-white;
-  }
   svg {
-    font-size: 2.5rem;
+    font-size: 3rem;
     color: $blue;
   }
   h3 {
     padding: 1rem;
   }
-  section {
+  .title {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+      url("/src/assets/images/contact/palm-tree-sunset.webp");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40rem;
+    h2 {
+      color: $creamy-white;
+      text-align: center;
+      padding: 1rem;
+      border: 0.3rem solid $creamy-white;
+    }
+  }
+  .contact-detail {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 1rem;
     padding: 2rem;
     div {
       text-align: center;
@@ -25,31 +35,71 @@
       content: "";
       display: block;
       width: 50%;
-      height: 2px;
+      height: 0.2rem;
       background-color: $blue;
       margin: 2rem auto;
     }
     a {
       color: black;
     }
-    label {
-      @include label-style;
+  }
+  .form-contact {
+    background: linear-gradient(
+        rgba(255, 255, 255, 0.2),
+        rgba(255, 255, 255, 0.2)
+      ),
+      url("/src/assets/images/contact/plane-in-sky.webp");
+    background-size: cover;
+    background-position: center;
+    margin: 4rem 0;
+    padding: 2rem;
+    h3 {
+      color: $creamy-white;
+      width: 70%;
+      margin: auto;
+      text-align: center;
+    }
+    form {
+      background-color: rgba(255, 255, 255, 0.5);
+      width: 70%;
+      margin: auto;
+      padding: 2rem;
+      border-radius: 1rem;
+      @include form-style;
+
+      label {
+        @include label-style;
+      }
+      input {
+        @include input-style;
+      }
+      select {
+        @include select-style;
+      }
+      textarea {
+        @include textarea-style;
+      }
+      button {
+        @include button-style;
+        width: 50%;
+        display: block;
+        margin: 0.5rem auto;
+      }
     }
   }
 
-  .title {
-    height: 25rem;
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)),
-      url("/src/assets/images/contact-5.webp");
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .connect div {
-    display: flex;
-    gap: 3rem;
+  .connect {
+    margin: 4rem 0;
+    padding: 2rem;
+    h3 {
+      text-align: center;
+      padding-bottom: 3rem;
+    }
+    div {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin-bottom: 2rem;
+    }
   }
 }

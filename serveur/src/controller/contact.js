@@ -123,7 +123,6 @@ const getAllObjects = async (req, res) => {
   try {
     // Récupération de toutes les demandes
     const [objects] = await Contact.findAllObjects();
-    console.log("Objets récupérés :", objects);
 
     // Renvoie les demandes en format JSON
     res.json(objects);

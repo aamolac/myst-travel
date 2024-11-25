@@ -11,11 +11,13 @@ function Footer() {
   return (
     <footer>
       <section>
-        <h1>Myst'Travel</h1>
+        <Link to="/" title="Aller à la page d'accueil" className="myst-travel">
+          Myst'Travel
+        </Link>
       </section>
       <section>
         <h4>Navigation</h4>
-        <Navigation />
+        <Navigation isFooter={true} />
       </section>
       <section>
         <h4>Horaires d'ouvertures</h4>
@@ -45,10 +47,10 @@ function Footer() {
         </div>
       </section>
       <section>
-        <p>© 2024 - Myst'Travel</p>
+        <p>© 2024 Myst'Travel - Tous droits réservés</p>
         <Link to="/terms-of-use">Conditions générales d'utilisation</Link>
         <Link to="/privacy-policy">Politique de confidentialité</Link>{" "}
-        <Link>Mentions légales</Link>
+        <Link to="/legal-information">Mentions légales</Link>
       </section>
     </footer>
   );

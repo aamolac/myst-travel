@@ -1,0 +1,104 @@
+#myst-dest {
+  margin: 5rem;
+  h2 {
+    text-align: center;
+    padding: 5rem;
+  }
+  span {
+    font-family: "Lora-Bold";
+  }
+
+  fieldset {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto; /* Permet le défilement horizontal */
+    gap: 1rem;
+    padding: 1rem 0;
+    /* Masquer la barre de défilement */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE et Edge */
+    legend {
+      font-family: "Lora-Bold";
+      padding-top: 2rem;
+    }
+    section {
+      flex: 0 0 auto;
+      max-width: 30rem; /* Taille minimale pour les titres des filtres */
+
+      h4 {
+        text-align: center;
+        padding: 0.5rem;
+        margin-bottom: 0.5rem;
+        background-color: #f8f8f8;
+        border: 1px solid #ddd;
+        border-radius: 0.5rem;
+      }
+      input,
+      label {
+        display: none;
+      }
+    }
+    section.active {
+      background-color: #f8f8f8;
+      border: 1px solid #ddd;
+      border-radius: 0.5rem;
+      div {
+        div {
+          display: flex;
+          flex-wrap: wrap;
+          margin-left: 1rem;
+          margin-bottom: 1rem;
+        }
+      }
+      input,
+      label {
+        display: block;
+        margin-right: 1rem;
+      }
+      input {
+        width: 2rem;
+      }
+      label {
+        font-size: 1.6rem;
+        font-family: "Lora-Regular";
+      }
+    }
+  }
+  /* Masquer la barre de défilement */
+  fieldset::-webkit-scrollbar {
+    display: none; /* Chrome, Safari et Edge */
+  }
+
+  .info-dest {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    h4 {
+      text-align: center;
+      padding: 2rem;
+    }
+    article {
+      width: 70%;
+      margin: 2rem auto;
+      padding: 0.5rem;
+      border-radius: 1rem;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        border-radius: 0.5rem;
+        margin: 0 auto 1rem auto;
+      }
+      a {
+        @include button-style;
+        display: block;
+        width: 30%;
+        margin: 2rem auto;
+        text-align: center;
+      }
+    }
+  }
+}
+
+// :hover des cards : box-shadow: 0 40px 40px rgba(0, 0, 0, 0.5);

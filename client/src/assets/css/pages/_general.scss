@@ -17,6 +17,11 @@ $red: #b22234;
 }
 
 @font-face {
+  font-family: "Lora-Bold";
+  src: url("../font/Lora/static/Lora-Bold.ttf");
+}
+
+@font-face {
   font-family: "Poppins-Regular";
   src: url("../font/Poppins/Poppins-Regular.ttf");
 }
@@ -31,7 +36,19 @@ $red: #b22234;
 @mixin button-style {
   background-color: $blue;
   color: $creamy-white;
-  padding: 1rem 2rem;
+  font-size: 1.6rem;
+  font-family: "Lora-Medium";
+  padding: 1.5rem 1rem;
+  border-radius: 0.5rem;
+}
+
+@mixin button-back-style {
+  font-size: 1.3rem;
+  font-family: "Lora-Medium";
+  color: $grey;
+  background-color: #e3e3e3;
+  padding: 0.7rem;
+  margin: 2rem;
   border-radius: 0.5rem;
 }
 
@@ -41,14 +58,40 @@ $red: #b22234;
   gap: 0.5rem;
 }
 
+@mixin label-style {
+  font-size: 1.5rem;
+  font-family: "Lora-Bold";
+  padding: 0.5rem 0rem;
+}
+
 @mixin input-style {
+  font-size: 1.6rem;
+  font-family: "Lora-Regular";
   border-radius: 0.5rem;
   border: 0.1rem solid black;
   margin-bottom: 0.7rem;
   padding-left: 0.5rem;
   height: 3rem;
 }
-@mixin label-style {
-  font-size: 1.5rem;
-  font-family: "Lora-Medium";
+
+@mixin textarea-style {
+  font-size: 1.6rem;
+  font-family: "Lora-Regular";
+  border-radius: 0.5rem;
+  border: 0.1rem solid black;
+  margin-bottom: 0.7rem;
+  padding: 0.5rem 0.5rem;
+  height: 10rem;
+}
+
+@mixin select-style {
+  font-family: "Lora-Regular";
+  font-size: 1.6rem;
+  padding: 0.5rem 0rem;
+  margin-bottom: 0.7rem;
+}
+
+@mixin info-label {
+  text-decoration: underline;
+  font-family: "Lora-Bold";
 }

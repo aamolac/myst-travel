@@ -32,28 +32,51 @@ function ReservationDetail() {
   if (!reservation) return <p>Chargement...</p>;
 
   return (
-    <main>
+    <main className="contact-cust-trip-reservation">
       <button
         onClick={() => navigate(-1)}
         title="Retour à la page des réservations"
+        className="back"
       >
         <FontAwesomeIcon icon={faArrowLeft} /> Retour
       </button>
-      <p>Identifiant de l'utilisateur : {reservation.user_id}</p>
-      <p>Email de l'utilisateur : {reservation.userEmail}</p>
-      <p>
-        Destination mystère : identifiant {reservation.mystDestination_id} -{" "}
-        {reservation.mystDestTitle}
-      </p>
-      <p>Date de départ: {reservation.startDate}</p>
-      <p>Date de fin : {reservation.endDate}</p>
-      <p>Nombre d'adulte (à partir de 12 ans) : {reservation.numberAdult}</p>
-      <p>
-        Nombre d'enfant :{" "}
-        {reservation.numberChild ? reservation.numberChild : 0}
-      </p>
-      <p>Date : {reservation.createdDate}</p>
-      <p>Status : {reservation.reservationStatus}</p>
+      <h2>Réservation n°{reservation.user_id}</h2>
+      <section>
+        <p>
+          <span>Date de la demande :</span> {reservation.createdDate}
+        </p>
+        <p>
+          <span>Identifiant de l'utilisateur :</span> {reservation.user_id}
+        </p>
+        <p>
+          <span>Email de l'utilisateur :</span>
+          <a href={`mailto:${reservation.userEmail}`}>
+            {reservation.userEmail}
+          </a>
+        </p>
+        <p>
+          <span>Destination mystère :</span> identifiant{" "}
+          {reservation.mystDestination_id} - {reservation.mystDestTitle}
+        </p>
+        <p>
+          <span>Date de départ:</span> {reservation.startDate}
+        </p>
+        <p>
+          <span>Date de fin :</span> {reservation.endDate}
+        </p>
+        <p>
+          <span>Nombre d'adulte (à partir de 12 ans) :</span>{" "}
+          {reservation.numberAdult}
+        </p>
+        <p>
+          <span>Nombre d'enfant :</span>{" "}
+          {reservation.numberChild ? reservation.numberChild : 0}
+        </p>
+
+        <p>
+          <span>Status :</span> {reservation.reservationStatus}
+        </p>
+      </section>
     </main>
   );
 }

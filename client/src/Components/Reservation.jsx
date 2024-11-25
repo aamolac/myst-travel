@@ -2,7 +2,10 @@ import { useState, useContext, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { LoginContext } from "../store/user/Context.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faCalendarCheck,
+} from "@fortawesome/free-solid-svg-icons";
 
 function Reservation() {
   // Récupère l'ID de la destination depuis l'URL
@@ -53,11 +56,6 @@ function Reservation() {
   // Validation du formulaire
   const validateForm = () => {
     const { startDate, endDate, numberAdult } = formReservation;
-
-    if (!startDate || !endDate || !numberAdult) {
-      setMsg("Tous les champs sont requis.");
-      return false;
-    }
 
     // Conversion des dates de départ et de retour en objets Date
     const start = new Date(startDate);
@@ -118,6 +116,11 @@ function Reservation() {
     // Vérification qu'il y a au moins un adulte
     if (numberAdult < 1) {
       setMsg("Il doit y avoir au moins un adulte.");
+      return false;
+    }
+
+    if (!startDate || !endDate || !numberAdult) {
+      setMsg("Tous les champs sont requis.");
       return false;
     }
 
@@ -205,17 +208,19 @@ function Reservation() {
   };
 
   return (
-    <main>
+    <main id="reservation">
       <button
         onClick={() => navigate(`/myst-destination/${id}`)}
-        title="Retour à la page de la destination mystère"
+        className="back"
       >
         <FontAwesomeIcon icon={faArrowLeft} /> Retour à la destination mystère
       </button>
-      <h2>Réserver votre voyage</h2>
+      <h2>
+        <FontAwesomeIcon icon={faCalendarCheck} /> Réserver votre voyage
+      </h2>
 
       {showConfirmation ? (
-        <div className="confirmation-popup">
+        <div className="confirmation">
           <p>
             Votre demande de réservation a été confirmée avec succès !
             L'aventure Myst'Travel commence maintenant !
@@ -230,71 +235,86 @@ function Reservation() {
         <>
           {destination && (
             <p>
-              Cette destination peut être réservée pour une durée de séjour
-              entre {destination.minDuration} et {destination.maxDuration}{" "}
-              jours.
+              <span>
+                Cette destination peut être réservée pour une durée de séjour
+                entre {destination.minDuration} et {destination.maxDuration}{" "}
+                jours.
+              </span>
             </p>
           )}
           {msg && <p className="message">{msg}</p>}
           <form id="reservation-form" onSubmit={submitHandler}>
-            <label htmlFor="startDate">Date de début :</label>
-            <input
-              type="date"
-              id="startDate"
-              name="startDate"
-              onChange={handleChange}
-              value={formReservation.startDate}
-            />
-
-            <label htmlFor="endDate">Date de fin :</label>
-            <input
-              type="date"
-              id="endDate"
-              name="endDate"
-              onChange={handleChange}
-              value={formReservation.endDate}
-            />
-
-            <label htmlFor="numberAdult">
-              Nombre d'adultes (à partir de 12 ans) :
-            </label>
-            <input
-              type="number"
-              id="numberAdult"
-              name="numberAdult"
-              onChange={handleChange}
-              value={formReservation.numberAdult}
-              min="1"
-              placeholder="Veuillez indiquer le nombre d'adulte"
-            />
-
-            <label htmlFor="numberChild">
-              Nombre d'enfants (moins de 12 ans) :
-            </label>
-            <input
-              type="number"
-              id="numberChild"
-              name="numberChild"
-              onChange={handleChange}
-              value={formReservation.numberChild}
-              min="0"
-              placeholder="Veuillez indiquer le nombre d'enfant"
-            />
+            <section className="date">
+              <div>
+                <label htmlFor="startDate">Date de début : </label>
+                <input
+                  type="date"
+                  id="startDate"
+                  name="startDate"
+                  onChange={handleChange}
+                  value={formReservation.startDate}
+                />
+              </div>
+              <div>
+                <label htmlFor="endDate">Date de fin : </label>
+                <input
+                  type="date"
+                  id="endDate"
+                  name="endDate"
+                  onChange={handleChange}
+                  value={formReservation.endDate}
+                />
+              </div>
+            </section>
+            <section className="people">
+              <div>
+                <label htmlFor="numberAdult">
+                  Nombre d'adultes (à partir de 12 ans) :
+                </label>
+                <input
+                  type="number"
+                  id="numberAdult"
+                  name="numberAdult"
+                  onChange={handleChange}
+                  value={formReservation.numberAdult}
+                  min="1"
+                  placeholder="Veuillez indiquer le nombre d'adulte"
+                />
+              </div>
+              <div>
+                <label htmlFor="numberChild">
+                  Nombre d'enfants (moins de 12 ans) :
+                </label>
+                <input
+                  type="number"
+                  id="numberChild"
+                  name="numberChild"
+                  onChange={handleChange}
+                  value={formReservation.numberChild}
+                  min="0"
+                  placeholder="Veuillez indiquer le nombre d'enfant"
+                />
+              </div>
+            </section>
 
             {formReservation.startDate && formReservation.endDate && (
-              <>
-                <h3>Durée sélectionnée : {numberOfDays} jours</h3>
-                <h3>Budget estimé par personne : {calculatedBudget} €</h3>
-              </>
+              <section>
+                <h3>
+                  <span>Durée sélectionnée :</span> {numberOfDays} jours
+                </h3>
+                <h3>
+                  <span>Budget total estimé par personne :</span>{" "}
+                  {calculatedBudget} €
+                </h3>
+                <p className="info-price">
+                  Veuillez noter que les frais de transport aérien ne sont pas
+                  inclus dans ce tarif et peuvent varier en fonction de votre
+                  lieu de départ, de la saison, de la demande et des compagnies
+                  aériennes sélectionnées. Réserver à l'avance peut contribuer à
+                  réduire le coût total du transport.
+                </p>
+              </section>
             )}
-
-            <p>
-              Veuillez noter que les frais de transport aérien ne sont pas
-              inclus dans ce tarif et peuvent varier en fonction de votre lieu
-              de départ, de la saison, de la demande et des compagnies aériennes
-              sélectionnées. Réserver à l'avance peut contribuer à réduire le
-              coût total du transport.
-            </p>
 
             <button type="submit">Réserver</button>
           </form>

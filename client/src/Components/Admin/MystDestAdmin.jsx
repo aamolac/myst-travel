@@ -1,5 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faTrashCan,
+  faPenToSquare,
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -101,64 +106,75 @@ function MystDest() {
   }, []);
 
   return (
-    <main>
+    <main id="summary-table">
       <button
         onClick={() => navigate("/dashboard")}
-        title="Retour à la page du dashboard"
+        title="Retour au tableau de bord"
+        className="back"
       >
-        <FontAwesomeIcon icon={faArrowLeft} /> Retour
+        <FontAwesomeIcon icon={faArrowLeft} /> Retour au tableau de bord
       </button>
       <h2>Destination mystère</h2>
 
       {msg && <p className="message">{msg}</p>}
-      <button onClick={() => navigate(`/dashboard/myst-destination/add`)}>
-        Ajouter une destination mystère
-      </button>
-      <table>
-        <thead>
-          <tr>
-            <th>Numéro de la destination</th>
-            <th>Titre</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {mystDests.map((mystDest) => (
-            <tr key={mystDest.id}>
-              <td>{mystDest.id}</td>
-              <td>{mystDest.title}</td>
-              <td>{mystDest.status}</td>
-              <td>
-                {getStatusValue(mystDest.status) === 0 && (
-                  <button
-                    onClick={() => updateStatus(mystDest.id, "Hors ligne")}
-                  >
-                    Hors ligne
-                  </button>
-                )}
-                {getStatusValue(mystDest.status) === 1 && (
-                  <button onClick={() => updateStatus(mystDest.id, "En ligne")}>
-                    En ligne
-                  </button>
-                )}
-                <button
-                  onClick={() =>
-                    navigate(
-                      `/dashboard/myst-destination/update/${mystDest.id}`
-                    )
-                  }
-                  title={`Aller à la page pour modifier la destination mystère ${mystDest.id}`}
-                >
-                  Modifier
-                </button>
-                <button onClick={() => deleteMystDest(mystDest.id)}>
-                  Supprimer
-                </button>
-              </td>
+
+      <section>
+        <div>
+          <button onClick={() => navigate(`/dashboard/myst-destination/add`)}>
+            <FontAwesomeIcon icon={faPlus} /> Ajouter une destination mystère
+          </button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>N° destination</th>
+              <th>Titre</th>
+              <th>Status</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {mystDests.map((mystDest) => (
+              <tr key={mystDest.id}>
+                <td>{mystDest.id}</td>
+                <td>{mystDest.title}</td>
+                <td>{mystDest.status}</td>
+                <td className="table-button">
+                  {getStatusValue(mystDest.status) === 0 && (
+                    <button
+                      onClick={() => updateStatus(mystDest.id, "Hors ligne")}
+                    >
+                      Hors ligne
+                    </button>
+                  )}
+                  {getStatusValue(mystDest.status) === 1 && (
+                    <button
+                      onClick={() => updateStatus(mystDest.id, "En ligne")}
+                    >
+                      En ligne
+                    </button>
+                  )}
+                  <button
+                    onClick={() =>
+                      navigate(
+                        `/dashboard/myst-destination/update/${mystDest.id}`
+                      )
+                    }
+                    title={`Modifier la destination mystère ${mystDest.id}`}
+                  >
+                    <FontAwesomeIcon icon={faPenToSquare} />
+                  </button>
+                  <button
+                    onClick={() => deleteMystDest(mystDest.id)}
+                    title={`Supprimer la destination mystère ${mystDest.id}`}
+                  >
+                    <FontAwesomeIcon icon={faTrashCan} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
     </main>
   );
 }

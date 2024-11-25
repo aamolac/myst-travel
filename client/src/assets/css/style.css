@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* Reset CSS par Eric Meyer */
 html,
 body,
@@ -139,6 +140,10 @@ table {
   src: url("../font/Lora/static/Lora-Medium.ttf");
 }
 @font-face {
+  font-family: "Lora-Bold";
+  src: url("../font/Lora/static/Lora-Bold.ttf");
+}
+@font-face {
   font-family: "Poppins-Regular";
   src: url("../font/Poppins/Poppins-Regular.ttf");
 }
@@ -149,37 +154,64 @@ table {
 header {
   background-color: #274c77;
 }
-header section {
+header section:first-of-type {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   padding: 2rem 0.5rem;
-  gap: 2rem;
 }
-header h1 {
+header section:first-of-type .myst-travel {
+  font-family: "Poppins-Medium";
+  font-size: 3rem;
   color: #fdfdfd;
   padding: 2rem;
+  z-index: 15;
 }
-header nav {
+header section:first-of-type #burger-menu {
+  /* Styles de base de l'icône du burger */
+}
+header section:first-of-type #burger-menu svg {
+  font-size: 3rem;
+  padding: 2rem;
   color: #fdfdfd;
-  font-size: 1.6rem;
-  font-family: "Lora-Regular";
+  position: relative;
+  z-index: 15;
+}
+header section:first-of-type #burger-menu.open nav {
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 2rem;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 100%;
+  background-color: #274c77;
+  padding: 2rem;
+  z-index: 10;
 }
-header a {
+header section:first-of-type #burger-menu.open nav a {
   color: #fdfdfd;
-  display: block;
-  padding: 1.4rem;
-  border-radius: 1rem;
-  text-align: center;
+  text-align: right;
+  font-size: 2rem;
+  padding: 1rem;
+  transition: color 0.3s;
 }
-header .active {
+header section:first-of-type #burger-menu.open .active {
   background-color: #fdfdfd;
   color: #274c77;
+}
+header section:first-of-type #burger-menu nav {
+  display: none;
+}
+
+body.no-scroll {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
 }
 
 footer {
@@ -188,15 +220,17 @@ footer {
   flex-direction: column;
   align-items: flex-start;
 }
-footer h1,
+footer .myst-travel,
 footer h4,
 footer p {
   color: #fdfdfd;
   line-height: 1.5rem;
 }
-footer h1 {
+footer .myst-travel {
+  font-family: "Poppins-Medium";
+  font-size: 3rem;
   text-align: center;
-  padding: 2rem;
+  padding: 3rem;
 }
 footer a {
   color: #fdfdfd;
@@ -227,42 +261,475 @@ footer section:last-of-type p {
   text-align: center;
 }
 
-#home h2 {
-  text-align: center;
-  padding: 10rem;
-}
+#home h2,
 #home h3 {
   text-align: center;
-  padding-bottom: 2rem;
+  padding: 3rem 0;
 }
-#home section {
-  padding: 2rem 5rem;
+#home span {
+  font-family: "Lora-Bold";
+}
+#home .welcome {
+  background: url("/src/assets/images/home/beach.webp");
+  background-size: cover;
+  background-position: center;
+  color: #274c77;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40rem;
+}
+#home img {
+  display: block;
+  width: 80%;
+  margin: 2rem auto 0 auto;
+}
+#home .presentation {
+  padding: 5rem;
 }
 #home .offer {
+  background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url("/src/assets/images/home/word-map.webp");
+  background-size: cover;
+  background-position: center;
+  background-color: rgba(255, 255, 255, 0.5);
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 5rem;
+  padding: 3rem;
 }
 #home .offer div {
-  width: 49%;
+  background-color: rgba(255, 255, 255, 0.85);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  width: 60%;
+  padding: 2rem;
+  border-radius: 1rem;
 }
-#home .offer a {
+#home .offer div a {
   background-color: #274c77;
   color: #fdfdfd;
-  margin-top: 1rem;
-  padding: 1rem;
+  font-size: 1.6rem;
+  font-family: "Lora-Medium";
+  padding: 1.5rem 1rem;
+  border-radius: 0.5rem;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+}
+#home .mystery {
+  margin: 2rem 0;
+  padding: 5rem;
+}
+#home .destination-escape {
+  background-image: url("/src/assets/images/home/plane-in-sky.webp");
+  background-size: cover;
+  background-position: center;
+  padding: 2rem;
+}
+#home .destination-escape div {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  margin: auto;
+  padding: 2rem;
+}
+#home .destination-escape div p,
+#home .destination-escape div h3 {
+  color: #fdfdfd;
+}
+#home .ready-for-adventure {
+  padding: 5rem;
+}
+
+#myst-dest {
+  margin: 5rem;
+  /* Masquer la barre de défilement */
+}
+#myst-dest h2 {
+  text-align: center;
+  padding: 5rem;
+}
+#myst-dest span {
+  font-family: "Lora-Bold";
+}
+#myst-dest fieldset {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto; /* Permet le défilement horizontal */
+  gap: 1rem;
+  padding: 1rem 0;
+  /* Masquer la barre de défilement */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE et Edge */
+}
+#myst-dest fieldset legend {
+  font-family: "Lora-Bold";
+  padding-top: 2rem;
+}
+#myst-dest fieldset section {
+  flex: 0 0 auto;
+  max-width: 30rem; /* Taille minimale pour les titres des filtres */
+}
+#myst-dest fieldset section h4 {
+  text-align: center;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+}
+#myst-dest fieldset section input,
+#myst-dest fieldset section label {
+  display: none;
+}
+#myst-dest fieldset section.active {
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+}
+#myst-dest fieldset section.active div div {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+}
+#myst-dest fieldset section.active input,
+#myst-dest fieldset section.active label {
+  display: block;
+  margin-right: 1rem;
+}
+#myst-dest fieldset section.active input {
+  width: 2rem;
+}
+#myst-dest fieldset section.active label {
+  font-size: 1.6rem;
+  font-family: "Lora-Regular";
+}
+#myst-dest fieldset::-webkit-scrollbar {
+  display: none; /* Chrome, Safari et Edge */
+}
+#myst-dest .info-dest {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#myst-dest .info-dest h4 {
+  text-align: center;
+  padding: 2rem;
+}
+#myst-dest .info-dest article {
+  width: 70%;
+  margin: 2rem auto;
+  padding: 0.5rem;
   border-radius: 1rem;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+#myst-dest .info-dest article img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 0 auto 1rem auto;
+}
+#myst-dest .info-dest article a {
+  background-color: #274c77;
+  color: #fdfdfd;
+  font-size: 1.6rem;
+  font-family: "Lora-Medium";
+  padding: 1.5rem 1rem;
+  border-radius: 0.5rem;
+  display: block;
+  width: 30%;
+  margin: 2rem auto;
   text-align: center;
 }
 
-form {
+#myst-dest-detail .back {
+  font-size: 1.3rem;
+  font-family: "Lora-Medium";
+  color: #4d4d4d;
+  background-color: #e3e3e3;
+  padding: 0.7rem;
+  margin: 2rem;
+  border-radius: 0.5rem;
+}
+#myst-dest-detail h2 {
+  text-align: center;
+  padding: 5rem;
+}
+#myst-dest-detail img {
+  display: block;
+  width: 70%;
+  margin: auto;
+}
+#myst-dest-detail .information-destinaiton {
+  margin: 5rem;
+}
+#myst-dest-detail .information-destinaiton h3 {
+  padding: 3rem 0;
+  margin-top: 2rem;
+}
+#myst-dest-detail .information-destinaiton div {
+  text-align: center;
+}
+#myst-dest-detail .information-destinaiton div img {
+  max-width: 70%;
+}
+#myst-dest-detail .information-destinaiton span {
+  font-family: "Lora-Bold";
+  text-decoration: underline;
+}
+#myst-dest-detail .information-destinaiton svg {
+  font-size: 2.5rem;
+  color: #274c77;
+}
+#myst-dest-detail .information-destinaiton .info-price {
+  font-style: italic;
+}
+#myst-dest-detail section:last-of-type {
+  margin: 3rem;
+}
+#myst-dest-detail section:last-of-type img {
+  margin-top: 2rem;
+}
+#myst-dest-detail button {
+  background-color: #274c77;
+  color: #fdfdfd;
+  font-size: 1.6rem;
+  font-family: "Lora-Medium";
+  padding: 1.5rem 1rem;
+  border-radius: 0.5rem;
+  display: block;
+  width: 20%;
+  margin: 2rem auto;
+}
+
+#reservation .back {
+  font-size: 1.3rem;
+  font-family: "Lora-Medium";
+  color: #4d4d4d;
+  background-color: #e3e3e3;
+  padding: 0.7rem;
+  margin: 2rem;
+  border-radius: 0.5rem;
+}
+#reservation h2 {
+  text-align: center;
+  padding: 5rem;
+}
+#reservation span {
+  font-family: "Lora-Bold";
+}
+#reservation p,
+#reservation h3 {
+  margin: 0 3rem;
+}
+#reservation form {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 1rem;
+}
+#reservation form label {
+  font-size: 1.5rem;
+  font-family: "Lora-Bold";
+  padding: 0.5rem 0rem;
+}
+#reservation form input {
+  font-size: 1.6rem;
+  font-family: "Lora-Regular";
+  border-radius: 0.5rem;
+  border: 0.1rem solid black;
+  margin-bottom: 0.7rem;
+  padding-left: 0.5rem;
+  height: 3rem;
+}
+#reservation form .date {
+  margin: 0 3rem;
+  display: flex;
+  gap: 17rem;
+}
+#reservation form .date div {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+#reservation form .date div label {
+  margin-top: 3rem;
+}
+#reservation form .date div input {
+  width: 20rem;
+}
+#reservation form .people {
+  margin: 3rem;
+  display: flex;
+  gap: 7rem;
+}
+#reservation form .people div {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+#reservation form .people div input {
+  width: 30rem;
+}
+#reservation form section:last-of-type {
+  margin-top: 4rem;
+}
+#reservation form .info-price {
+  font-style: italic;
+}
+#reservation form button {
+  background-color: #274c77;
+  color: #fdfdfd;
+  font-size: 1.6rem;
+  font-family: "Lora-Medium";
+  padding: 1.5rem 1rem;
+  border-radius: 0.5rem;
+  display: block;
+  width: 20%;
+  margin: 2rem auto;
+}
+#reservation .confirmation p {
+  margin: 3rem;
+}
+
+#cust-trip {
+  margin: 2rem;
+}
+#cust-trip h2 {
+  text-align: center;
+  padding: 5rem;
+}
+#cust-trip span {
+  font-family: "Lora-Bold";
+}
+#cust-trip form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 90%;
+  margin: 2rem auto;
+}
+#cust-trip form label {
+  font-size: 1.5rem;
+  font-family: "Lora-Bold";
+  padding: 0.5rem 0rem;
+}
+#cust-trip form select {
+  font-family: "Lora-Regular";
+  font-size: 1.6rem;
+  padding: 0.5rem 0rem;
+  margin-bottom: 0.7rem;
+}
+#cust-trip form input {
+  font-size: 1.6rem;
+  font-family: "Lora-Regular";
+  border-radius: 0.5rem;
+  border: 0.1rem solid black;
+  margin-bottom: 0.7rem;
+  padding-left: 0.5rem;
+  height: 3rem;
+}
+#cust-trip form button {
+  background-color: #274c77;
+  color: #fdfdfd;
+  font-size: 1.6rem;
+  font-family: "Lora-Medium";
+  padding: 1.5rem 1rem;
+  border-radius: 0.5rem;
+  width: 20%;
+  display: block;
+  margin: 0.5rem auto;
+}
+
+#about-us .about-title {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url("/src/assets/images/about-us/seaside.webp");
+  background-size: cover;
+  background-position: center;
+  color: #fdfdfd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40rem;
+  padding: 5rem;
+}
+#about-us h2 {
+  text-align: center;
+  padding-top: 5rem;
+}
+#about-us p {
+  padding: 5rem;
+}
+#about-us .why-myst-travel {
+  background-image: url("/src/assets/images/about-us/palm-tree-beach.webp");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  padding: 3rem 0;
+}
+#about-us .why-myst-travel div {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  padding: 1rem;
+  margin: 1rem;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 1rem;
+}
+#about-us .why-myst-travel div svg {
+  font-size: 4rem;
+  color: #274c77;
+}
+#about-us .why-myst-travel div h3 {
+  text-align: center;
+  padding: 1rem;
+}
+#about-us .why-myst-travel div p {
+  padding: 1rem;
+}
+#about-us .number {
+  background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url("/src/assets/images/about-us/airport-about-page.webp");
+  background-size: cover;
+  background-position: center;
+  margin-top: 5rem;
+  padding: 0rem 5rem 5rem 5rem;
+}
+#about-us .number h2 {
+  color: #274c77;
+}
+#about-us .number ul {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5rem;
+}
+#about-us .number ul li {
+  font-family: "Lora-Medium";
+  color: #274c77;
+  text-align: center;
+  border: 0.6rem solid #274c77;
+  width: 20rem;
+  height: 20rem;
+  padding: 3rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+}
+#about-us .number ul span {
+  font-size: 5rem;
+  font-family: "Lora-Bold";
+}
+#about-us img {
+  display: block;
+  width: 70%;
+  margin: 0 auto 5rem auto;
 }
 
 #auth {
@@ -283,9 +750,12 @@ form {
 }
 #auth label {
   font-size: 1.5rem;
-  font-family: "Lora-Medium";
+  font-family: "Lora-Bold";
+  padding: 0.5rem 0rem;
 }
 #auth input {
+  font-size: 1.6rem;
+  font-family: "Lora-Regular";
   border-radius: 0.5rem;
   border: 0.1rem solid black;
   margin-bottom: 0.7rem;
@@ -307,7 +777,9 @@ form {
 #auth button {
   background-color: #274c77;
   color: #fdfdfd;
-  padding: 1rem 2rem;
+  font-size: 1.6rem;
+  font-family: "Lora-Medium";
+  padding: 1.5rem 1rem;
   border-radius: 0.5rem;
   width: 30%;
   display: block;
@@ -319,56 +791,364 @@ form {
   font-family: "Lora-Medium";
 }
 
-#contact h2 {
-  color: #fdfdfd;
-  text-align: center;
-  padding: 1rem;
-  border: 3px solid #fdfdfd;
-}
 #contact svg {
-  font-size: 2.5rem;
+  font-size: 3rem;
   color: #274c77;
 }
 #contact h3 {
   padding: 1rem;
 }
-#contact section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  padding: 2rem;
-}
-#contact section div {
-  text-align: center;
-}
-#contact section div:not(:last-child)::after {
-  content: "";
-  display: block;
-  width: 50%;
-  height: 2px;
-  background-color: #274c77;
-  margin: 2rem auto;
-}
-#contact section a {
-  color: black;
-}
-#contact section label {
-  font-size: 1.5rem;
-  font-family: "Lora-Medium";
-}
 #contact .title {
-  height: 25rem;
-  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url("/src/assets/images/contact-5.webp");
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("/src/assets/images/contact/palm-tree-sunset.webp");
   background-size: cover;
   background-position: center;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 40rem;
+}
+#contact .title h2 {
+  color: #fdfdfd;
+  text-align: center;
+  padding: 1rem;
+  border: 0.3rem solid #fdfdfd;
+}
+#contact .contact-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+}
+#contact .contact-detail div {
+  text-align: center;
+}
+#contact .contact-detail div:not(:last-child)::after {
+  content: "";
+  display: block;
+  width: 50%;
+  height: 0.2rem;
+  background-color: #274c77;
+  margin: 2rem auto;
+}
+#contact .contact-detail a {
+  color: black;
+}
+#contact .form-contact {
+  background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url("/src/assets/images/contact/plane-in-sky.webp");
+  background-size: cover;
+  background-position: center;
+  margin: 4rem 0;
+  padding: 2rem;
+}
+#contact .form-contact h3 {
+  color: #fdfdfd;
+  width: 70%;
+  margin: auto;
+  text-align: center;
+}
+#contact .form-contact form {
+  background-color: rgba(255, 255, 255, 0.5);
+  width: 70%;
+  margin: auto;
+  padding: 2rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+#contact .form-contact form label {
+  font-size: 1.5rem;
+  font-family: "Lora-Bold";
+  padding: 0.5rem 0rem;
+}
+#contact .form-contact form input {
+  font-size: 1.6rem;
+  font-family: "Lora-Regular";
+  border-radius: 0.5rem;
+  border: 0.1rem solid black;
+  margin-bottom: 0.7rem;
+  padding-left: 0.5rem;
+  height: 3rem;
+}
+#contact .form-contact form select {
+  font-family: "Lora-Regular";
+  font-size: 1.6rem;
+  padding: 0.5rem 0rem;
+  margin-bottom: 0.7rem;
+}
+#contact .form-contact form textarea {
+  font-size: 1.6rem;
+  font-family: "Lora-Regular";
+  border-radius: 0.5rem;
+  border: 0.1rem solid black;
+  margin-bottom: 0.7rem;
+  padding: 0.5rem 0.5rem;
+  height: 10rem;
+}
+#contact .form-contact form button {
+  background-color: #274c77;
+  color: #fdfdfd;
+  font-size: 1.6rem;
+  font-family: "Lora-Medium";
+  padding: 1.5rem 1rem;
+  border-radius: 0.5rem;
+  width: 50%;
+  display: block;
+  margin: 0.5rem auto;
+}
+#contact .connect {
+  margin: 4rem 0;
+  padding: 2rem;
+}
+#contact .connect h3 {
+  text-align: center;
+  padding-bottom: 3rem;
 }
 #contact .connect div {
   display: flex;
+  justify-content: center;
   gap: 3rem;
+  margin-bottom: 2rem;
+}
+
+#page-not-found {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#page-not-found svg {
+  font-size: 5rem;
+  display: block;
+  padding: 1rem;
+}
+#page-not-found p {
+  text-align: center;
+  font-size: 2rem;
+  font-family: "Lora-Medium";
+}
+
+#dashboard h2 {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 3.5rem;
+  padding: 7rem;
+}
+#dashboard svg {
+  color: #b22234;
+}
+#dashboard section {
+  padding: 0 5rem 5rem 5rem;
+}
+#dashboard section a {
+  background-color: #274c77;
+  color: #fdfdfd;
+  margin: 2rem;
+  padding: 2rem 1rem;
+  border-radius: 1rem;
+  text-align: center;
+  font-size: 2.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 5rem;
+}
+
+#summary-table .back {
+  font-size: 1.3rem;
+  font-family: "Lora-Medium";
+  color: #4d4d4d;
+  background-color: #e3e3e3;
+  padding: 0.7rem;
+  margin: 2rem;
+  border-radius: 0.5rem;
+}
+#summary-table h2 {
+  text-align: center;
+  padding: 5rem;
+}
+#summary-table section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#summary-table section div button {
+  margin: 0 2rem;
+  padding: 0.5rem;
+  border: 0.15rem solid #274c77;
+  border-radius: 0.3rem;
+  color: #274c77;
+  font-family: "Lora-Medium";
+}
+#summary-table section table {
+  margin: 2rem;
+}
+#summary-table section table th {
+  font-family: "Lora-Bold";
+  vertical-align: middle;
+}
+#summary-table section table td:not(:last-of-type),
+#summary-table section table th {
+  font-size: 1.6rem;
+  padding: 0.5rem;
+  border: 1px solid #4d4d4d;
+}
+#summary-table section table td:not(:last-of-type) {
+  vertical-align: middle;
+}
+#summary-table section table .table-button {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+#summary-table section table .table-button button:first-of-type {
+  grid-column: span 2;
+  justify-self: center;
+}
+#summary-table section table button {
+  margin: 0.5rem;
+  padding: 0.8rem;
+  border: 0.15rem solid #274c77;
+  border-radius: 0.3rem;
+  color: #274c77;
+  font-family: "Lora-Medium";
+}
+#summary-table section table button svg {
+  color: #274c77;
+  font-size: 1.5rem;
+}
+#summary-table section table .contact-button button {
+  display: block;
+  width: 3rem;
+  margin: 1rem;
+}
+#summary-table section .bold-status {
+  font-family: "Lora-Medium";
+  color: #274c77;
+}
+
+.contact-cust-trip-reservation .back {
+  font-size: 1.3rem;
+  font-family: "Lora-Medium";
+  color: #4d4d4d;
+  background-color: #e3e3e3;
+  padding: 0.7rem;
+  margin: 2rem;
+  border-radius: 0.5rem;
+}
+.contact-cust-trip-reservation h2 {
+  text-align: center;
+}
+.contact-cust-trip-reservation section {
+  width: 90%;
+  margin: 2rem auto;
+}
+.contact-cust-trip-reservation section span {
+  text-decoration: underline;
+  font-family: "Lora-Bold";
+}
+.contact-cust-trip-reservation section a {
+  color: #274c77;
+  font-family: "Lora-Bold";
+}
+.contact-cust-trip-reservation section button {
+  background-color: #274c77;
+  color: #fdfdfd;
+  font-size: 1.6rem;
+  font-family: "Lora-Medium";
+  padding: 1.5rem 1rem;
+  border-radius: 0.5rem;
+  margin: 1rem auto;
+  display: block;
+}
+
+.add-update-myst-dest .back {
+  font-size: 1.3rem;
+  font-family: "Lora-Medium";
+  color: #4d4d4d;
+  background-color: #e3e3e3;
+  padding: 0.7rem;
+  margin: 2rem;
+  border-radius: 0.5rem;
+}
+.add-update-myst-dest h2 {
+  text-align: center;
+  margin: 2rem;
+}
+.add-update-myst-dest form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 90%;
+  margin: 2rem auto;
+}
+.add-update-myst-dest form label {
+  font-size: 1.5rem;
+  font-family: "Lora-Bold";
+  padding: 0.5rem 0rem;
+}
+.add-update-myst-dest form select {
+  font-family: "Lora-Regular";
+  font-size: 1.6rem;
+  padding: 0.5rem 0rem;
+  margin-bottom: 0.7rem;
+}
+.add-update-myst-dest form input {
+  font-size: 1.6rem;
+  font-family: "Lora-Regular";
+  border-radius: 0.5rem;
+  border: 0.1rem solid black;
+  margin-bottom: 0.7rem;
+  padding-left: 0.5rem;
+  height: 3rem;
+}
+.add-update-myst-dest form textarea {
+  font-size: 1.6rem;
+  font-family: "Lora-Regular";
+  border-radius: 0.5rem;
+  border: 0.1rem solid black;
+  margin-bottom: 0.7rem;
+  padding: 0.5rem 0.5rem;
+  height: 10rem;
+}
+.add-update-myst-dest form button {
+  background-color: #274c77;
+  color: #fdfdfd;
+  font-size: 1.6rem;
+  font-family: "Lora-Medium";
+  padding: 1.5rem 1rem;
+  border-radius: 0.5rem;
+  width: 50%;
+  display: block;
+  margin: 0.5rem auto;
+}
+.add-update-myst-dest form span {
+  font-family: "Lora-Bold";
+}
+
+.legals-docs {
+  padding-bottom: 5rem;
+}
+.legals-docs h2 {
+  text-align: center;
+  padding: 5rem;
+}
+.legals-docs section {
+  padding: 5rem;
+}
+.legals-docs button {
+  font-size: 1.3rem;
+  font-family: "Lora-Medium";
+  color: #4d4d4d;
+  background-color: #e3e3e3;
+  padding: 0.7rem;
+  margin: 2rem;
+  border-radius: 0.5rem;
+}
+.legals-docs a {
+  color: #274c77;
+  font-family: "Lora-Medium";
 }
 
 * {
@@ -385,12 +1165,15 @@ body {
   background-color: #fdfdfd;
 }
 
+main {
+  min-height: 90vh;
+}
+
 .container {
   max-width: 1200px;
   margin: auto;
 }
 
-h1,
 h2,
 h3,
 h4 {
@@ -398,23 +1181,23 @@ h4 {
   font-family: "Poppins-Medium";
 }
 
-h1 {
-  font-size: 3rem;
-}
-
 h2 {
-  font-size: 2.7rem;
+  font-size: 3rem;
+  padding: 1rem;
 }
 
 h3 {
   font-size: 2rem;
+  padding-bottom: 2rem;
 }
 
 h4 {
   font-size: 1.8rem;
 }
 
-p {
+p,
+li,
+fieldset {
   font-family: "Lora-Regular";
   font-size: 1.6rem;
   text-align: justify;
@@ -430,4 +1213,5 @@ a {
 
 .message {
   color: #b22234;
+  font-family: "Lora-Medium";
 }/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,50 @@
+#myst-dest-detail {
+  .back {
+    @include button-back-style;
+  }
+  h2 {
+    text-align: center;
+    padding: 5rem;
+  }
+  img {
+    display: block;
+    width: 70%;
+    margin: auto;
+  }
+  .information-destinaiton {
+    margin: 5rem;
+    h3 {
+      padding: 3rem 0;
+      margin-top: 2rem;
+    }
+    div {
+      text-align: center;
+      img {
+        max-width: 70%;
+      }
+    }
+    span {
+      font-family: "Lora-Bold";
+      text-decoration: underline;
+    }
+    svg {
+      font-size: 2.5rem;
+      color: $blue;
+    }
+    .info-price {
+      font-style: italic;
+    }
+  }
+  section:last-of-type {
+    margin: 3rem;
+    img {
+      margin-top: 2rem;
+    }
+  }
+  button {
+    @include button-style;
+    display: block;
+    width: 20%;
+    margin: 2rem auto;
+  }
+}

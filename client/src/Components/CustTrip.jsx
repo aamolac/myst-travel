@@ -164,7 +164,7 @@ function CustTrip() {
   };
 
   return (
-    <main>
+    <main id="cust-trip">
       <h2>Planifiez votre destination sur-mesure</h2>
       {showConfirmation ? (
         <div className="confirmation-popup">
@@ -188,8 +188,10 @@ function CustTrip() {
             ci-dessous, et laissez-nous créer votre prochaine aventure mystère.
           </p>
           <p>
-            A savoir que la durée des destinations sur-mesure doit être comprise
-            entre 2 et 21 jours.
+            <span>
+              La durée des destinations sur-mesure doit être comprise entre 2 et
+              21 jours.
+            </span>
           </p>
           {msg && <p className="message">{msg}</p>}
           <form id="cust-trip" onSubmit={submitHandler}>

@@ -34,32 +34,68 @@ function CustTripDetail() {
   if (!custTrips) return <p>Chargement...</p>;
 
   return (
-    <main>
+    <main className="contact-cust-trip-reservation">
       <button
         onClick={() => navigate(-1)}
         title="Retour à la page des demandes de destination sur-mesure"
+        className="back"
       >
         <FontAwesomeIcon icon={faArrowLeft} /> Retour
       </button>
-      <p>Identifiant de l'utilisateur : {custTrips.user_id}</p>
-      <p>Email de l'utilisateur : {custTrips.userEmail}</p>
-      <p>Type d'expérience : {custTrips.typeExperienceChoice} </p>
-      <p>Durée du séjour : {custTrips.duration}</p>
-      <p>Budget total par personne : {custTrips.budget}</p>
-      <p>Climat : {custTrips.climateChoice}</p>
-      <p>Hébergement : {custTrips.accomodationChoice}</p>
-      <p>Activité : {custTrips.activityChoice}</p>
-      <p>Lieu de la destination : {custTrips.locationChoice}</p>
-      <p>Culture : {custTrips.cultureChoice}</p>
-      <p>Nombre d'adulte (à partir de 12 ans) : {custTrips.numberAdult}</p>
-      <p>
-        Nombre d'enfant : {custTrips.numberChild ? custTrips.numberChild : 0}
-      </p>
-      <p>
-        Restriction : {custTrips.restriction ? custTrips.restriction : "Aucune"}
-      </p>
-      <p>Date : {custTrips.createdDate}</p>
-      <p>Status : {custTrips.status}</p>
+      <h2>Demande de voyage sur-mesure n° {custTrips.id}</h2>
+      <section>
+        <p>
+          <span>Date de la demande :</span> {custTrips.createdDate}
+        </p>
+        <p>
+          <span>Identifiant de l'utilisateur :</span> {custTrips.user_id}
+        </p>
+        <p>
+          <span>Email de l'utilisateur :</span>{" "}
+          <a href={`mailto:${custTrips.userEmail}`}>{custTrips.userEmail}</a>{" "}
+        </p>
+        <p>
+          <span>Type d'expérience :</span> {custTrips.typeExperienceChoice}{" "}
+        </p>
+
+        <p>
+          <span>Climat :</span> {custTrips.climateChoice}
+        </p>
+        <p>
+          <span>Hébergement :</span> {custTrips.accomodationChoice}
+        </p>
+        <p>
+          <span>Activité :</span> {custTrips.activityChoice}
+        </p>
+        <p>
+          <span>Lieu de la destination :</span> {custTrips.locationChoice}
+        </p>
+        <p>
+          <span>Culture :</span> {custTrips.cultureChoice}
+        </p>
+        <p>
+          <span>Nombre d'adulte (à partir de 12 ans) :</span>{" "}
+          {custTrips.numberAdult}
+        </p>
+        <p>
+          <span>Nombre d'enfant :</span>{" "}
+          {custTrips.numberChild ? custTrips.numberChild : 0}
+        </p>
+        <p>
+          <span>Restriction :</span>{" "}
+          {custTrips.restriction ? custTrips.restriction : "Aucune"}
+        </p>
+        <p>
+          <span>Durée du séjour :</span> {custTrips.duration} jours
+        </p>
+        <p>
+          <span>Budget total par personne :</span> {custTrips.budget} €
+        </p>
+
+        <p>
+          <span>Status :</span> {custTrips.status}
+        </p>
+      </section>
     </main>
   );
 }

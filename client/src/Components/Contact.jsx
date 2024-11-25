@@ -116,12 +116,12 @@ function Contact() {
       <section className="title">
         <h2>Nous contacter</h2>
       </section>
-      <section>
+      <section className="contact-detail">
         <div>
           <FontAwesomeIcon icon={faLocationDot} />
           <h3>Adresse</h3>
           <p>Myst'Travel</p>
-          <p>15 Avenue des Explorateurs</p>
+          <p>15 avenue des explorateurs</p>
           <p>75008 Paris, France</p>
         </div>
         <div>
@@ -135,7 +135,7 @@ function Contact() {
           <a href="tel:+33123456789">+33 1 23 45 67 89</a>
         </div>
       </section>
-      <section>
+      <section className="form-contact">
         <h3>
           Si vous avez des questions, n'hésitez pas à nous envoyer un message.
         </h3>
@@ -148,8 +148,8 @@ function Contact() {
             id="email"
             name="email"
             placeholder="Entrer votre adresse mail"
-            value={formContact.email} // La valeur de l'input est liée à l'état 'email'
-            onChange={handleChange} // Met à jour 'email' à chaque saisie
+            value={formContact.email}
+            onChange={handleChange}
             required
           />
           <label htmlFor="objectContact">Objet du message</label>
@@ -168,8 +168,9 @@ function Contact() {
           </select>
           <label htmlFor="message">Message</label>
           <textarea
+            id="message"
             name="message"
-            placeholder="Entrer votre message"
+            placeholder="Veuillez indiquer votre message"
             value={formContact.message}
             onChange={handleChange}
             required

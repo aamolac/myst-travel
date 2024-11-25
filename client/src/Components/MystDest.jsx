@@ -7,7 +7,7 @@ function MystDest() {
   // État pour le filtre de budget (tableau pour gérer plusieurs sélections)
   const [budgetFilter, setBudgetFilter] = useState([]);
   // État pour le filtre de durée
-  const [durationFilter, setDurationFilter] = useState();
+  const [durationFilter, setDurationFilter] = useState(null);
   // État pour le filtre du continent (tableau pour gérer plusieurs sélections)
   const [continentFilter, setContinentFilter] = useState([]);
   // État pour le filtre du climat (tableau pour gérer plusieurs sélections)
@@ -22,6 +22,30 @@ function MystDest() {
 
   // Pour gérer les messages de retour
   const [msg, setMsg] = useState("");
+
+  const [openSections, setOpenSections] = useState(null); // change this to store only one open section
+
+  const toggleSection = (section) => {
+    setOpenSections(openSections === section ? null : section); // toggle the section, close it if it's already open
+  };
+
+  // État pour gérer l'ouverture/fermeture des sections
+  // const [openSections, setOpenSections] = useState({
+  //   budget: false,
+  //   duration: false,
+  //   continent: false,
+  //   climate: false,
+  //   activity: false,
+  //   accomodation: false,
+  // });
+
+  // Fonction pour gérer l'ouverture/fermeture des sections
+  // const toggleSection = (section) => {
+  //   setOpenSections({
+  //     ...openSections,
+  //     [section]: !openSections[section],
+  //   });
+  // };
 
   const fetchMystDest = async () => {
     const response = await fetch(
@@ -61,89 +85,116 @@ function MystDest() {
     mystDestinations,
   ]);
 
-  // Fonction pour gérer les changements dans les cases à cocher du budget
-  const handleBudgetChange = (e) => {
-    const value = e.target.value;
+  // Charger l'état des filtres depuis sessionStorage
+  useEffect(() => {
+    const savedBudgetFilter = sessionStorage.getItem("budgetFilter");
+    const savedContinentFilter = sessionStorage.getItem("continentFilter");
+    const savedClimateFilter = sessionStorage.getItem("climateFilter");
+    const savedActivityFilter = sessionStorage.getItem("activityFilter");
+    const savedAccomodationFilter =
+      sessionStorage.getItem("accomodationFilter");
+    const savedDurationFilter = sessionStorage.getItem("durationFilter");
 
-    // Vérifier si la valeur est déjà dans le tableau
-    if (budgetFilter.includes(value)) {
-      // Retirer la valeur si elle est déjà présente
-      setBudgetFilter(budgetFilter.filter((item) => item !== value));
-    } else {
-      // Ajouter la valeur si elle n'est pas présente
-      setBudgetFilter([...budgetFilter, value]);
+    if (savedBudgetFilter) setBudgetFilter(JSON.parse(savedBudgetFilter));
+    if (savedContinentFilter)
+      setContinentFilter(JSON.parse(savedContinentFilter));
+    if (savedClimateFilter) setClimateFilter(JSON.parse(savedClimateFilter));
+    if (savedActivityFilter) setActivityFilter(JSON.parse(savedActivityFilter));
+    if (savedAccomodationFilter)
+      setAccomodationFilter(JSON.parse(savedAccomodationFilter));
+    // Assurer que savedDurationFilter n'est pas undefined avant de le parser
+    if (savedDurationFilter && savedDurationFilter !== "undefined") {
+      setDurationFilter(JSON.parse(savedDurationFilter));
     }
-  };
+  }, []);
 
   // Fonction pour gérer les changements de la durée
   const handleDurationChange = (e) => {
-    const value = Number(e.target.value);
+    const value = e.target.value;
+    // Permettre à l'utilisateur de vider l'input
+    if (value === "") {
+      setDurationFilter(null);
+      setMsg(""); // Réinitialiser le message
+      return;
+    }
 
-    if (value < 2 || value > 21) {
+    // Convertir la valeur en nombre
+    const numericValue = Number(value);
+
+    // Validation si la valeur est un nombre
+    if (isNaN(numericValue)) {
+      setMsg("Veuillez entrer un nombre valide.");
+      return;
+    }
+
+    if (numericValue < 2 || numericValue > 21) {
       setMsg("La durée doit être comprise entre 2 et 21 jours.");
       return;
     }
-    setDurationFilter(value);
+
+    setDurationFilter(numericValue);
     setMsg(""); // Réinitialiser le message si la validation est correcte
   };
 
-  // Fonction pour gérer les changements des cases à cocher du continent
-  const handleContinentChange = (e) => {
+  const handleCheckboxChange = (e, filterState, setFilterState) => {
     const value = e.target.value;
-
-    // Vérifier si la valeur est déjà dans le tableau
-    if (continentFilter.includes(value)) {
+    if (filterState.includes(value)) {
       // Retirer la valeur si elle est déjà présente
-      setContinentFilter(continentFilter.filter((item) => item !== value));
+      setFilterState(filterState.filter((item) => item !== value));
     } else {
       // Ajouter la valeur si elle n'est pas présente
-      setContinentFilter([...continentFilter, value]);
+      setFilterState([...filterState, value]);
     }
   };
 
-  // Fonction pour gérer les changements des cases à cocher du climat
-  const handleClimateChange = (e) => {
-    const value = e.target.value;
+  const handleBudgetChange = (e) =>
+    handleCheckboxChange(e, budgetFilter, setBudgetFilter);
+  const handleContinentChange = (e) =>
+    handleCheckboxChange(e, continentFilter, setContinentFilter);
+  const handleClimateChange = (e) =>
+    handleCheckboxChange(e, climateFilter, setClimateFilter);
+  const handleActivityChange = (e) =>
+    handleCheckboxChange(e, activityFilter, setActivityFilter);
+  const handleAccomodationChange = (e) =>
+    handleCheckboxChange(e, accomodationFilter, setAccomodationFilter);
 
-    // Vérifier si la valeur est déjà dans le tableau
-    if (climateFilter.includes(value)) {
-      // Retirer la valeur si elle est déjà présente
-      setClimateFilter(climateFilter.filter((item) => item !== value));
-    } else {
-      // Ajouter la valeur si elle n'est pas présente
-      setClimateFilter([...climateFilter, value]);
-    }
-  };
+  useEffect(() => {
+    // Sauvegarder dans sessionStorage à chaque changement
+    sessionStorage.setItem("budgetFilter", JSON.stringify(budgetFilter));
+    sessionStorage.setItem("continentFilter", JSON.stringify(continentFilter));
+    sessionStorage.setItem("climateFilter", JSON.stringify(climateFilter));
+    sessionStorage.setItem("activityFilter", JSON.stringify(activityFilter));
+    sessionStorage.setItem(
+      "accomodationFilter",
+      JSON.stringify(accomodationFilter)
+    );
+  }, [
+    budgetFilter,
+    continentFilter,
+    climateFilter,
+    activityFilter,
+    accomodationFilter,
+  ]);
 
-  // Fonction pour gérer les changements des cases à cocher de l'activité
-  const handleActivityChange = (e) => {
-    const value = e.target.value;
-
-    // Vérifier si la valeur est déjà dans le tableau
-    if (activityFilter.includes(value)) {
-      // Retirer la valeur si elle est déjà présente
-      setActivityFilter(activityFilter.filter((item) => item !== value));
-    } else {
-      // Ajouter la valeur si elle n'est pas présente
-      setActivityFilter([...activityFilter, value]);
-    }
-  };
-
-  // Fonction pour gérer les changements des cases à cocher de l'hébergement
-  const handleAccomodationChange = (e) => {
-    const value = e.target.value;
-
-    // Vérifier si la valeur est déjà dans le tableau
-    if (accomodationFilter.includes(value)) {
-      // Retirer la valeur si elle est déjà présente
-      setAccomodationFilter(
-        accomodationFilter.filter((item) => item !== value)
-      );
-    } else {
-      // Ajouter la valeur si elle n'est pas présente
-      setAccomodationFilter([...accomodationFilter, value]);
-    }
-  };
+  // Enregistrer l'état des filtres dans sessionStorage à chaque mise à jour
+  useEffect(() => {
+    sessionStorage.setItem("budgetFilter", JSON.stringify(budgetFilter));
+    sessionStorage.setItem("continentFilter", JSON.stringify(continentFilter));
+    sessionStorage.setItem("climateFilter", JSON.stringify(climateFilter));
+    sessionStorage.setItem("activityFilter", JSON.stringify(activityFilter));
+    sessionStorage.setItem(
+      "accomodationFilter",
+      JSON.stringify(accomodationFilter)
+    );
+    sessionStorage.setItem("durationFilter", JSON.stringify(durationFilter));
+  }, [
+    budgetFilter,
+    continentFilter,
+    climateFilter,
+    activityFilter,
+    accomodationFilter,
+    durationFilter,
+  ]);
 
   // Fonction pour filtrer les destinations
   const filteredDestinations = mystDestinations.filter((dest) => {
@@ -153,7 +204,7 @@ function MystDest() {
     }
 
     // Vérifie la durée
-    if (durationFilter !== undefined) {
+    if (durationFilter !== null) {
       if (
         dest.minDuration > durationFilter ||
         dest.maxDuration < durationFilter
@@ -212,246 +263,429 @@ function MystDest() {
   const hasFiltersApplied =
     mystDestinations.status !== 0 ||
     budgetFilter.length > 0 ||
-    durationFilter !== undefined ||
+    durationFilter !== null ||
     continentFilter.length > 0 ||
     climateFilter.length > 0 ||
     activityFilter.length > 0 ||
     accomodationFilter.length > 0;
 
   return (
-    <main>
+    <main id="myst-dest">
       <h2>Nos destinations mystères</h2>
       <h3>Le Voyage Commence Ici </h3>
-      <p>
-        Préparez-vous à partir pour une aventure inédite. Pas de noms de villes,
-        pas de cartes, juste des indices pour vous guider vers votre prochaine
-        grande évasion. Saurez-vous deviner votre prochaine destination mystère
-        ?
-      </p>
-      <p>
-        A savoir que la durée de séjour de nos destinations mystères est
-        comprise entre 2 et 21 jours.
-      </p>
-      <p>
-        Total des destinations :{" "}
-        {hasFiltersApplied > 0 ? filteredCount : totalDestinations}
-      </p>
+      <section>
+        <p>
+          Préparez-vous à partir pour une aventure inédite. Pas de noms de
+          villes, pas de cartes, juste des indices pour vous guider vers votre
+          prochaine grande évasion. Saurez-vous deviner votre prochaine
+          destination mystère ?
+        </p>
+        <p>
+          La durée de séjour de nos destinations mystères est comprise entre 2
+          et 21 jours.
+        </p>
+      </section>
       {msg && <p className="message">{msg}</p>}
       <fieldset>
         <legend>Filtrer par :</legend>
-        <div>
-          <h4>Budget par jour/personne</h4>
-          <label htmlFor="budget-50-100">50 - 100 €</label>
-          <input
-            type="checkbox"
-            id="budget-50-100"
-            value="50-100"
-            onChange={handleBudgetChange}
-          />
-          <label htmlFor="budget-100-150">100 - 150 €</label>
-          <input
-            type="checkbox"
-            id="budget-100-150"
-            value="100-150"
-            onChange={handleBudgetChange}
-          />
-          <label htmlFor="budget-150-200">150 - 200 €</label>
-          <input
-            type="checkbox"
-            id="budget-150-200"
-            value="150-200"
-            onChange={handleBudgetChange}
-          />
-          <label htmlFor="budget-200-300">200 - 300 €</label>
-          <input
-            type="checkbox"
-            id="budget-200-300"
-            value="200-300"
-            onChange={handleBudgetChange}
-          />
-        </div>
-        <div>
-          <h4>Durée du séjour (jours)</h4>
-          <label htmlFor="duration">Durée :</label>
-          <input
-            type="number"
-            id="duration"
-            min="2"
-            max="21"
-            value={durationFilter || ""}
-            onChange={handleDurationChange}
-          />
-        </div>
-        <div>
-          <h4>Continent</h4>
-          <label htmlFor="Europe">Europe</label>
-          <input
-            type="checkbox"
-            id="Europe"
-            value="Europe"
-            onChange={handleContinentChange}
-          />
-          <label htmlFor="Amérique">Amérique</label>
-          <input
-            type="checkbox"
-            id="Amérique"
-            value="Amérique"
-            onChange={handleContinentChange}
-          />
-          <label htmlFor="Asie">Asie</label>
-          <input
-            type="checkbox"
-            id="Asie"
-            value="Asie"
-            onChange={handleContinentChange}
-          />
-          <label htmlFor="Afrique">Afrique</label>
-          <input
-            type="checkbox"
-            id="Afrique"
-            value="Afrique"
-            onChange={handleContinentChange}
-          />
-          <label htmlFor="Océanie">Océanie</label>
-          <input
-            type="checkbox"
-            id="Océanie"
-            value="Océanie"
-            onChange={handleContinentChange}
-          />
-        </div>
-        <div>
-          <h4>Climat</h4>
-          <label htmlFor="Chaud et ensoleillé">Chaud et ensoleillé</label>
-          <input
-            type="checkbox"
-            id="Chaud et ensoleillé"
-            value="Chaud et ensoleillé"
-            onChange={handleClimateChange}
-          />
-          <label htmlFor="Tempéré/doux">Tempéré et doux</label>
-          <input
-            type="checkbox"
-            id="Tempéré et doux"
-            value="Tempéré et doux"
-            onChange={handleClimateChange}
-          />
-          <label htmlFor="Frais">Frais</label>
-          <input
-            type="checkbox"
-            id="Frais"
-            value="Frais"
-            onChange={handleClimateChange}
-          />
-          <label htmlFor="Humide">Humide</label>
-          <input
-            type="checkbox"
-            id="Humide"
-            value="Humide"
-            onChange={handleClimateChange}
-          />
-          <label htmlFor="Hivernal">Hivernal</label>
-          <input
-            type="checkbox"
-            id="Hivernal"
-            value="Hivernal"
-            onChange={handleClimateChange}
-          />
-        </div>
-        <div>
-          <h4>Niveau d'activité physique</h4>
-          <label htmlFor="Relax">Relax</label>
-          <input
-            type="checkbox"
-            id="Relax"
-            value="Relax"
-            onChange={handleActivityChange}
-          />
-          <label htmlFor="Modéré">Modéré</label>
-          <input
-            type="checkbox"
-            id="Modéré"
-            value="Modéré"
-            onChange={handleActivityChange}
-          />
-          <label htmlFor="Dynamique">Dynamique</label>
-          <input
-            type="checkbox"
-            id="Dynamique"
-            value="Dynamique"
-            onChange={handleActivityChange}
-          />
-          <label htmlFor="Intensif">Intensif</label>
-          <input
-            type="checkbox"
-            id="Intensif"
-            value="Intensif"
-            onChange={handleActivityChange}
-          />
-          <label htmlFor="Aventureux">Aventureux</label>
-          <input
-            type="checkbox"
-            id="Aventureux"
-            value="Aventureux"
-            onChange={handleActivityChange}
-          />
-        </div>
-        <div>
-          <h4>Type d'hébergement</h4>
-          <label htmlFor="Classique et Confortable">
-            Classique et Confortable
-          </label>
-          <input
-            type="checkbox"
-            id="Classique et Confortable"
-            value="Classique et Confortable"
-            onChange={handleAccomodationChange}
-          />
-          <label htmlFor="Nature et Authentique">Nature et Authentique</label>
-          <input
-            type="checkbox"
-            id="Nature et Authentique"
-            value="Nature et Authentique"
-            onChange={handleAccomodationChange}
-          />
-          <label htmlFor="Économique et Pratique">Économique et Pratique</label>
-          <input
-            type="checkbox"
-            id="Économique et Pratique"
-            value="Économique et Pratique"
-            onChange={handleAccomodationChange}
-          />
-          <label htmlFor="Séjour multi-hébergements">
-            Séjour multi-hébergements
-          </label>
-          <input
-            type="checkbox"
-            id="Séjour multi-hébergements"
-            value="Séjour multi-hébergements"
-            onChange={handleAccomodationChange}
-          />
-        </div>
+        <section className={openSections === "budget" ? "active" : ""}>
+          <h4 onClick={() => toggleSection("budget")}>
+            Budget par jour/personne
+          </h4>
+          {openSections === "budget" && (
+            <div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="budget-50-100"
+                  name="budget-50-100"
+                  value="50-100"
+                  onChange={handleBudgetChange}
+                  checked={budgetFilter.includes("50-100")}
+                />
+                <label htmlFor="budget-50-100">50 - 100 €</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="budget-100-150"
+                  name="budget-100-150"
+                  value="100-150"
+                  onChange={handleBudgetChange}
+                  checked={budgetFilter.includes("100-150")}
+                />
+                <label htmlFor="budget-100-150">100 - 150 €</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="budget-150-200"
+                  name="budget-150-200"
+                  value="150-200"
+                  onChange={handleBudgetChange}
+                  checked={budgetFilter.includes("150-200")}
+                />
+                <label htmlFor="budget-150-200">150 - 200 €</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="budget-200-300"
+                  name="budget-200-300"
+                  value="200-300"
+                  onChange={handleBudgetChange}
+                  checked={budgetFilter.includes("200-300")}
+                />
+                <label htmlFor="budget-200-300">200 - 300 €</label>
+              </div>
+            </div>
+          )}
+        </section>
+        <section className={openSections === "duration" ? "active" : ""}>
+          <h4 onClick={() => toggleSection("duration")}>
+            Durée du séjour (jours)
+          </h4>
+          {openSections === "duration" && (
+            <div>
+              <div>
+                <label htmlFor="duration">Durée :</label>
+                <input
+                  type="text"
+                  id="duration"
+                  name="duration"
+                  value={durationFilter || ""}
+                  onChange={handleDurationChange}
+                />
+              </div>
+            </div>
+          )}
+        </section>
+        <section className={openSections === "continent" ? "active" : ""}>
+          <h4 onClick={() => toggleSection("continent")}>Continent</h4>
+          {openSections === "continent" && (
+            <div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="Europe"
+                  name="Europe"
+                  value="Europe"
+                  onChange={handleContinentChange}
+                  checked={continentFilter.includes("Europe")}
+                />
+                <label htmlFor="Europe">Europe</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="Amérique"
+                  name="Amérique"
+                  value="Amérique"
+                  onChange={handleContinentChange}
+                  checked={continentFilter.includes("Amérique")}
+                />
+                <label htmlFor="Amérique">Amérique</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="Asie"
+                  name="Asie"
+                  value="Asie"
+                  onChange={handleContinentChange}
+                  checked={continentFilter.includes("Asie")}
+                />
+                <label htmlFor="Asie">Asie</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="Afrique"
+                  name="Afrique"
+                  value="Afrique"
+                  onChange={handleContinentChange}
+                  checked={continentFilter.includes("Afrique")}
+                />
+                <label htmlFor="Afrique">Afrique</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="Océanie"
+                  name="Océanie"
+                  value="Océanie"
+                  onChange={handleContinentChange}
+                  checked={continentFilter.includes("Océanie")}
+                />
+                <label htmlFor="Océanie">Océanie</label>
+              </div>
+            </div>
+          )}
+        </section>
+        <section className={openSections === "climate" ? "active" : ""}>
+          <h4 onClick={() => toggleSection("climate")}>Climat</h4>
+          {openSections === "climate" && (
+            <div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="Chaud et ensoleillé"
+                  name="Chaud et ensoleillé"
+                  value="Chaud et ensoleillé"
+                  onChange={handleClimateChange}
+                  checked={climateFilter.includes("Chaud et ensoleillé")}
+                />
+                <label htmlFor="Chaud et ensoleillé">Chaud et ensoleillé</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="Tempéré et doux"
+                  name="Tempéré et doux"
+                  value="Tempéré et doux"
+                  onChange={handleClimateChange}
+                  checked={climateFilter.includes("Tempéré et doux")}
+                />
+                <label htmlFor="Tempéré/doux">Tempéré et doux</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="Frais"
+                  name="Frais"
+                  value="Frais"
+                  onChange={handleClimateChange}
+                  checked={climateFilter.includes("Frais")}
+                />
+                <label htmlFor="Frais">Frais</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="Humide"
+                  name="Humide"
+                  value="Humide"
+                  onChange={handleClimateChange}
+                  checked={climateFilter.includes("Humide")}
+                />
+                <label htmlFor="Humide">Humide</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="Hivernal"
+                  name="Hivernal"
+                  value="Hivernal"
+                  onChange={handleClimateChange}
+                  checked={climateFilter.includes("Hivernal")}
+                />
+                <label htmlFor="Hivernal">Hivernal</label>
+              </div>
+            </div>
+          )}
+        </section>
+        <section className={openSections === "activity" ? "active" : ""}>
+          <h4 onClick={() => toggleSection("activity")}>
+            Niveau d'activité physique
+          </h4>
+          {openSections === "activity" && (
+            <div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="Relax"
+                  name="Relax"
+                  value="Relax"
+                  onChange={handleActivityChange}
+                  checked={activityFilter.includes("Relax")}
+                />
+                <label htmlFor="Relax">Relax</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="Modéré"
+                  name="Modéré"
+                  value="Modéré"
+                  onChange={handleActivityChange}
+                  checked={activityFilter.includes("Modéré")}
+                />
+                <label htmlFor="Modéré">Modéré</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="Dynamique"
+                  name="Dynamique"
+                  value="Dynamique"
+                  onChange={handleActivityChange}
+                  checked={activityFilter.includes("Dynamique")}
+                />
+                <label htmlFor="Dynamique">Dynamique</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="Intensif"
+                  name="Intensif"
+                  value="Intensif"
+                  onChange={handleActivityChange}
+                  checked={activityFilter.includes("Intensif")}
+                />
+                <label htmlFor="Intensif">Intensif</label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="Aventureux"
+                  name="Aventureux"
+                  value="Aventureux"
+                  onChange={handleActivityChange}
+                  checked={activityFilter.includes("Aventureux")}
+                />
+                <label htmlFor="Aventureux">Aventureux</label>
+              </div>
+            </div>
+          )}
+        </section>
+        <section className={openSections === "accomodation" ? "active" : ""}>
+          <h4 onClick={() => toggleSection("accomodation")}>
+            Type d'hébergement
+          </h4>
+          {openSections === "accomodation" && (
+            <div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="Classique et Confortable"
+                  name="Classique et Confortable"
+                  value="Classique et Confortable"
+                  onChange={handleAccomodationChange}
+                  checked={accomodationFilter.includes(
+                    "Classique et Confortable"
+                  )}
+                />
+                <label htmlFor="Classique et Confortable">
+                  Classique et Confortable
+                </label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="Nature et Authentique"
+                  name="Nature et Authentique"
+                  value="Nature et Authentique"
+                  onChange={handleAccomodationChange}
+                  checked={accomodationFilter.includes("Nature et Authentique")}
+                />
+                <label htmlFor="Nature et Authentique">
+                  Nature et Authentique
+                </label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="Économique et Pratique"
+                  name="Économique et Pratique"
+                  value="Économique et Pratique"
+                  onChange={handleAccomodationChange}
+                  checked={accomodationFilter.includes(
+                    "Économique et Pratique"
+                  )}
+                />
+                <label htmlFor="Économique et Pratique">
+                  Économique et Pratique
+                </label>
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  id="Séjour multi-hébergements"
+                  name="Séjour multi-hébergements"
+                  value="Séjour multi-hébergements"
+                  onChange={handleAccomodationChange}
+                  checked={accomodationFilter.includes(
+                    "Séjour multi-hébergements"
+                  )}
+                />
+                <label htmlFor="Séjour multi-hébergements">
+                  Séjour multi-hébergements
+                </label>
+              </div>
+            </div>
+          )}
+        </section>
       </fieldset>
-
-      <section id="container">
-        <div id="myst-dest">
-          {filteredDestinations.map((mystDest) => (
-            <article key={mystDest.id}>
-              <h4>{mystDest.title}</h4>
-              <img
-                src={`http://localhost:9000/img/upload-MystDest/${mystDest.image}`}
-                alt={mystDest.alt}
-              />
-              <p>Budget par jour/personne : {mystDest.budget} €</p>
+      {(budgetFilter.length > 0 ||
+        durationFilter !== null ||
+        continentFilter.length > 0 ||
+        climateFilter.length > 0 ||
+        activityFilter.length > 0 ||
+        accomodationFilter.length > 0) && (
+        <section className="filter-summary">
+          <p>
+            <span>Filtre(s) appliqué(s) :</span>
+          </p>
+          {budgetFilter.length > 0 && (
+            <p>
+              <span>Budget :</span> {budgetFilter.join(", ")} €
+            </p>
+          )}
+          {durationFilter !== null && (
+            <p>
+              <span>Durée :</span> {durationFilter} jours
+            </p>
+          )}
+          {continentFilter.length > 0 && (
+            <p>
+              <span>Continent :</span> {continentFilter.join(", ")}
+            </p>
+          )}
+          {climateFilter.length > 0 && (
+            <p>
+              <span>Climat :</span> {climateFilter.join(", ")}
+            </p>
+          )}
+          {activityFilter.length > 0 && (
+            <p>
+              <span>Activité :</span> {activityFilter.join(", ")}
+            </p>
+          )}
+          {accomodationFilter.length > 0 && (
+            <p>
+              <span>Hébergement :</span> {accomodationFilter.join(", ")}
+            </p>
+          )}
+        </section>
+      )}
+      <p>
+        <span>
+          Total des destinations :{" "}
+          {hasFiltersApplied ? filteredCount : totalDestinations}
+        </span>
+      </p>
+      <section className="info-dest">
+        {filteredDestinations.map((mystDest) => (
+          <article key={mystDest.id}>
+            <h4>{mystDest.title}</h4>
+            <img
+              src={`http://localhost:9000/img/upload-MystDest/${mystDest.image}`}
+              alt={mystDest.alt}
+            />
+            <div>
               <p>
-                Durée : {mystDest.minDuration} à {mystDest.maxDuration} jours
+                <span>Budget par jour/personne :</span> {mystDest.budget} €
+              </p>
+              <p>
+                <span>Durée :</span> {mystDest.minDuration} à{" "}
+                {mystDest.maxDuration} jours
               </p>
               <Link to={`/myst-destination/${mystDest.id}`}>
                 En savoir plus
               </Link>
-            </article>
-          ))}
-        </div>
+            </div>
+          </article>
+        ))}
       </section>
     </main>
   );
