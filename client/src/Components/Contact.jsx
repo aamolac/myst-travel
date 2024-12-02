@@ -41,6 +41,12 @@ function Contact() {
       setMsg("L'adresse email n'est pas valide.");
       return false;
     }
+    // Vérification des espaces internes dans l'email
+    if (email.includes(" ")) {
+      return res.status(400).json({
+        msg: "L'adresse email ne doit pas contenir d'espaces.",
+      });
+    }
     if (!formContact.objectContact_id) {
       setMsg("L'objet de contact est requis.");
       return false;
@@ -116,32 +122,37 @@ function Contact() {
       <section className="title">
         <h2>Nous contacter</h2>
       </section>
-      <section className="contact-detail">
+      <section className="container contact-detail">
         <div>
           <FontAwesomeIcon icon={faLocationDot} />
-          <h3>Adresse</h3>
+          <h4>Adresse</h4>
           <p>Myst'Travel</p>
           <p>15 avenue des explorateurs</p>
           <p>75008 Paris, France</p>
         </div>
         <div>
           <FontAwesomeIcon icon={faEnvelope} />
-          <h3>Email</h3>
+          <h4>Email</h4>
           <a href="mailto:contact@myst-travel.com">contact@myst-travel.com</a>
         </div>
         <div>
           <FontAwesomeIcon icon={faPhone} />
-          <h3>Numéro de téléphone</h3>
+          <h4>Téléphone</h4>
           <a href="tel:+33123456789">+33 1 23 45 67 89</a>
         </div>
+      </section>
+      <section className="open-hours">
+        <h4>Horaires d'ouvertures de l'agence</h4>
+        <p>Mardi au Samedi : 9h - 20h</p>
+        <p>Dimanche et lundi : fermé</p>
       </section>
       <section className="form-contact">
         <h3>
           Si vous avez des questions, n'hésitez pas à nous envoyer un message.
         </h3>
 
-        {msg && <p className="message">{msg}</p>}
         <form onSubmit={submitHandler}>
+          {msg && <p className="message">{msg}</p>}
           <label htmlFor="email">Email</label>
           <input
             type="email"

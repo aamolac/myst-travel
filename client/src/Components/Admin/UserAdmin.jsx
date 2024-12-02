@@ -49,6 +49,7 @@ function User() {
       if (response.ok) {
         // Rechargement de la liste des utilisateurs
         fetchUser();
+        window.scrollTo(0, 0);
       } else {
         setMsg("Erreur lors de la suppression de l'utilisateur");
       }
@@ -61,14 +62,14 @@ function User() {
   }, []);
 
   return (
-    <main id="summary-table">
+    <main className="summary-table">
       <button onClick={() => navigate("/dashboard")} className="back">
         <FontAwesomeIcon icon={faArrowLeft} /> Retour au tableau de bord
       </button>
       <h2>Liste des utilisateurs</h2>
 
-      {msg && <p className="message">{msg}</p>}
       <section>
+        {msg && <p className="message">{msg}</p>}
         <table>
           <thead>
             <tr>

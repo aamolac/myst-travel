@@ -38,7 +38,6 @@ function Contact() {
         return; // Si le contact est déjà "Lu" ou "Répondu", on arrête la fonction
       }
     }
-
     try {
       const response = await fetch(
         `http://localhost:9000/api/v1/contact/update/${id}`,
@@ -84,6 +83,7 @@ function Contact() {
       if (response.ok) {
         // Rechargement de la liste des demandes de contact
         fetchContact();
+        window.scrollTo(0, 0);
       } else {
         setMsg("Erreur lors de la suppression de la demande de contact");
       }
@@ -96,14 +96,14 @@ function Contact() {
   }, []);
 
   return (
-    <main id="summary-table">
+    <main className="summary-table">
       <button onClick={() => navigate("/dashboard")} className="back">
         <FontAwesomeIcon icon={faArrowLeft} /> Retour au tableau de bord
       </button>
       <h2>Demande de contact</h2>
 
-      {msg && <p className="message">{msg}</p>}
-      <section>
+      <section className="container">
+        {msg && <p className="message">{msg}</p>}
         <table>
           <thead>
             <tr>
@@ -135,6 +135,7 @@ function Contact() {
                   <button
                     onClick={() => {
                       markAsRead(contact.id);
+                      window.scrollTo(0, 0);
                       navigate(`/dashboard/contact/${contact.id}`);
                     }}
                     title={`Aller à la page de la demande de contact ${contact.id}`}

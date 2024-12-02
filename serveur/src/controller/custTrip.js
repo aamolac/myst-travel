@@ -23,10 +23,12 @@ const getById = async (req, res) => {
     const [custTrips] = await CustTrip.findById(custTripId);
 
     // Vérification si la demande a été trouvée
-    if (custTrips.length === 0) {
+    if (!custTrips || custTrips.length === 0) {
       return res
         .status(404)
-        .json({ msg: "Demande de destination sur-mesure pas trouvée" });
+        .json({
+          msg: "La demande de destination sur-mesure n'a pas été trouvée.",
+        });
     }
 
     // Renvoie les infos de la demande en format JSON

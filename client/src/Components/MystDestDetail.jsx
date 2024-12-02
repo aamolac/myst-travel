@@ -19,24 +19,44 @@ function MystDestDetail() {
   const navigate = useNavigate();
 
   const fetchDestination = async () => {
-    const response = await fetch(
-      `http://localhost:9000/api/v1/myst-dest/${id}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      }
-    );
+    try {
+      const response = await fetch(
+        `http://localhost:9000/api/v1/myst-dest/${id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
 
-    const data = await response.json();
-    setDestination(data);
+      if (!response.ok) {
+        if (response.status === 404) {
+          navigate("/*"); // Redirige vers la page "PageNotFound"
+          return;
+        }
+        throw new Error(
+          "Une erreur est survenue lors de la récupération des données.."
+        );
+      }
+
+      const data = await response.json();
+      setDestination(data);
+    } catch (error) {
+      setDestination({ error: error.message });
+    }
   };
 
   useEffect(() => {
     fetchDestination();
   }, [id]);
+
+  useEffect(() => {
+    if (destination && destination.title) {
+      document.title = `${destination.title} - Myst'Travel`;
+    }
+  }, [destination]); // Met à jour chaque fois que l'id change
 
   // Vérifie si les données de la destination ont été récupérées
   if (!destination) return <p>Chargement...</p>;
@@ -44,14 +64,19 @@ function MystDestDetail() {
   // Redirige vers la page de réservation avec l'ID de la destination
   const handleReservationClick = () => {
     navigate(`/myst-destination/${id}/reserve`); // Redirection vers la route de réservation
+    window.scrollTo(0, 0); // Défiler en haut de la page
   };
 
   return (
     <main id="myst-dest-detail">
-      <button onClick={() => navigate("/myst-destination")} className="back">
-        <FontAwesomeIcon icon={faArrowLeft} /> Retour aux destinations mystères
+      <button
+        onClick={() => navigate("/myst-destination")}
+        title="Retour à la page des destinations mystères"
+        className="back"
+      >
+        <FontAwesomeIcon icon={faArrowLeft} /> Retour
       </button>
-      <section className="information-destinaiton">
+      <section className="container information-destination">
         <h2>{destination.title}</h2>
         <div>
           <img
@@ -112,18 +137,20 @@ function MystDestDetail() {
           {destination.minDuration} à {destination.maxDuration} jours
         </p>
       </section>
-      <section>
-        <h2>À Vous de Jouer</h2>
-        <p>
-          Saurez-vous deviner où vous mènera ce voyage mystère ? Faites vos
-          bagages, laissez-vous surprendre, et embarquez pour une aventure que
-          vous n’oublierez jamais. Le mystère fait partie du voyage... et votre
-          destination n’attend que vous.
-        </p>
-        <img
-          src="/src/assets/images/destination-detail.webp"
-          alt="Une femme regardant une carte papier"
-        />
+      <section className="container">
+        <h2>À vous de jouer</h2>
+        <div>
+          <p>
+            Saurez-vous deviner où vous mènera ce voyage mystère ? Faites vos
+            bagages, laissez-vous surprendre, et embarquez pour une aventure que
+            vous n’oublierez jamais. Le mystère fait partie du voyage... et
+            votre destination n’attend que vous.
+          </p>
+          <img
+            src="/src/assets/images/myst-dest/destination-detail.webp"
+            alt="Une femme regardant une carte papier"
+          />
+        </div>
         <button onClick={handleReservationClick}>Réserver</button>
       </section>
     </main>

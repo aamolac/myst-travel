@@ -8,20 +8,38 @@ function ReservationDetail() {
   const [reservation, setReservation] = useState(null);
   const navigate = useNavigate();
 
-  const fetchReservation = async () => {
-    const response = await fetch(
-      `http://localhost:9000/api/v1/reservation/${id}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      }
-    );
+  useEffect(() => {
+    document.title = `Réservation #${id} - Myst'Travel`;
+  }, [id]); // Met à jour chaque fois que l'id change
 
-    const data = await response.json();
-    setReservation(data);
+  const fetchReservation = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:9000/api/v1/reservation/${id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          navigate("/*"); // Redirige vers la page "PageNotFound"
+          return;
+        }
+        throw new Error(
+          "Une erreur est survenue lors de la récupération des données.."
+        );
+      }
+
+      const data = await response.json();
+      setReservation(data);
+    } catch (error) {
+      setReservation({ error: error.message });
+    }
   };
 
   useEffect(() => {
@@ -32,7 +50,7 @@ function ReservationDetail() {
   if (!reservation) return <p>Chargement...</p>;
 
   return (
-    <main className="contact-cust-trip-reservation">
+    <main className="reservation-admin">
       <button
         onClick={() => navigate(-1)}
         title="Retour à la page des réservations"
@@ -40,8 +58,8 @@ function ReservationDetail() {
       >
         <FontAwesomeIcon icon={faArrowLeft} /> Retour
       </button>
-      <h2>Réservation n°{reservation.user_id}</h2>
-      <section>
+      <h2>Réservation n°{reservation.id}</h2>
+      <section className="container">
         <p>
           <span>Date de la demande :</span> {reservation.createdDate}
         </p>
@@ -49,7 +67,7 @@ function ReservationDetail() {
           <span>Identifiant de l'utilisateur :</span> {reservation.user_id}
         </p>
         <p>
-          <span>Email de l'utilisateur :</span>
+          <span>Email de l'utilisateur :</span>{" "}
           <a href={`mailto:${reservation.userEmail}`}>
             {reservation.userEmail}
           </a>

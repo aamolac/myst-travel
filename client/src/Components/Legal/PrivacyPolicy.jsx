@@ -6,7 +6,7 @@ function PrivacyPolicy() {
   const navigate = useNavigate();
 
   return (
-    <main className="legals-docs">
+    <main className="container legals-docs">
       <button onClick={() => navigate(-1)}>
         <FontAwesomeIcon icon={faArrowLeft} /> Retour
       </button>

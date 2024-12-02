@@ -1,30 +1,47 @@
 #home {
-  h2,
+  h2 {
+    background: linear-gradient(
+        rgba(255, 255, 255, 0.2),
+        rgba(255, 255, 255, 0.2)
+      ),
+      url("/src/assets/images/home/beach-with-palm.webp");
+    background-size: cover;
+    background-position: center;
+    color: $creamy-white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  }
   h3 {
     text-align: center;
     padding: 3rem 0;
   }
   span {
     font-family: "Lora-Bold";
-  }
-
-  .welcome {
-    background: url("/src/assets/images/home/beach.webp");
-    background-size: cover;
-    background-position: center;
-    color: $blue;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 40rem;
-  }
-  img {
-    display: block;
-    width: 80%;
-    margin: 2rem auto 0 auto;
+    font-style: italic;
   }
   .presentation {
     padding: 5rem;
+    p {
+      text-align: center;
+    }
+  }
+  .images {
+    text-align: center;
+    margin: 1rem;
+    img {
+      width: 49%;
+      margin: auto;
+      padding: 1rem;
+    }
+    @media #{$laptop} {
+      margin: auto;
+      img {
+        width: 33%;
+      }
+    }
   }
   .offer {
     background: linear-gradient(
@@ -50,22 +67,79 @@
       width: 60%;
       padding: 2rem;
       border-radius: 1rem;
+      h4 {
+        text-align: center;
+        padding: 2rem;
+      }
       a {
         @include button-style;
         margin-top: 3rem;
         margin-bottom: 1rem;
       }
+      a:hover {
+        @media #{$laptop} {
+          background-color: $creamy-white;
+          color: $blue;
+          border: 3px solid $blue;
+        }
+      }
+    }
+    @media #{$tablet} {
+      flex-direction: row;
+      height: 60rem;
+      div {
+        width: 40%;
+      }
+    }
+    @media #{$laptop} {
+      div {
+        width: 30%;
+      }
     }
   }
-  .mystery {
+  .mystery,
+  .ready-for-adventure {
     margin: 2rem 0;
     padding: 5rem;
+    div {
+      img {
+        display: block;
+        width: 70%;
+        margin: 2rem auto 0 auto;
+      }
+      @media #{$tablet} {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        img {
+          width: 60%;
+          margin: 0;
+        }
+      }
+      @media #{$tablet} {
+        img {
+          width: 50%;
+        }
+      }
+    }
+  }
+  .ready-for-adventure {
+    div {
+      @media #{$tablet} {
+        flex-direction: row-reverse;
+      }
+    }
   }
   .destination-escape {
-    background-image: url("/src/assets/images/home/plane-in-sky.webp");
+    background-image: url("/src/assets/images/home/sea.webp");
     background-size: cover;
     background-position: center;
     padding: 2rem;
+    height: 40rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     div {
       display: flex;
       flex-direction: column;
@@ -77,8 +151,5 @@
         color: $creamy-white;
       }
     }
-  }
-  .ready-for-adventure {
-    padding: 5rem;
   }
 }

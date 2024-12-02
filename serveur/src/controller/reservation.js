@@ -22,10 +22,10 @@ const getById = async (req, res) => {
     const [reservations] = await Reservation.findById(reservationId);
 
     // Vérification si la réservation a été trouvée
-    if (reservations.length === 0) {
+    if (!reservations || reservations.length === 0) {
       return res
         .status(404)
-        .json({ msg: "Demande de réservation pas trouvée" });
+        .json({ msg: "La demande de réservation n'a pas été trouvée." });
     }
 
     // Renvoie les infos de la réservation en format JSON

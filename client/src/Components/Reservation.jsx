@@ -1,8 +1,11 @@
 import { useState, useContext, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { LoginContext } from "../store/user/Context.jsx";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faCircleCheck,
+  faSuitcaseRolling,
   faArrowLeft,
   faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
@@ -26,6 +29,14 @@ function Reservation() {
   const navigate = useNavigate();
   const [msg, setMsg] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
+
+  const scrollToTop = () => {
+    window.scrollTo(0, 0); // Défiler en haut de la page
+  };
+
+  useEffect(() => {
+    document.title = `Réservation - Myst'Travel`;
+  }, [id]); // Met à jour chaque fois que l'id change
 
   // Récupérer les informations de la destination
   useEffect(() => {
@@ -220,30 +231,36 @@ function Reservation() {
       </h2>
 
       {showConfirmation ? (
-        <div className="confirmation">
+        <div className="container confirmation">
+          <FontAwesomeIcon icon={faCircleCheck} />
           <p>
-            Votre demande de réservation a été confirmée avec succès !
-            L'aventure Myst'Travel commence maintenant !
+            <span>
+              Votre demande de réservation a été confirmée avec succès !
+              L'aventure Myst'Travel commence maintenant !
+            </span>
           </p>
           <p>
-            L'agence reviendra vers vous par mail dans les plus brefs délais. À
-            très bientôt pour l'aventure !
+            L'agence reviendra vers vous par mail dans les plus brefs délais.
           </p>
+          <p>À très bientôt pour l'aventure ! </p>
+          <FontAwesomeIcon icon={faSuitcaseRolling} />
           <p>Vous allez être redirigé vers la page de votre destination ...</p>
         </div>
       ) : (
-        <>
-          {destination && (
-            <p>
-              <span>
-                Cette destination peut être réservée pour une durée de séjour
-                entre {destination.minDuration} et {destination.maxDuration}{" "}
-                jours.
-              </span>
-            </p>
-          )}
-          {msg && <p className="message">{msg}</p>}
-          <form id="reservation-form" onSubmit={submitHandler}>
+        <section>
+          <div>
+            {destination && (
+              <p>
+                <span>
+                  Cette destination peut être réservée pour une durée de séjour
+                  entre {destination.minDuration} et {destination.maxDuration}{" "}
+                  jours.
+                </span>
+              </p>
+            )}
+            {msg && <p className="container message">{msg}</p>}
+          </div>
+          <form onSubmit={submitHandler}>
             <section className="date">
               <div>
                 <label htmlFor="startDate">Date de début : </label>
@@ -298,7 +315,7 @@ function Reservation() {
             </section>
 
             {formReservation.startDate && formReservation.endDate && (
-              <section>
+              <section className="container budget-duration">
                 <h3>
                   <span>Durée sélectionnée :</span> {numberOfDays} jours
                 </h3>
@@ -316,9 +333,11 @@ function Reservation() {
               </section>
             )}
 
-            <button type="submit">Réserver</button>
+            <button type="submit" onClick={scrollToTop}>
+              Réserver
+            </button>
           </form>
-        </>
+        </section>
       )}
     </main>
   );

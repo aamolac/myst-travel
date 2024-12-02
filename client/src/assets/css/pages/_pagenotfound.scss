@@ -1,17 +1,24 @@
 #page-not-found {
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  svg {
-    font-size: 5rem;
-    display: block;
-    padding: 1rem;
+  .back {
+    @include button-back-style;
   }
-  p {
-    text-align: center;
-    font-size: 2rem;
-    font-family: "Lora-Medium";
+  section {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    svg {
+      font-size: 5rem;
+      display: block;
+      padding: 1rem;
+      color: $red;
+    }
+    p {
+      text-align: center;
+      font-size: 2rem;
+      font-family: "Lora-Medium";
+    }
   }
 }

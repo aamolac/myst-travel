@@ -9,7 +9,7 @@ const uploadImage = async (req, res) => {
     const file = req.files?.image;
 
     if (!file) {
-      throw new Error("L'image n'a pas pu être récupérée!");
+      throw new Error("L'image n'a pas pu être récupérée !");
     }
 
     // Vérifie et crée le répertoire
@@ -26,7 +26,9 @@ const uploadImage = async (req, res) => {
     // Vérification de la taille du fichier (2 Mo max)
     const maxSize = 2 * 1024 * 1024; // 2 Mo
     if (file.size > maxSize) {
-      throw new Error("La taille du fichier dépasse la limite de 2 Mo!");
+      throw new Error(
+        "La taille du fichier dépasse la limite autorisée de 2 Mo !"
+      );
     }
 
     // Vérification des extensions de fichiers
@@ -34,7 +36,9 @@ const uploadImage = async (req, res) => {
     const fileExtension = path.extname(file.name).toLowerCase();
 
     if (!validExtensions.includes(fileExtension)) {
-      throw new Error("Format d'image non pris en charge!");
+      throw new Error(
+        "Format d'image non pris en charge ! Les extensions autorisées sont : .png, .jpg, .jpeg, .webp."
+      );
     }
 
     // Vérification du type MIME basé sur le contenu du fichier
@@ -43,7 +47,7 @@ const uploadImage = async (req, res) => {
     const type = await fileTypeFromBuffer(buffer);
 
     if (!type || !validExtensions.includes(`.${type.ext}`)) {
-      throw new Error("Une erreur est survenue lors de l'envoi du fichier!");
+      throw new Error("Une erreur est survenue lors de l'envoi du fichier !");
     }
 
     // Générer un nom de fichier unique

@@ -15,20 +15,6 @@ function Reservation() {
   // Pour gérer les messages de retour
   const [msg, setMsg] = useState("");
 
-  // Fonction de mappage pour convertir le statut en valeur numérique
-  const getStatusValue = (statusLabel) => {
-    switch (statusLabel) {
-      case "Non traité":
-        return 0;
-      case "En cours de traitement":
-        return 1;
-      case "Traité":
-        return 2;
-      default:
-        return 0;
-    }
-  };
-
   //pour récupérer les démandes de réservations
   const fetchReservation = async () => {
     const response = await fetch(
@@ -49,10 +35,7 @@ function Reservation() {
   };
 
   // Fonction pour mettre à jour le statut d'une réservation
-  const updateStatus = async (id, newStatusLabel) => {
-    // Convertit le label en entier
-    const newStatus = getStatusValue(newStatusLabel);
-
+  const updateStatus = async (id, newStatus) => {
     const response = await fetch(
       `http://localhost:9000/api/v1/reservation/update/${id}`,
       {
@@ -95,6 +78,7 @@ function Reservation() {
       if (response.ok) {
         // Rechargement de la liste des demandes de réservations
         fetchReservation();
+        window.scrollTo(0, 0);
       } else {
         setMsg("Erreur lors de la suppression de la demande");
       }
@@ -107,20 +91,19 @@ function Reservation() {
   }, []);
 
   return (
-    <main id="summary-table">
+    <main className="summary-table">
       <button onClick={() => navigate("/dashboard")} className="back">
         <FontAwesomeIcon icon={faArrowLeft} /> Retour au tableau de bord
       </button>
       <h2>Demande de réservation de voyages mystères</h2>
 
-      {msg && <p className="message">{msg}</p>}
-      <section>
+      <section className="container">
+        {msg && <p className="message">{msg}</p>}
         <table>
           <thead>
             <tr>
               <th>N° réservation</th>
-              <th>Identifiant utilisateur</th>
-              <th>Email utilisateur</th>
+              <th>Identifiant et email utilisateur</th>
               <th>Destination mystère</th>
               <th>Date</th>
               <th>Status</th>
@@ -130,49 +113,39 @@ function Reservation() {
             {reservations.map((reserve) => (
               <tr key={reserve.id}>
                 <td>{reserve.id}</td>
-                <td>{reserve.user_id}</td>
-                <td>{reserve.userEmail}</td>
+                <td>
+                  Id : {reserve.user_id} - {reserve.userEmail}
+                </td>
                 <td>{reserve.mystDestTitle}</td>
                 <td>{reserve.createdDate}</td>
                 <td>{reserve.reservationStatus}</td>
                 <td className="table-button">
-                  {getStatusValue(reserve.reservationStatus) === 0 && (
-                    <button
-                      onClick={() =>
-                        updateStatus(reserve.id, "En cours de traitement")
-                      }
-                    >
-                      En cours de traitement
-                    </button>
-                  )}
-                  {getStatusValue(reserve.reservationStatus) === 1 && (
-                    <button onClick={() => updateStatus(reserve.id, "Traité")}>
-                      Traité
-                    </button>
-                  )}
-                  {getStatusValue(reserve.reservationStatus) === 2 && (
-                    <button
-                      onClick={() =>
-                        updateStatus(reserve.id, "En cours de traitement")
-                      }
-                    >
-                      En cours de traitement
-                    </button>
-                  )}
-                  <button
-                    onClick={() => {
-                      navigate(`/dashboard/reservation/${reserve.id}`);
-                    }}
-                    title={`Aller à la page de la demande de réservation ${reserve.id}`}
+                  <select
+                    value={reserve.status}
+                    onChange={(e) => updateStatus(reserve.id, e.target.value)}
                   >
-                    <FontAwesomeIcon icon={faEye} />
-                  </button>
-                  <button
-                    onClick={() => deleteReservation(reserve.id)}
-                    title={`Supprimer la demande de réservation ${reserve.id}`}
-                  >
-                    <FontAwesomeIcon icon={faTrashCan} />
-                  </button>
+                    <option value="">Modifier le status</option>
+                    <option value={0}>Non traité</option>
+                    <option value={1}>En cours de traitement</option>
+                    <option value={2}>Traité</option>
+                  </select>
+                  <div>
+                    <button
+                      onClick={() => {
+                        window.scrollTo(0, 0);
+                        navigate(`/dashboard/reservation/${reserve.id}`);
+                      }}
+                      title={`Aller à la page de la demande de réservation ${reserve.id}`}
+                    >
+                      <FontAwesomeIcon icon={faEye} />
+                    </button>
+                    <button
+                      onClick={() => deleteReservation(reserve.id)}
+                      title={`Supprimer la demande de réservation ${reserve.id}`}
+                    >
+                      <FontAwesomeIcon icon={faTrashCan} />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

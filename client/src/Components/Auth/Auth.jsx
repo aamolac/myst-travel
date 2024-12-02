@@ -13,12 +13,17 @@ function Auth() {
   const [msg, setMsg] = useState(null);
   const navigate = useNavigate();
 
+  const scrollToTop = () => {
+    window.scrollTo(0, 0); // Défiler en haut de la page
+  };
+
   async function submitHandler(e) {
     e.preventDefault();
 
     // Validation de l'email
-    if (!email || !/.+@.+\..+/.test(email)) {
-      setMsg("Veuillez entrer une adresse email valide.");
+    const emailValidate = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!email || !emailValidate.test(email)) {
+      setMsg("L'adresse email n'est pas valide.");
       return;
     }
 
@@ -52,7 +57,7 @@ function Auth() {
 
   return (
     <main>
-      <section id="auth">
+      <section className="auth">
         <h2>Connexion</h2>
 
         {msg && <p className="message">{msg}</p>}
@@ -81,7 +86,7 @@ function Auth() {
           <button type="submit">Se connecter</button>
           <p>
             Vous n'avez pas encore de compte ?{" "}
-            <Link to="/register" id="account">
+            <Link to="/register" id="account" onClick={scrollToTop}>
               Inscrivez-vous
             </Link>
           </p>

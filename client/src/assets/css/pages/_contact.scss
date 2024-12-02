@@ -1,26 +1,28 @@
 #contact {
-  svg {
-    font-size: 3rem;
-    color: $blue;
-  }
-  h3 {
-    padding: 1rem;
-  }
   .title {
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
       url("/src/assets/images/contact/palm-tree-sunset.webp");
     background-size: cover;
     background-position: center;
+    color: $creamy-white;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 40rem;
     h2 {
       color: $creamy-white;
-      text-align: center;
       padding: 1rem;
       border: 0.3rem solid $creamy-white;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
     }
+  }
+  svg {
+    font-size: 3rem;
+    color: $blue;
+  }
+  h3,
+  h4 {
+    padding: 3rem;
   }
   .contact-detail {
     display: flex;
@@ -42,6 +44,37 @@
     a {
       color: black;
     }
+    @media #{$tablet} {
+      flex-direction: row;
+      justify-content: center;
+      align-items: stretch; //étire les div à la même hauteur
+      margin: 4rem;
+      div {
+        width: 30%;
+        position: relative;
+      }
+      div:not(:last-child)::after {
+        content: "";
+        display: block;
+        width: 0.2rem; // Bordure verticale
+        height: 100%; // Hauteur de la bordure
+        background-color: $blue;
+        margin: 0; // Aligner à droite
+        position: absolute; /* Pour positionner la bordure à droite */
+        right: 0; /* Aligner la bordure à droite */
+        top: 0; /* Aligner en haut du div */
+      }
+    }
+    @media #{$laptop} {
+      margin: 10rem auto;
+    }
+  }
+  .open-hours {
+    margin-bottom: 10rem;
+    text-align: center;
+    p {
+      text-align: center;
+    }
   }
   .form-contact {
     background: linear-gradient(
@@ -50,14 +83,15 @@
       ),
       url("/src/assets/images/contact/plane-in-sky.webp");
     background-size: cover;
-    background-position: center;
+    background-position: bottom;
     margin: 4rem 0;
-    padding: 2rem;
+    padding: 5rem;
     h3 {
       color: $creamy-white;
-      width: 70%;
-      margin: auto;
       text-align: center;
+      width: 80%;
+      margin: auto;
+      padding-top: 0;
     }
     form {
       background-color: rgba(255, 255, 255, 0.5);
@@ -66,7 +100,6 @@
       padding: 2rem;
       border-radius: 1rem;
       @include form-style;
-
       label {
         @include label-style;
       }
@@ -85,6 +118,16 @@
         display: block;
         margin: 0.5rem auto;
       }
+      button:hover {
+        @media #{$laptop} {
+          background-color: $creamy-white;
+          color: $blue;
+          border: 3px solid $blue;
+        }
+      }
+      @media #{$laptop} {
+        width: 50%;
+      }
     }
   }
 
@@ -93,7 +136,7 @@
     padding: 2rem;
     h3 {
       text-align: center;
-      padding-bottom: 3rem;
+      padding-bottom: 5rem;
     }
     div {
       display: flex;

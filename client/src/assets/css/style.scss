@@ -2,17 +2,17 @@
 
 @import "./pages/_general";
 
-@import "./pages/_header";
-@import "./pages/_footer";
+@import "./pages/partial/_header";
+@import "./pages/partial/_footer";
+
 @import "./pages/_home";
+@import "./pages/_about-us";
 @import "./pages/_myst-dest";
 @import "./pages/_myst-dest-detail";
-@import "./pages/_reservation";
 @import "./pages/_cust-trip";
-@import "./pages/_about-us";
-@import "./pages/_auth";
+@import "./pages/_reservation";
 @import "./pages/_contact";
-@import "./pages/pagenotfound";
+@import "./pages/_auth";
 
 @import "./pages/admin/_dashboard";
 @import "./pages/admin/_summary-table";
@@ -20,6 +20,8 @@
 @import "./pages/admin/_myst-dest-add-update";
 
 @import "./pages/_legal-doc";
+
+@import "./pages/_pagenotfound";
 
 * {
   box-sizing: border-box;
@@ -36,33 +38,37 @@ body {
 }
 
 main {
-  min-height: 90vh;
+  min-height: 80vh;
 }
 
-.container {
-  max-width: 1200px;
-  margin: auto;
+@media #{$laptop} {
+  .container {
+    max-width: 1024px;
+    margin: auto;
+  }
 }
 
-h2,
+h2 {
+  color: $blue;
+  font-family: "Poppins-Medium";
+  font-size: 4rem;
+  padding: 1rem;
+  text-align: center;
+}
+
 h3,
 h4 {
   color: $blue;
   font-family: "Poppins-Medium";
 }
 
-h2 {
-  font-size: 3rem;
-  padding: 1rem;
-}
-
 h3 {
-  font-size: 2rem;
+  font-size: 3rem;
   padding-bottom: 2rem;
 }
 
 h4 {
-  font-size: 1.8rem;
+  font-size: 2rem;
 }
 
 p,
@@ -86,7 +92,9 @@ a {
   font-family: "Lora-Medium";
 }
 
-//media queries pour ordi
-// button:hover {
-//   cursor: pointer;
-// }
+a:hover,
+button:hover {
+  @media #{$laptop} {
+    cursor: pointer;
+  }
+}

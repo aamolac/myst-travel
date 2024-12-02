@@ -13,42 +13,115 @@
     align-items: center;
     height: 40rem;
     padding: 5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
   }
-  h2 {
+  h2,
+  h3 {
     text-align: center;
-    padding-top: 5rem;
+    padding: 5rem 0rem;
   }
-  p {
+
+  .small-presentation {
+    margin: 2rem 0;
     padding: 5rem;
+    p {
+      padding: 0 5rem;
+      span {
+        font-family: "Lora-Bold";
+        font-style: italic;
+      }
+    }
+    @media #{$tablet} {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      img {
+        width: 50%;
+        margin: 0;
+      }
+    }
+    @media #{$laptop} {
+      margin: auto;
+    }
+  }
+  img {
+    display: block;
+    width: 70%;
+    margin: 2rem auto 5rem auto;
+  }
+
+  .our-team,
+  .trip-with-us {
+    margin: 2rem 0;
+    padding: 5rem;
+    p {
+      padding: 2rem 5rem;
+    }
+    span {
+      font-family: "Lora-Bold";
+      font-style: italic;
+    }
+    @media #{$tablet} {
+      div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        img {
+          width: 50%;
+          margin: 0;
+        }
+      }
+    }
+  }
+  .our-team {
+    div {
+      @media #{$tablet} {
+        flex-direction: row-reverse;
+      }
+    }
   }
 
   .why-myst-travel {
     background-image: url("/src/assets/images/about-us/palm-tree-beach.webp");
     background-size: cover;
     background-position: center;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 2rem;
-    padding: 3rem 0;
+    padding: 2rem 0;
     div {
       display: flex;
-      flex-direction: column;
-      width: 60%;
-      padding: 1rem;
-      margin: 1rem;
-      background-color: rgba(255, 255, 255, 0.5);
-      border-radius: 1rem;
-      svg {
-        font-size: 4rem;
-        color: $blue;
-      }
-      h3 {
-        text-align: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      padding: 3rem 0;
+      div {
+        display: flex;
+        flex-direction: column;
+        width: 60%;
         padding: 1rem;
+        margin: 1rem;
+        background-color: rgba(255, 255, 255, 0.7);
+        border-radius: 1rem;
+        svg {
+          padding-top: 2rem;
+          font-size: 4rem;
+          color: $blue;
+        }
+        h4 {
+          text-align: center;
+          padding: 1rem;
+        }
+        p {
+          padding: 1rem;
+        }
       }
-      p {
-        padding: 1rem;
+      @media #{$tablet} {
+        div div {
+          width: 40%;
+        }
+      }
+      @media #{$laptop} {
+        flex-wrap: nowrap;
       }
     }
   }
@@ -63,7 +136,7 @@
     background-position: center;
     margin-top: 5rem;
     padding: 0rem 5rem 5rem 5rem;
-    h2 {
+    h3 {
       color: $blue;
     }
     ul {
@@ -88,12 +161,38 @@
         font-size: 5rem;
         font-family: "Lora-Bold";
       }
+      @media #{$laptop} {
+        margin: 7rem auto;
+      }
+    }
+    @media #{$tablet} {
+      padding: 5rem 20rem;
     }
   }
-
-  img {
-    display: block;
-    width: 70%;
-    margin: 0 auto 5rem auto;
+  .trip-with-us {
+    a {
+      display: block;
+      @include button-style;
+      width: 40%;
+      margin: 2rem auto;
+      text-align: center;
+    }
+    a:hover {
+      @media #{$laptop} {
+        background-color: $creamy-white;
+        color: $blue;
+        border: 3px solid $blue;
+      }
+    }
+    .container div {
+      @media #{$tablet} {
+        display: flex;
+        flex-direction: column;
+        a {
+          margin: 0;
+          width: 70%;
+        }
+      }
+    }
   }
 }

@@ -1,17 +1,21 @@
 .legals-docs {
   padding-bottom: 5rem;
+  button {
+    @include button-back-style;
+  }
   h2 {
     text-align: center;
     padding: 5rem;
   }
   section {
     padding: 5rem;
-  }
-  button {
-    @include button-back-style;
-  }
-  a {
-    color: $blue;
-    font-family: "Lora-Medium";
+    span {
+      font-family: "Lora-Bold";
+    }
+
+    a {
+      color: $blue;
+      font-family: "Lora-Medium";
+    }
   }
 }

@@ -10,20 +10,38 @@ function CustTripDetail() {
   const [custTrips, setCustTrips] = useState(null);
   const navigate = useNavigate();
 
-  const fetchCustTrip = async () => {
-    const response = await fetch(
-      `http://localhost:9000/api/v1/customized-trip/${id}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      }
-    );
+  useEffect(() => {
+    document.title = `Demande de voyage sur-mesure #${id} - Myst'Travel`;
+  }, [id]); // Met à jour chaque fois que l'id change
 
-    const data = await response.json();
-    setCustTrips(data);
+  const fetchCustTrip = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:9000/api/v1/customized-trip/${id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          navigate("/*"); // Redirige vers la page "PageNotFound"
+          return;
+        }
+        throw new Error(
+          "Une erreur est survenue lors de la récupération des données.."
+        );
+      }
+
+      const data = await response.json();
+      setCustTrips(data);
+    } catch (error) {
+      setCustTrips({ error: error.message });
+    }
   };
 
   useEffect(() => {
@@ -34,7 +52,7 @@ function CustTripDetail() {
   if (!custTrips) return <p>Chargement...</p>;
 
   return (
-    <main className="contact-cust-trip-reservation">
+    <main className="cust-trip-admin">
       <button
         onClick={() => navigate(-1)}
         title="Retour à la page des demandes de destination sur-mesure"
@@ -43,7 +61,7 @@ function CustTripDetail() {
         <FontAwesomeIcon icon={faArrowLeft} /> Retour
       </button>
       <h2>Demande de voyage sur-mesure n° {custTrips.id}</h2>
-      <section>
+      <section className="container">
         <p>
           <span>Date de la demande :</span> {custTrips.createdDate}
         </p>

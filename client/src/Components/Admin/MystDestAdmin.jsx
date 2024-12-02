@@ -94,6 +94,7 @@ function MystDest() {
       if (response.ok) {
         // Rechargement de la liste des destinations mystères
         fetchMystDest();
+        window.scrollTo(0, 0);
       } else {
         setMsg("Erreur lors de la suppression de la destination mystère");
       }
@@ -106,7 +107,7 @@ function MystDest() {
   }, []);
 
   return (
-    <main id="summary-table">
+    <main className="summary-table">
       <button
         onClick={() => navigate("/dashboard")}
         title="Retour au tableau de bord"
@@ -116,11 +117,16 @@ function MystDest() {
       </button>
       <h2>Destination mystère</h2>
 
-      {msg && <p className="message">{msg}</p>}
-
-      <section>
+      <section className="container">
+        {msg && <p className="message">{msg}</p>}
         <div>
-          <button onClick={() => navigate(`/dashboard/myst-destination/add`)}>
+          <button
+            onClick={() => {
+              window.scrollTo(0, 0);
+              navigate(`/dashboard/myst-destination/add`);
+            }}
+            className="add-myst-dest"
+          >
             <FontAwesomeIcon icon={faPlus} /> Ajouter une destination mystère
           </button>
         </div>
@@ -153,22 +159,25 @@ function MystDest() {
                       En ligne
                     </button>
                   )}
-                  <button
-                    onClick={() =>
-                      navigate(
-                        `/dashboard/myst-destination/update/${mystDest.id}`
-                      )
-                    }
-                    title={`Modifier la destination mystère ${mystDest.id}`}
-                  >
-                    <FontAwesomeIcon icon={faPenToSquare} />
-                  </button>
-                  <button
-                    onClick={() => deleteMystDest(mystDest.id)}
-                    title={`Supprimer la destination mystère ${mystDest.id}`}
-                  >
-                    <FontAwesomeIcon icon={faTrashCan} />
-                  </button>
+                  <div>
+                    <button
+                      onClick={() => {
+                        window.scrollTo(0, 0);
+                        navigate(
+                          `/dashboard/myst-destination/update/${mystDest.id}`
+                        );
+                      }}
+                      title={`Modifier la destination mystère ${mystDest.id}`}
+                    >
+                      <FontAwesomeIcon icon={faPenToSquare} />
+                    </button>
+                    <button
+                      onClick={() => deleteMystDest(mystDest.id)}
+                      title={`Supprimer la destination mystère ${mystDest.id}`}
+                    >
+                      <FontAwesomeIcon icon={faTrashCan} />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

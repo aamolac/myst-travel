@@ -11,7 +11,7 @@
     width: 70%;
     margin: auto;
   }
-  .information-destinaiton {
+  .information-destination {
     margin: 5rem;
     h3 {
       padding: 3rem 0;
@@ -34,17 +34,50 @@
     .info-price {
       font-style: italic;
     }
+    @media #{$laptop} {
+      margin: auto;
+    }
   }
   section:last-of-type {
     margin: 3rem;
-    img {
-      margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    div {
+      img {
+        margin-top: 2rem;
+      }
+      @media #{$tablet} {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        margin: 2rem 0;
+        padding: 5rem;
+        p {
+          padding: 2rem 5rem;
+        }
+        img {
+          width: 50%;
+          margin: 0;
+        }
+      }
     }
-  }
-  button {
-    @include button-style;
-    display: block;
-    width: 20%;
-    margin: 2rem auto;
+    button {
+      @include button-style;
+      display: block;
+      width: 20%;
+      margin: 2rem auto;
+    }
+    button:hover {
+      @media #{$laptop} {
+        background-color: $creamy-white;
+        color: $blue;
+        border: 3px solid $blue;
+      }
+    }
+
+    @media #{$laptop} {
+      margin: auto;
+    }
   }
 }

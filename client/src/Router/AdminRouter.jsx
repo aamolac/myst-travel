@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
-import useCheckAuth from "../HOOK/useCheckAuth.jsx";
-import UserRouter from "./UserRouter";
+import Dashboard from "../Components/Admin/Dashboard.jsx";
 import User from "../Components/Admin/UserAdmin.jsx";
 import MystDest from "../Components/Admin/MystDestAdmin.jsx";
 import AddMystDest from "../Components/Admin/AddMystDest.jsx";
@@ -12,26 +11,30 @@ import Reservation from "../Components/Admin/ReservationAdmin.jsx";
 import ReservationDetail from "../Components/Admin/ReservationDetailAdmin.jsx";
 import Contact from "../Components/Admin/ContactAdmin.jsx";
 import ContactDetail from "../Components/Admin/ContactDetailAdmin.jsx";
+import PageNotFound from "../Components/PageNotFound.jsx";
 
-import Dashboard from "../Components/Admin/Dashboard.jsx";
+import UserRouter from "./UserRouter";
+import useCheckAuth from "../HOOK/useCheckAuth.jsx";
 import ProtectedRoute from "../HOC/ProtectedRoute.jsx";
+import TitleUpdater from "./TitleUpdater.jsx";
 
 function AdminRouter() {
   const user = useCheckAuth();
 
   // Attendre que `user` soit défini avant de continuer
   if (user === undefined) {
-    return <div>Chargement...</div>; // ou un composant de chargement
+    return <div>Chargement...</div>;
   }
 
   return (
     <>
+      <TitleUpdater />
       <Routes>
         <Route path="/*" element={<UserRouter />} />
         <Route
           path="/dashboard"
           element={
-            <ProtectedRoute role="admin">
+            <ProtectedRoute roles={["admin"]}>
               <Dashboard />
             </ProtectedRoute>
           }
@@ -39,7 +42,7 @@ function AdminRouter() {
         <Route
           path="/dashboard/user"
           element={
-            <ProtectedRoute role="admin">
+            <ProtectedRoute roles={["admin"]}>
               <User />
             </ProtectedRoute>
           }
@@ -47,7 +50,7 @@ function AdminRouter() {
         <Route
           path="/dashboard/myst-destination"
           element={
-            <ProtectedRoute role="admin">
+            <ProtectedRoute roles={["admin"]}>
               <MystDest />
             </ProtectedRoute>
           }
@@ -55,7 +58,7 @@ function AdminRouter() {
         <Route
           path="/dashboard/myst-destination/add"
           element={
-            <ProtectedRoute role="admin">
+            <ProtectedRoute roles={["admin"]}>
               <AddMystDest />
             </ProtectedRoute>
           }
@@ -63,7 +66,7 @@ function AdminRouter() {
         <Route
           path="/dashboard/myst-destination/update/:id"
           element={
-            <ProtectedRoute role="admin">
+            <ProtectedRoute roles={["admin"]}>
               <UpdateMystDest />
             </ProtectedRoute>
           }
@@ -71,7 +74,7 @@ function AdminRouter() {
         <Route
           path="/dashboard/customized-trip"
           element={
-            <ProtectedRoute role="admin">
+            <ProtectedRoute roles={["admin"]}>
               <CustTrip />
             </ProtectedRoute>
           }
@@ -79,7 +82,7 @@ function AdminRouter() {
         <Route
           path="/dashboard/customized-trip/:id"
           element={
-            <ProtectedRoute role="admin">
+            <ProtectedRoute roles={["admin"]}>
               <CustTripDetail />
             </ProtectedRoute>
           }
@@ -87,7 +90,7 @@ function AdminRouter() {
         <Route
           path="/dashboard/reservation"
           element={
-            <ProtectedRoute role="admin">
+            <ProtectedRoute roles={["admin"]}>
               <Reservation />
             </ProtectedRoute>
           }
@@ -95,7 +98,7 @@ function AdminRouter() {
         <Route
           path="/dashboard/reservation/:id"
           element={
-            <ProtectedRoute role="admin">
+            <ProtectedRoute roles={["admin"]}>
               <ReservationDetail />
             </ProtectedRoute>
           }
@@ -103,7 +106,7 @@ function AdminRouter() {
         <Route
           path="/dashboard/contact"
           element={
-            <ProtectedRoute role="admin">
+            <ProtectedRoute roles={["admin"]}>
               <Contact />
             </ProtectedRoute>
           }
@@ -111,13 +114,13 @@ function AdminRouter() {
         <Route
           path="/dashboard/contact/:id"
           element={
-            <ProtectedRoute role="admin">
+            <ProtectedRoute roles={["admin"]}>
               <ContactDetail />
             </ProtectedRoute>
           }
         />
 
-        <Route path="*" element={<h1>404 NOT FOUND USER</h1>} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>
   );

@@ -1,13 +1,11 @@
-#auth {
+.auth {
   width: 60%;
-  margin: 5rem auto;
+  margin: 10rem auto;
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
     rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
-
   h2 {
-    text-align: center;
     padding-bottom: 2rem;
   }
   form {
@@ -38,9 +36,19 @@
     display: block;
     margin: 0.5rem auto;
   }
+  button:hover {
+    @media #{$laptop} {
+      background-color: $creamy-white;
+      color: $blue;
+      border: 3px solid $blue;
+    }
+  }
   a {
     color: $blue;
     font-style: italic;
     font-family: "Lora-Medium";
+  }
+  @media #{$laptop} {
+    width: 40%;
   }
 }

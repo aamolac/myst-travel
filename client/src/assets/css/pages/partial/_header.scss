@@ -1,0 +1,126 @@
+header {
+  background-color: $blue;
+  section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 0.5rem;
+    .plane-logo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 3rem 0;
+      img {
+        width: 20%;
+      }
+      .myst-travel {
+        font-family: "Poppins-Medium";
+        font-size: 3.5rem;
+        color: $creamy-white;
+        padding: 2rem;
+        z-index: 5;
+      }
+    }
+    .header-mobile {
+      justify-content: flex-start;
+      gap: 7rem;
+      img {
+        width: 30%;
+      }
+    }
+    #burger-menu {
+      /* Styles de base de l'icône du burger */
+      svg {
+        font-size: 3rem;
+        padding: 2rem;
+        color: $creamy-white;
+        position: relative;
+        z-index: 5;
+      }
+      // Navigation affichée lorsque le menu est ouvert
+      &.open {
+        nav {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: flex-end;
+          gap: 2rem;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: $blue;
+          padding: 2rem;
+          z-index: 3;
+          a {
+            color: $creamy-white;
+            text-align: right; // Alignement à droite des liens
+            font-size: 2rem;
+            padding: 1rem;
+            transition: color 0.3s;
+            border-radius: 1rem;
+          }
+        }
+        .active {
+          background-color: $creamy-white;
+          color: $blue;
+        }
+      }
+      // Navigation cachée par défaut
+      nav {
+        display: none;
+      }
+    }
+  }
+
+  body.no-scroll {
+    overflow: hidden; // Désactive le défilement vertical
+    position: fixed; // Empêche le contenu de bouger
+    width: 100%; // Évite tout décalage lié aux barres de défilement
+  }
+
+  .tablet-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 0.5rem;
+    gap: 2rem;
+    h1 {
+      color: $creamy-white;
+      padding: 2rem;
+    }
+    nav {
+      color: $creamy-white;
+      font-size: 1.6rem;
+      font-family: "Lora-Regular";
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      width: 100%;
+      a {
+        text-align: center;
+        font-size: 2rem;
+        color: $creamy-white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem;
+        margin: 0 0.5rem;
+        border-radius: 1rem;
+      }
+      a:hover {
+        @media #{$laptop} {
+          background-color: $creamy-white;
+          color: $blue;
+        }
+      }
+      .active {
+        background-color: $creamy-white;
+        color: $blue;
+      }
+    }
+  }
+}

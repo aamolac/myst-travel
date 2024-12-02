@@ -40,7 +40,7 @@ app.use(
     secret: process.env.EXPRESS_SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false, httpOnly: true, maxAge: 259200000 },
+    cookie: { secure: false, httpOnly: true, maxAge: 1000 * 60 * 60 * 24 }, // Durée de validité du cookie : 1 jour
     // utilisation d'un store pour stocker les sessions dans MySQL, plus optimisé que le store par défaut en mémoire
     store: new MySQLStore({
       host: process.env.DB_HOST,

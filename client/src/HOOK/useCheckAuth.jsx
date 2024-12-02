@@ -4,10 +4,14 @@ import { LoginContext } from "../store/user/Context.jsx";
 
 function useCheckAuth() {
   // récupérer les fonctions login et logout du contexte
-  const { login, logout, isLogged } = useContext(LoginContext);
-  const [user, setUser] = useState(undefined); // État local pour garder la première valeur utilisateur
+  const { login, logout } = useContext(LoginContext);
+  // État local pour garder la première valeur utilisateur
+  const [user, setUser] = useState(undefined); // `undefined` indique que la vérification est en cours
+  const [isChecking, setIsChecking] = useState(true); // Ajout d'un état pour éviter les boucles infinies
 
   useEffect(() => {
+    let isMounted = true; // Pour éviter les erreurs si le composant est démonté
+
     async function fetchAuth() {
       try {
         const response = await fetch(
@@ -17,42 +21,52 @@ function useCheckAuth() {
             credentials: "include", // s'assurer que les cookies de session sont inclus
           }
         );
-        // on envoi un 401 depuis le serveur en JSON si c'est le cas "utilisateur non connecté on stoppe la fonction avec un return"
-        if (response.status === 401) {
-          console.log("utilisateur non connecté sur le serveur");
-          logout();
-          setUser(null); // définir explicitement comme non connecté
-          return;
-        }
+
         // si la réponse est ok, on récupère les données de l'utilisateur envoyé en JSON qu'on parse et on les stocke dans le state setUser, qui est un state d'un context User
-        if (response.ok) {
-          const data = await response.json();
-          // Si l'utilisateur est connecté, mettre à jour l'état dans le contexte
-          if (data.isLogged) {
-            login(data.user); // Mettre à jour le contexte avec l'email
-            setUser(data.user); // Mettre à jour avec l'utilisateur connecté
+        if (isMounted) {
+          if (response.ok) {
+            const data = await response.json();
+            if (data.isLogged) {
+              console.log("Utilisateur connecté :", data.user);
+              login(data.user); // Met à jour le contexte
+              setUser(data.user); // Met à jour le state local
+            } else {
+              logout(); // Déconnecte dans le contexte
+              setUser(null); // Définit comme non connecté
+            }
           } else {
-            logout(); // Si pas connecté, réinitialiser l'état
-            setUser(null); // Mettre à jour en cas de déconnexion
+            // Gestion d'une réponse non OK (par ex., 401)
+            logout();
+            setUser(null);
           }
         }
       } catch (error) {
         console.log(
           `Erreur lors de la récupération de l'authentification: ${error.message}`
         );
-        logout();
-        setUser(null); // En cas d'erreur, déconnecter par défaut
+        if (isMounted) {
+          logout();
+          setUser(null);
+        }
+      } finally {
+        if (isMounted) {
+          setIsChecking(false); // La vérification est terminée
+        }
       }
     }
-    // simuler une latence de 2 secondes pour voir le chargement en localhost
-    // setTimeout(() => {
 
-    if (user === undefined) {
+    // Ne pas réexécuter la vérification si elle a déjà été effectuée
+    if (isChecking) {
       fetchAuth();
     }
-    // }, 2000);
-  }, [isLogged, login, logout, user]);
-  return user;
+
+    return () => {
+      isMounted = false; // Nettoyage pour éviter les fuites de mémoire
+    };
+  }, [isChecking, login, logout]);
+
+  // Retourne `undefined` tant que l'authentification est en cours
+  return isChecking ? undefined : user;
 }
 
 export default useCheckAuth;

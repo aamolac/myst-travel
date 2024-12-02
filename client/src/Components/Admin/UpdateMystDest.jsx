@@ -7,6 +7,7 @@ import {
   faPersonRunning,
   faSackDollar,
   faCalendarDays,
+  faCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -14,7 +15,7 @@ import { useParams, useNavigate } from "react-router-dom";
 function UpdateMystDest() {
   const { id } = useParams(); // Récupérer l'ID de la destination via l'URL
 
-  const [mystDest, setMystDest] = useState({
+  const [formMystDest, setFormMystDest] = useState({
     title: "",
     climateClue: "",
     climate: "",
@@ -36,39 +37,15 @@ function UpdateMystDest() {
   const [msg, setMsg] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  // Récupérer la destination existante
-  useEffect(() => {
-    const fetchMystDest = async () => {
-      const response = await fetch(
-        `http://localhost:9000/api/v1/myst-dest/${id}`
-      );
-      const data = await response.json();
-      setMystDest(data);
-    };
-
-    fetchMystDest();
-  }, [id]);
-
-  const handleChange = (e) => {
-    setMystDest({
-      ...mystDest,
-      [e.target.name]: e.target.value,
-    });
+  const scrollToTop = () => {
+    window.scrollTo(0, 0); // Défiler en haut de la page
   };
 
-  const handleImageChange = (e) => {
-    setMystDest({
-      ...mystDest,
-      image: e.target.files[0], // On récupère le fichier image
-    });
-  };
-
-  const submitHandler = async (e) => {
-    e.preventDefault();
-
-    const budget = parseFloat(mystDest.budget);
-    const minDuration = Number(mystDest.minDuration);
-    const maxDuration = Number(mystDest.maxDuration);
+  // Validation du formulaire
+  const validateForm = () => {
+    const budget = parseFloat(formMystDest.budget);
+    const minDuration = Number(formMystDest.minDuration);
+    const maxDuration = Number(formMystDest.maxDuration);
 
     const {
       title,
@@ -82,7 +59,7 @@ function UpdateMystDest() {
       continent,
       image,
       alt,
-    } = mystDest;
+    } = formMystDest;
 
     // Validation de tout les champs requis
     if (
@@ -121,17 +98,57 @@ function UpdateMystDest() {
       setMsg("La durée maximale doit être supérieure à la durée minimale.");
       return; // Arrêter la soumission du formulaire si la validation échoue
     }
+    return true;
+  };
 
-    const formData = new FormData();
-    // Utilisation d'une boucle pour ajouter tous les champs au FormData
-    for (const key in mystDest) {
-      // Assurez-vous de ne pas ajouter des champs non voulus (par exemple, les champs vides ou l'image si elle n'est pas sélectionnée)
-      if (mystDest[key] || key === "image") {
-        formData.append(key, mystDest[key]);
-      }
+  useEffect(() => {
+    document.title = `Modifier la destination mystère #${id} - Myst'Travel`;
+  }, [id]); // Met à jour chaque fois que l'id change
+
+  // Récupérer la destination existante
+  useEffect(() => {
+    const fetchMystDest = async () => {
+      const response = await fetch(
+        `http://localhost:9000/api/v1/myst-dest/${id}`
+      );
+      const data = await response.json();
+      setFormMystDest(data);
+    };
+
+    fetchMystDest();
+  }, [id]);
+
+  const handleChange = (e) => {
+    setFormMystDest({
+      ...formMystDest,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleFileChange = (e) => {
+    setFormMystDest({
+      ...formMystDest,
+      image: e.target.files[0], // On récupère le fichier image
+    });
+  };
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      return; // Ne pas soumettre si le formulaire est invalide
     }
 
     try {
+      const formData = new FormData();
+      // Utilisation d'une boucle pour ajouter tous les champs au FormData
+      for (const key in formMystDest) {
+        // Assurez-vous de ne pas ajouter des champs non voulus (par exemple, les champs vides ou l'image si elle n'est pas sélectionnée)
+        if (formMystDest[key] || key === "image") {
+          formData.append(key, formMystDest[key]);
+        }
+      }
+
       const response = await fetch(
         `http://localhost:9000/api/v1/myst-dest/update/${id}`,
         {
@@ -159,7 +176,7 @@ function UpdateMystDest() {
   };
 
   return (
-    <main className="add-update-myst-dest">
+    <main className="update-myst-dest">
       <button
         onClick={() => navigate("/dashboard/myst-destination")}
         title="Retour à la page des destinations mystères"
@@ -169,212 +186,207 @@ function UpdateMystDest() {
       </button>
       <h2>Modifier la destination mystère</h2>
       {showConfirmation ? (
-        <section>
+        <section className="container confirmation">
+          <FontAwesomeIcon icon={faCircleCheck} />
           <p>La destination a bien été modifiée !</p>
           <p>
             Vous allez être redirigé vers la page de toutes les destinations ...
           </p>
         </section>
       ) : (
-        <>
+        <form onSubmit={submitHandler} className="container">
           {msg && <p className="message">{msg}</p>}
-          <form onSubmit={submitHandler}>
-            <label htmlFor="title">Titre de la destination</label>
-            <input
-              type="text"
-              id="title"
-              name="title"
-              value={mystDest.title}
-              onChange={handleChange}
-              required
-            />
+          <label htmlFor="title">Titre de la destination</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value={formMystDest.title}
+            onChange={handleChange}
+            required
+          />
 
-            <label htmlFor="locationClue">
-              <FontAwesomeIcon icon={faEarthAmericas} /> Indice n°1 : La région
-              géographique
-            </label>
-            <textarea
-              id="locationClue"
-              name="locationClue"
-              value={mystDest.locationClue}
-              onChange={handleChange}
-              required
-            ></textarea>
+          <label htmlFor="locationClue">
+            <FontAwesomeIcon icon={faEarthAmericas} /> Indice n°1 : La région
+            géographique
+          </label>
+          <textarea
+            id="locationClue"
+            name="locationClue"
+            value={formMystDest.locationClue}
+            onChange={handleChange}
+            required
+          ></textarea>
 
-            <label htmlFor="continent">Continent</label>
-            <select
-              id="continent"
-              name="continent"
-              value={mystDest.continent}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Choisir le continent</option>
-              <option value="Europe">Europe</option>
-              <option value="Amérique">Amérique</option>
-              <option value="Asie">Asie</option>
-              <option value="Afrique">Afrique</option>
-              <option value="Océanie">Océanie</option>
-            </select>
+          <label htmlFor="continent">Continent</label>
+          <select
+            id="continent"
+            name="continent"
+            value={formMystDest.continent}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Choisir le continent</option>
+            <option value="Europe">Europe</option>
+            <option value="Amérique">Amérique</option>
+            <option value="Asie">Asie</option>
+            <option value="Afrique">Afrique</option>
+            <option value="Océanie">Océanie</option>
+          </select>
 
-            <label htmlFor="climateClue">
-              <FontAwesomeIcon icon={faTemperatureThreeQuarters} /> Indice n°2 :
-              Le climat
-            </label>
-            <textarea
-              id="climateClue"
-              name="climateClue"
-              value={mystDest.climateClue}
-              onChange={handleChange}
-              required
-            ></textarea>
+          <label htmlFor="climateClue">
+            <FontAwesomeIcon icon={faTemperatureThreeQuarters} /> Indice n°2 :
+            Le climat
+          </label>
+          <textarea
+            id="climateClue"
+            name="climateClue"
+            value={formMystDest.climateClue}
+            onChange={handleChange}
+            required
+          ></textarea>
 
-            <label htmlFor="climate">Climat</label>
-            <select
-              id="climate"
-              name="climate"
-              value={mystDest.climate}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Choisir le climat</option>
-              <option value="Chaud et ensoleillé">Chaud et ensoleillé</option>
-              <option value="Tempéré et doux">Tempéré et doux</option>
-              <option value="Frais">Frais</option>
-              <option value="Humide">Humide</option>
-              <option value="Hivernal">Hivernal</option>
-            </select>
+          <label htmlFor="climate">Climat</label>
+          <select
+            id="climate"
+            name="climate"
+            value={formMystDest.climate}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Choisir le climat</option>
+            <option value="Chaud et ensoleillé">Chaud et ensoleillé</option>
+            <option value="Tempéré et doux">Tempéré et doux</option>
+            <option value="Frais">Frais</option>
+            <option value="Humide">Humide</option>
+            <option value="Hivernal">Hivernal</option>
+          </select>
 
-            <label htmlFor="experienceClue">
-              <FontAwesomeIcon icon={faMountainCity} /> Indice n°3 : Le type
-              d'expérience
-            </label>
-            <textarea
-              id="experienceClue"
-              name="experienceClue"
-              value={mystDest.experienceClue}
-              onChange={handleChange}
-              required
-            ></textarea>
-            <label htmlFor="accomodation">Type d'hébergement</label>
-            <select
-              id="accomodation"
-              name="accomodation"
-              value={mystDest.accomodation}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Choisir le type d'hébergement</option>
-              <option value="Classique et Confortable">
-                Classique et Confortable
-              </option>
-              <option value="Nature et Authentique">
-                Nature et Authentique
-              </option>
-              <option value="Économique et Pratique">
-                Économique et Pratique
-              </option>
-              <option value="Séjour multi-hébergements">
-                Séjour multi-hébergements
-              </option>
-            </select>
+          <label htmlFor="experienceClue">
+            <FontAwesomeIcon icon={faMountainCity} /> Indice n°3 : Le type
+            d'expérience
+          </label>
+          <textarea
+            id="experienceClue"
+            name="experienceClue"
+            value={formMystDest.experienceClue}
+            onChange={handleChange}
+            required
+          ></textarea>
+          <label htmlFor="accomodation">Type d'hébergement</label>
+          <select
+            id="accomodation"
+            name="accomodation"
+            value={formMystDest.accomodation}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Choisir le type d'hébergement</option>
+            <option value="Classique et Confortable">
+              Classique et Confortable
+            </option>
+            <option value="Nature et Authentique">Nature et Authentique</option>
+            <option value="Économique et Pratique">
+              Économique et Pratique
+            </option>
+            <option value="Multi-hébergements">Multi-hébergements</option>
+          </select>
 
-            <label htmlFor="activityClue">
-              <FontAwesomeIcon icon={faPersonRunning} /> Indice n°4 : Le niveau
-              d’activité physique
-            </label>
-            <textarea
-              id="activityClue"
-              name="activityClue"
-              value={mystDest.activityClue}
-              onChange={handleChange}
-              required
-            ></textarea>
-            <label htmlFor="activity">Activité</label>
-            <select
-              id="activity"
-              name="activity"
-              value={mystDest.activity}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Choisir le niveau d'activité physique</option>
-              <option value="Relax">Relax</option>
-              <option value="Modéré">Modéré</option>
-              <option value="Dynamique">Dynamique</option>
-              <option value="Intensif">Intensif</option>
-              <option value="Aventureux">Aventureux</option>
-            </select>
+          <label htmlFor="activityClue">
+            <FontAwesomeIcon icon={faPersonRunning} /> Indice n°4 : Le niveau
+            d’activité physique
+          </label>
+          <textarea
+            id="activityClue"
+            name="activityClue"
+            value={formMystDest.activityClue}
+            onChange={handleChange}
+            required
+          ></textarea>
+          <label htmlFor="activity">Activité</label>
+          <select
+            id="activity"
+            name="activity"
+            value={formMystDest.activity}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Choisir le niveau d'activité physique</option>
+            <option value="Relax">Relax</option>
+            <option value="Modéré">Modéré</option>
+            <option value="Dynamique">Dynamique</option>
+            <option value="Intensif">Intensif</option>
+            <option value="Aventureux">Aventureux</option>
+          </select>
 
-            <label htmlFor="budget">
-              <FontAwesomeIcon icon={faSackDollar} /> Budget par jour/personne
-              (en €)
-            </label>
-            <input
-              type="number"
-              id="budget"
-              name="budget"
-              value={mystDest.budget}
-              onChange={handleChange}
-              required
-            />
+          <label htmlFor="budget">
+            <FontAwesomeIcon icon={faSackDollar} /> Budget par jour/personne (en
+            €)
+          </label>
+          <input
+            type="number"
+            id="budget"
+            name="budget"
+            value={formMystDest.budget}
+            onChange={handleChange}
+            required
+          />
 
-            <label htmlFor="minDuration">
-              <FontAwesomeIcon icon={faCalendarDays} /> Durée minimale (en
-              jours)
-            </label>
-            <input
-              type="number"
-              id="minDuration"
-              name="minDuration"
-              min="2"
-              max="21"
-              value={mystDest.minDuration}
-              onChange={handleChange}
-              required
-            />
-            <label htmlFor="maxDuration">
-              <FontAwesomeIcon icon={faCalendarDays} /> Durée maximale (en
-              jours)
-            </label>
-            <input
-              type="number"
-              id="maxDuration"
-              name="maxDuration"
-              min={mystDest.minDuration}
-              max="21"
-              value={mystDest.maxDuration}
-              onChange={handleChange}
-              required
-            />
+          <label htmlFor="minDuration">
+            <FontAwesomeIcon icon={faCalendarDays} /> Durée minimale (en jours)
+          </label>
+          <input
+            type="number"
+            id="minDuration"
+            name="minDuration"
+            min="2"
+            max="21"
+            value={formMystDest.minDuration}
+            onChange={handleChange}
+            required
+          />
+          <label htmlFor="maxDuration">
+            <FontAwesomeIcon icon={faCalendarDays} /> Durée maximale (en jours)
+          </label>
+          <input
+            type="number"
+            id="maxDuration"
+            name="maxDuration"
+            min={formMystDest.minDuration}
+            max="21"
+            value={formMystDest.maxDuration}
+            onChange={handleChange}
+            required
+          />
 
-            <label htmlFor="image">L'image</label>
-            <p>
-              Les extensions autorisées sont :{" "}
-              <span>.png, .jpg, .jpeg, .webp.</span> Il faut privilégier
-              l'extension <span>.webp</span> pour un format d'image optimisé. La
-              taille maximale de l'image es de <span>2 Mo</span>.
-            </p>
-            <input
-              type="file"
-              id="image"
-              name="image"
-              onChange={handleImageChange}
-            />
+          <label htmlFor="image">L'image</label>
+          <p>
+            Les extensions autorisées sont :{" "}
+            <span>.png, .jpg, .jpeg, .webp.</span> Il faut privilégier
+            l'extension <span>.webp</span> pour un format d'image optimisé. La
+            taille maximale de l'image es de <span>2 Mo</span>.
+          </p>
+          <input
+            type="file"
+            id="image"
+            name="image"
+            onChange={handleFileChange}
+          />
 
-            <label htmlFor="alt">La description de l'image</label>
-            <input
-              type="text"
-              id="alt"
-              name="alt"
-              value={mystDest.alt}
-              onChange={handleChange}
-              required
-            />
+          <label htmlFor="alt">La description de l'image</label>
+          <input
+            type="text"
+            id="alt"
+            name="alt"
+            value={formMystDest.alt}
+            onChange={handleChange}
+            required
+          />
 
-            <button type="submit">Mettre à jour la destination</button>
-          </form>
-        </>
+          <button type="submit" onClick={scrollToTop}>
+            Mettre à jour la destination
+          </button>
+        </form>
       )}
     </main>
   );

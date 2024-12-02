@@ -22,10 +22,10 @@ const getById = async (req, res) => {
     const [contacts] = await Contact.findById(contactId);
 
     // Vérification si la demande a été trouvée
-    if (contacts.length === 0) {
+    if (!contacts || contacts.length === 0) {
       return res
         .status(404)
-        .json({ msg: "La demande de contact n'a pas été trouvée" });
+        .json({ msg: "La demande de contact n'a pas été trouvée." });
     }
 
     // Renvoie les infos de la demande en format JSON
@@ -93,10 +93,15 @@ const addRequest = async (req, res) => {
 
     if (!emailValidate.test(email)) {
       return res.status(400).json({
-        msg: "Champ invalide : l'adresse email n'est pas valide.",
+        msg: "L'adresse email n'est pas valide.",
       });
     }
-
+    // Vérification des espaces internes dans l'email
+    if (email.includes(" ")) {
+      return res.status(400).json({
+        msg: "L'adresse email ne doit pas contenir d'espaces.",
+      });
+    }
     // Validation de tout les champs requis
     if (!email || !objectContact_id || !message) {
       return res.status(400).json({ msg: "Tous les champs sont requis." });

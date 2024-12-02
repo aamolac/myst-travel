@@ -14,20 +14,6 @@ function CustTrip() {
   // Pour gérer les messages de retour
   const [msg, setMsg] = useState("");
 
-  // Fonction de mappage pour convertir le statut en valeur numérique
-  const getStatusValue = (statusLabel) => {
-    switch (statusLabel) {
-      case "Non traité":
-        return 0;
-      case "En cours de traitement":
-        return 1;
-      case "Traité":
-        return 2;
-      default:
-        return 0;
-    }
-  };
-
   //pour récupérer les démandes de voyages sur-mesure
   const fetchCustTrip = async () => {
     const response = await fetch(
@@ -48,10 +34,7 @@ function CustTrip() {
   };
 
   // Fonction pour mettre à jour le statut d'une demande
-  const updateStatus = async (id, newStatusLabel) => {
-    // Convertit le label en entier
-    const newStatus = getStatusValue(newStatusLabel);
-
+  const updateStatus = async (id, newStatus) => {
     const response = await fetch(
       `http://localhost:9000/api/v1/customized-trip/update/${id}`,
       {
@@ -94,6 +77,7 @@ function CustTrip() {
       if (response.ok) {
         // Rechargement de la liste des demandes de voyages sur-mesure
         fetchCustTrip();
+        window.scrollTo(0, 0);
       } else {
         setMsg("Erreur lors de la suppression de la demande");
       }
@@ -106,14 +90,14 @@ function CustTrip() {
   }, []);
 
   return (
-    <main id="summary-table">
+    <main className="summary-table">
       <button onClick={() => navigate("/dashboard")} className="back">
         <FontAwesomeIcon icon={faArrowLeft} /> Retour au tableau de bord
       </button>
       <h2>Demande de voyage sur-mesure</h2>
 
-      {msg && <p className="message">{msg}</p>}
-      <section>
+      <section className="container">
+        {msg && <p className="message">{msg}</p>}
         <table>
           <thead>
             <tr>
@@ -133,43 +117,32 @@ function CustTrip() {
                 <td>{trip.createdDate}</td>
                 <td>{trip.status}</td>
                 <td className="table-button">
-                  {getStatusValue(trip.status) === 0 && (
-                    <button
-                      onClick={() =>
-                        updateStatus(trip.id, "En cours de traitement")
-                      }
-                    >
-                      En cours de traitement
-                    </button>
-                  )}
-                  {getStatusValue(trip.status) === 1 && (
-                    <button onClick={() => updateStatus(trip.id, "Traité")}>
-                      Traité
-                    </button>
-                  )}
-                  {getStatusValue(trip.status) === 2 && (
-                    <button
-                      onClick={() =>
-                        updateStatus(trip.id, "En cours de traitement")
-                      }
-                    >
-                      En cours de traitement
-                    </button>
-                  )}
-                  <button
-                    onClick={() => {
-                      navigate(`/dashboard/customized-trip/${trip.id}`);
-                    }}
-                    title={`Aller à la page de la demande de destination sur-mesure ${trip.id}`}
+                  <select
+                    value={trip.status}
+                    onChange={(e) => updateStatus(trip.id, e.target.value)}
                   >
-                    <FontAwesomeIcon icon={faEye} />
-                  </button>
-                  <button
-                    onClick={() => deleteCustTrip(trip.id)}
-                    title={`Supprimer la demande de destination sur-mesure ${trip.id}`}
-                  >
-                    <FontAwesomeIcon icon={faTrashCan} />
-                  </button>
+                    <option value="">Modifier le status</option>
+                    <option value={0}>Non traité</option>
+                    <option value={1}>En cours de traitement</option>
+                    <option value={2}>Traité</option>
+                  </select>
+                  <div>
+                    <button
+                      onClick={() => {
+                        window.scrollTo(0, 0);
+                        navigate(`/dashboard/customized-trip/${trip.id}`);
+                      }}
+                      title={`Aller à la page de la demande de destination sur-mesure ${trip.id}`}
+                    >
+                      <FontAwesomeIcon icon={faEye} />
+                    </button>
+                    <button
+                      onClick={() => deleteCustTrip(trip.id)}
+                      title={`Supprimer la demande de destination sur-mesure ${trip.id}`}
+                    >
+                      <FontAwesomeIcon icon={faTrashCan} />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

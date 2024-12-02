@@ -1,13 +1,16 @@
-.contact-cust-trip-reservation {
+.contact-admin,
+.cust-trip-admin,
+.reservation-admin {
   .back {
     @include button-back-style;
   }
   h2 {
     text-align: center;
+    padding: 4rem;
   }
   section {
     width: 90%;
-    margin: 2rem auto;
+    margin: 5rem auto;
     span {
       @include info-label;
     }
@@ -17,8 +20,15 @@
     }
     button {
       @include button-style;
-      margin: 1rem auto;
+      margin: 4rem auto;
       display: block;
+    }
+    button:hover {
+      @media #{$laptop} {
+        background-color: $creamy-white;
+        color: $blue;
+        border: 3px solid $blue;
+      }
     }
   }
 }

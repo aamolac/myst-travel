@@ -8,6 +8,12 @@ const register = async (req, res) => {
     // Changement de const à let pour email
     let { firstname, lastname, email, password } = req.body;
 
+    // Supprimer les espaces au début/à la fin des champs
+    firstname = firstname.trim();
+    lastname = lastname.trim();
+    email = email.trim();
+    password = password.trim();
+
     // Vérification des infos
     if (firstname.length < 2 || !/^[A-Za-zÀ-ÿ]+$/.test(firstname)) {
       return res.status(400).json({
@@ -22,13 +28,18 @@ const register = async (req, res) => {
     }
 
     // Validation simplifiée de l'email
-    //vérifie uniquement qu'il y a un '@' et un '.'
-    //.+ : Signifie "au moins un caractère" avant et après
     const emailValidate = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     if (!emailValidate.test(email)) {
       return res.status(400).json({
         msg: "L'adresse email n'est pas valide.",
+      });
+    }
+
+    // Vérification des espaces internes dans l'email
+    if (email.includes(" ")) {
+      return res.status(400).json({
+        msg: "L'adresse email ne doit pas contenir d'espaces.",
       });
     }
 
@@ -42,6 +53,13 @@ const register = async (req, res) => {
     ) {
       return res.status(400).json({
         msg: "Le mot de passe doit avoir au moins 8 caractères et au moins une minuscule, une majuscule, un chiffre et un caractère spécial.",
+      });
+    }
+
+    // Vérification des espaces internes dans le mot de passe
+    if (password.includes(" ")) {
+      return res.status(400).json({
+        msg: "Le mot de passe ne doit pas contenir d'espaces.",
       });
     }
 

@@ -1,0 +1,104 @@
+footer {
+  background-color: $blue;
+  padding-top: 2rem;
+  div {
+    section {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 50%;
+      margin: auto;
+      a,
+      h4,
+      p {
+        color: $creamy-white;
+      }
+      h4,
+      p {
+        line-height: 1.5rem;
+      }
+      h4 {
+        padding-bottom: 1rem;
+      }
+    }
+    .myst-travel {
+      a {
+        font-family: "Poppins-Medium";
+        font-size: 3.5rem;
+        text-align: center;
+        padding: 3rem;
+      }
+      @media #{$tablet} {
+        grid-area: myst-travel;
+        width: 100%;
+      }
+    }
+    .navigation {
+      nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+      }
+      @media #{$tablet} {
+        grid-area: navigation;
+        padding: 0;
+        width: 100%;
+        margin: 3rem auto;
+        .container {
+          margin: 0;
+        }
+      }
+    }
+    .open-hours {
+      padding: 3rem 0;
+      @media #{$tablet} {
+        grid-area: open-hours;
+        padding: 0;
+        width: 100%;
+        margin: 3rem auto;
+      }
+    }
+    .social-media {
+      div {
+        display: flex;
+        gap: 5rem;
+      }
+      a {
+        padding: 0;
+        font-size: 3rem;
+      }
+      @media #{$tablet} {
+        grid-area: social-media;
+        padding: 0;
+        width: 100%;
+        margin: 3rem auto;
+      }
+    }
+    .legal {
+      padding: 3rem 0;
+      a,
+      p {
+        text-align: center;
+        padding-bottom: 0.5rem;
+      }
+      @media #{$tablet} {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 3.5rem;
+        width: 100%;
+        padding: 1rem;
+        grid-area: legal;
+      }
+    }
+    @media #{$tablet} {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-areas:
+        " myst-travel navigation open-hours"
+        " myst-travel  navigation social-media"
+        "legal legal legal";
+      gap: 3rem;
+    }
+  }
+}

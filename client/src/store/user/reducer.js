@@ -1,7 +1,7 @@
 function userReducer(state, action) {
   switch (action.type) {
     case "LOGIN":
-      // si dispatch type:"LOGIN" alors retourne un objet avec isLogged à true et le email passé en payload
+      // si dispatch type:"LOGIN" alors retourne un objet avec isLogged à true et l'email passé en payload
       return {
         ...state,
         isLogged: true,

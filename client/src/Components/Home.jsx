@@ -1,43 +1,69 @@
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 function Home() {
+  const scrollToTop = () => {
+    window.scrollTo(0, 0); // Défiler en haut de la page
+  };
+
   return (
     <main id="home">
-      <h2 className="welcome">Bienvenue chez Myst’Travel</h2>
+      <h2>Bienvenue chez Myst’Travel</h2>
 
-      <section className="presentation">
+      <section className="container presentation">
         <p>
-          {" "}
-          <span>Le voyage est une aventure</span>, mais que se passerait-il si{" "}
-          <span>
-            vous laissiez complètement tomber la carte et l’itinéraire ?{" "}
-          </span>
+          <span>Le voyage est une aventure</span>.
         </p>
         <p>
-          Si, pour une fois,{" "}
-          <span>vous laissiez l’inconnu prendre le dessus ?</span>
+          Que se passerait-il si vous laissiez complètement tomber la carte et
+          l’itinéraire ? Si, pour une fois, vous laissiez l’inconnu prendre le
+          dessus ?
         </p>
         <p>
-          Chez <span>Myst’Travel</span>, nous croyons que{" "}
+          Chez Myst’Travel, nous croyons que{" "}
           <span>
             les plus belles aventures commencent là où les plans s'arrêtent.
           </span>
-          Oubliez les itinéraires prédéfinis et laissez-vous guider par
-          l'excitation de l'inattendu. Un voyage où{" "}
-          <span>chaque étape est une découverte</span>, où la destination
-          elle-même reste un <span>mystère jusqu’au dernier moment</span>.
         </p>
+        <p>
+          Oubliez les itinéraires prédéfinis et laissez-vous guider par
+          l'excitation de l'inattendu
+        </p>
+
+        <p>
+          <span>
+            Un voyage où chaque étape est une découverte, où la destination
+            elle-même reste un mystère jusqu’au dernier moment
+          </span>
+          .
+        </p>
+      </section>
+      <section className="container images">
         <img
           src="/src/assets/images/home/mountains-view.webp"
           alt="Un homme en haut d'une montagne regardant la vue."
+        />
+        <img
+          src="/src/assets/images/home/city-italy.webp"
+          alt="Une ville au coucher du soleil."
+        />
+        <img
+          src="/src/assets/images/home/elephant-in-desert.webp"
+          alt="Un éléphant dans le désert, au lin une chaine de montagne enneigée."
+        />
+        <img
+          src="/src/assets/images/home/city-grece.webp"
+          alt="Une ville avec de bâtiments blancs, bord de mer."
+        />
+        <img
+          src="/src/assets/images/home/riziere-asie.webp"
+          alt="Des champs de rizières."
         />
       </section>
       <section>
         <h3>Comment ça marche ?</h3>
         <div className="offer">
           <div>
+            <h4>Choisissez parmi nos destinations mystères</h4>
             <p>
               Que{" "}
               <span>
@@ -47,68 +73,71 @@ function Home() {
               , nous avons une sélection de destinations prêtes à vous
               surprendre !
             </p>
-            <Link to="/myst-destination">Nos destinations mystères</Link>
+            <Link to="/myst-destination" onClick={scrollToTop}>
+              Nos destinations mystères
+            </Link>
           </div>
           <div>
+            <h4>Optez pour un voyage sur-mesure</h4>
             <p>
               <span>Vous ne voulez pas choisir ?</span> Remplissez simplement
-              notre formulaire et nous prendrons tout en charge !
+              notre formulaire et nous organiserons tout pour vous, en fonction
+              de vos envies et besoins !
             </p>
-            <Link to="/customized-trip">Surprenez-Moi</Link>
+            <Link to="/customized-trip" onClick={scrollToTop}>
+              Surprenez-Moi
+            </Link>
           </div>
         </div>
       </section>
 
       <section className="mystery">
-        <h3>
-          <FontAwesomeIcon icon={faMagnifyingGlass} /> Pourquoi choisir le
-          mystère ?
-        </h3>
-        <p>
-          Les plus belles découvertes ne sont pas planifiées. Le simple fait de{" "}
-          <span>ne pas savoir où vous vous réveillerez demain</span> apporte une{" "}
-          excitation unique, une légèreté d’esprit et un goût pour l’aventure.
-          Avec Myst'Travel, chaque voyage est une{" "}
-          <span>expérience nouvelle et stimulante</span>. Nous vous garantissons
-          des destinations uniques, une immersion totale dans l'inconnu et une{" "}
-          <span>aventure que vous n'oublierez jamais</span>.
-        </p>
-        <img
-          src="/src/assets/images/home/boat-in-sea.webp"
-          alt="Une barque sans personne sur la mer"
-        />
+        <h3>Pourquoi choisir le mystère ?</h3>
+        <div className="container">
+          <p>
+            Les plus belles découvertes ne sont pas planifiées. Le simple fait
+            de ne pas savoir où vous vous réveillerez demain apporte une
+            excitation unique, une légèreté d’esprit et un goût pour l’aventure.
+            Avec Myst'Travel, chaque voyage est une{" "}
+            <span>expérience nouvelle et stimulante</span>. Nous vous
+            garantissons des destinations uniques, une immersion totale dans
+            l'inconnu et une <span>aventure que vous n'oublierez jamais</span>.
+          </p>
+          <img
+            src="/src/assets/images/home/desert.webp"
+            alt="Un homme regardant au loin sur une dune de sable"
+          />
+        </div>
       </section>
 
       <section className="destination-escape">
         <div>
           <h3>Des destinations pour s’évader</h3>
-          <p>
-            Des <span>villes vibrantes</span> où{" "}
-            <span>l’histoire se mêle à la modernité</span>, aux{" "}
-            <span>plages isolées</span> où
-            <span>le temps semble s’être arrêté</span>, en passant par des{" "}
-            <span>montagnes majestueuses</span> qui vous reconnectent avec la
-            nature. Chaque destination est soigneusement choisie pour
-            correspondre à vos envies, tout en{" "}
-            <span>conservant la surprise</span>.
+          <p className="container">
+            Des villes vibrantes où l’histoire se mêle à la modernité, aux
+            plages isolées où le temps semble s’être arrêté, en passant par des
+            montagnes majestueuses qui vous reconnectent avec la nature. Chaque
+            destination est soigneusement choisie pour correspondre à vos
+            envies, tout en conservant la surprise.
           </p>
         </div>
       </section>
 
       <section className="ready-for-adventure">
-        <div>
-          <h3>Prêt pour l'aventure ?</h3>
+        <h3>Prêt pour l'aventure ?</h3>
+        <div className="container">
           <p>
             La vie est trop courte pour{" "}
             <span>toujours rester dans sa zone de confort</span>. Embarquez pour
             une <span>expérience unique</span> qui changera votre vision du
             voyage… et peut-être même de la vie.
           </p>
+
+          <img
+            src="/src/assets/images/home/scooter-family.webp"
+            alt="Une famille heureuse sur un scooter jaune, des palmiers le long de la route"
+          />
         </div>
-        <img
-          src="/src/assets/images/home/scooter-family.webp"
-          alt="Une famille heureuse sur un scooter jaune, des palmiers le long de la route"
-        />
       </section>
     </main>
   );

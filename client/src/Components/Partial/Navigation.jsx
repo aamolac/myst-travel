@@ -31,10 +31,11 @@ function Navigation({ isFooter }) {
 
   const handleNavClick = () => {
     if (!isFooter) toggleMenu(); // Ne ferme le menu que si ce n'est pas dans le footer
+    window.scrollTo(0, 0); // Défiler en haut de la page
   };
 
   return (
-    <nav>
+    <nav className="container">
       <NavLink to={"/"} onClick={handleNavClick}>
         Accueil
       </NavLink>

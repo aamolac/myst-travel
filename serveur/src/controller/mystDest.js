@@ -1,7 +1,6 @@
 import path from "path";
 // Importation des promesses de fs pour les opérations asynchrones
 import { promises as fsPromises } from "fs";
-import fs from "fs";
 
 import MystDest from "../model/MystDest.js";
 import uploadImage from "../middleware/fileUpload.js";
@@ -28,8 +27,10 @@ const getById = async (req, res) => {
     const [mystDests] = await MystDest.findById(mystDestId);
 
     // Vérification si la destination a été trouvée
-    if (mystDests.length === 0) {
-      return res.status(404).json({ msg: "Destination pas trouvée" });
+    if (!mystDests || mystDests.length === 0) {
+      return res
+        .status(404)
+        .json({ msg: "La destination demandée n'existe pas." });
     }
 
     // Renvoie les infos de la destination en format JSON
@@ -49,8 +50,10 @@ const update = async (req, res) => {
     const [mystDests] = await MystDest.findById(mystDestId);
 
     // Vérification si la destination existe
-    if (mystDests.length === 0) {
-      return res.status(404).json({ msg: "Destination pas trouvée" });
+    if (!mystDests || mystDests.length === 0) {
+      return res
+        .status(404)
+        .json({ msg: "La destination demandée n'existe pas." });
     }
 
     // Récupérer les informations actuelles de la destination, y compris l'URL de l'image
@@ -129,11 +132,13 @@ const update = async (req, res) => {
 
     // Vérification si la mise à jour a réussi
     if (result[0].affectedRows === 0) {
-      return res.status(404).json({ msg: "Destination pas modifiée" });
+      return res
+        .status(404)
+        .json({ msg: "La modification de la destination n'a abouti." });
     }
 
     // Renvoie une réponse JSON confirmant la mise à jour
-    res.json({ msg: "Destination modifiée" });
+    res.json({ msg: "La destination a bien été modifiée" });
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }
@@ -150,7 +155,9 @@ const remove = async (req, res) => {
 
     // Si la destination n'existe pas
     if (!destination) {
-      return res.status(404).json({ msg: "Destination pas trouvée" });
+      return res
+        .status(404)
+        .json({ msg: "La destination demandée n'existe pas." });
     }
 
     const image = destination[0][0].image;

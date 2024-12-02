@@ -17,6 +17,10 @@ function Register() {
   const [msg, setMsg] = useState(null);
   const navigate = useNavigate();
 
+  const scrollToTop = () => {
+    window.scrollTo(0, 0); // Défiler en haut de la page
+  };
+
   // Fonction appelée lors de la soumission du formulaire
   async function submitHandler(e) {
     // Empêche le rechargement de la page lors de la soumission du formulaire
@@ -43,6 +47,13 @@ function Register() {
       return;
     }
 
+    // Vérification des espaces internes dans l'email
+    if (email.includes(" ")) {
+      return res.status(400).json({
+        msg: "L'adresse email ne doit pas contenir d'espaces.",
+      });
+    }
+
     if (
       password.length < 8 ||
       !/[a-z]/.test(password) ||
@@ -54,6 +65,13 @@ function Register() {
         "Le mot de passe doit avoir au moins 8 caractères, inclure au moins une minuscule, une majuscule, un chiffre et un caractère spécial."
       );
       return;
+    }
+
+    // Vérification des espaces internes dans le mot de passe
+    if (password.includes(" ")) {
+      return res.status(400).json({
+        msg: "Le mot de passe ne doit pas contenir d'espaces.",
+      });
     }
 
     // Vérification de la case à cocher
@@ -87,7 +105,7 @@ function Register() {
 
   return (
     <main>
-      <section id="auth">
+      <section className="auth">
         <h2>Inscription</h2>
 
         {msg && <p className="message">{msg}</p>}
@@ -146,9 +164,14 @@ function Register() {
             />
             <label htmlFor="acceptTerms">
               J’accepte les{" "}
-              <Link to="/terms-of-use">conditions générales d'utilisation</Link>{" "}
+              <Link to="/terms-of-use" onClick={scrollToTop}>
+                conditions générales d'utilisation
+              </Link>{" "}
               et la{" "}
-              <Link to="/privacy-policy">politique de confidentialité</Link>.
+              <Link to="/privacy-policy" onClick={scrollToTop}>
+                politique de confidentialité
+              </Link>
+              .
             </label>
           </div>
           <button type="submit">S'inscrire</button>

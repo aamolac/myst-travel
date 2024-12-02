@@ -9,65 +9,87 @@
   span {
     font-family: "Lora-Bold";
   }
+  .confirmation {
+    @include confirmation-message;
+  }
   p,
   h3 {
     margin: 0 3rem;
   }
-  form {
+  section {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    label {
-      @include label-style;
-    }
-    input {
-      @include input-style;
-    }
-    .date {
-      margin: 0 3rem;
+    align-items: center;
+    form {
       display: flex;
-      gap: 17rem;
-      div {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        label {
-          margin-top: 3rem;
-        }
-        input {
-          width: 20rem;
-        }
+      flex-direction: column;
+      gap: 1rem;
+      label {
+        @include label-style;
       }
-    }
-    .people {
-      margin: 3rem;
-      display: flex;
-      gap: 7rem;
-      div {
+      input {
+        @include input-style;
+      }
+      .date {
+        margin: 0 3rem;
         display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        input {
+        flex-direction: row;
+        justify-content: center;
+        gap: 7rem;
+        div {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
           width: 30rem;
+          label {
+            margin-top: 3rem;
+          }
+          input {
+            width: 20rem;
+          }
         }
       }
-    }
-    section:last-of-type {
-      margin-top: 4rem;
-    }
-    .info-price {
-      font-style: italic;
-    }
-    button {
-      @include button-style;
-      display: block;
-      width: 20%;
-      margin: 2rem auto;
+      .people {
+        margin: 3rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 7rem;
+        div {
+          display: flex;
+          flex-direction: column;
+          width: 30rem;
+          gap: 1rem;
+        }
+      }
+      .budget-duration {
+        margin-top: 4rem;
+        display: flex;
+        align-items: flex-start;
+        .info-price {
+          font-style: italic;
+        }
+      }
+
+      button {
+        @include button-style;
+        display: block;
+        width: 20%;
+        margin: 3rem auto;
+      }
+      button:hover {
+        @media #{$laptop} {
+          background-color: $creamy-white;
+          color: $blue;
+          border: 3px solid $blue;
+        }
+      }
     }
   }
   .confirmation {
-    p {
-      margin: 3rem;
+    @include confirmation-message;
+    @media #{$laptop} {
+      margin: 5rem auto;
     }
   }
 }

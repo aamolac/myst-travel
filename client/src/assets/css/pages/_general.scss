@@ -1,5 +1,4 @@
 // VARIABLES
-
 $creamy-white: #fdfdfd;
 $blue: #274c77;
 $grey: #4d4d4d;
@@ -32,7 +31,6 @@ $red: #b22234;
 }
 
 // MIXIN
-
 @mixin button-style {
   background-color: $blue;
   color: $creamy-white;
@@ -95,3 +93,28 @@ $red: #b22234;
   text-decoration: underline;
   font-family: "Lora-Bold";
 }
+
+@mixin confirmation-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin: 5rem;
+  svg {
+    font-size: 4rem;
+    color: $blue;
+  }
+  .fa-circle-check {
+    margin: 5rem 0;
+  }
+  p {
+    text-align: center;
+  }
+  p:last-of-type {
+    padding-top: 3rem;
+  }
+}
+
+// RESPONSIVE
+$tablet: "screen and (min-width:768px)";
+$laptop: "screen and (min-width:1024px)";

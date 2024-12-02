@@ -11,22 +11,46 @@ function ContactDetail() {
   const navigate = useNavigate();
   const [msg, setMsg] = useState("");
 
-  const fetchContact = async () => {
-    const response = await fetch(`http://localhost:9000/api/v1/contact/${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    });
+  useEffect(() => {
+    document.title = `Demande de contact #${id} - Myst'Travel`;
+  }, [id]); // Met à jour chaque fois que l'id change
 
-    const data = await response.json();
-    setContacts(data);
+  const fetchContact = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:9000/api/v1/contact/${id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          navigate("/*"); // Redirige vers la page "PageNotFound"
+          return;
+        }
+        throw new Error(
+          "Une erreur est survenue lors de la récupération des données.."
+        );
+      }
+
+      const data = await response.json();
+      setContacts(data);
+    } catch (error) {
+      setContacts({ error: error.message });
+    }
   };
 
   useEffect(() => {
     fetchContact();
   }, [id]);
+
+  // Vérifie si les données de la demande ont été récupérées
+  if (!contacts) return <p>Chargement...</p>;
 
   // Fonction pour modifier le status en "Répondu"
   const markAsReplied = async () => {
@@ -45,6 +69,7 @@ function ContactDetail() {
 
       if (response.ok) {
         setContacts({ ...contacts, status: "Répondu" });
+        window.scrollTo(0, 0);
       } else {
         setMsg("Erreur lors de la mise à jour du statut");
       }
@@ -53,11 +78,8 @@ function ContactDetail() {
     }
   };
 
-  // Vérifie si les données de la demande ont été récupérées
-  if (!contacts) return <p>Chargement...</p>;
-
   return (
-    <main className="contact-cust-trip-reservation">
+    <main className="contact-admin">
       <button
         onClick={() => navigate(-1)}
         title="Retour à la page des demandes de contact"
@@ -66,8 +88,9 @@ function ContactDetail() {
         <FontAwesomeIcon icon={faArrowLeft} /> Retour
       </button>
       <h2>Message</h2>
-      {msg && <p className="message">{msg}</p>}
-      <section>
+
+      <section className="container">
+        {msg && <p className="message">{msg}</p>}
         <p>
           <span>Date de la demande :</span> {contacts.publishDate}
         </p>
@@ -82,7 +105,11 @@ function ContactDetail() {
           <span>Message :</span> {contacts.message}
         </p>
 
-        {contacts.status === "Répondu" && <p>Status : {contacts.status}</p>}
+        {contacts.status === "Répondu" && (
+          <p>
+            <span>Status :</span> {contacts.status}
+          </p>
+        )}
         {contacts.status !== "Répondu" && (
           <button onClick={markAsReplied}>Répondu</button>
         )}

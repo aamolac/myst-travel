@@ -5,8 +5,13 @@ import { LoginContext } from "../store/user/Context.jsx";
 function ProtectedRoute({ children, roles }) {
   const { isLogged, user } = useContext(LoginContext);
 
+  // Attendre que l'état d'authentification soit défini
+  if (isLogged === undefined || user === undefined) {
+    return <div>Chargement...</div>; // Loader global
+  }
+
   // Vérifie si l'utilisateur est connecté et a le rôle demandé
-  if (!isLogged || (roles && !roles.includes(user?.role))) {
+  if (!isLogged || !roles.includes(user?.role)) {
     // Redirige vers la page de connexion si l'accès est refusé
     return <Navigate to="/auth" replace />;
   }

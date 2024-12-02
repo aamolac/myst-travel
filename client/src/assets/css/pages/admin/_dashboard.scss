@@ -22,7 +22,12 @@
       justify-content: center;
       gap: 5rem;
     }
+    a:hover {
+      @media #{$laptop} {
+        background-color: $creamy-white;
+        color: $blue;
+        border: 3px solid $blue;
+      }
+    }
   }
 }
-
-//faire un media queri avec le survol du bouton, changer les couleurs
