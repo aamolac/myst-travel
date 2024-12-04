@@ -68,7 +68,7 @@ function MystDestDetail() {
   };
 
   return (
-    <main id="myst-dest-detail">
+    <main id="myst-dest-detail" className="container">
       <button
         onClick={() => navigate("/myst-destination")}
         title="Retour à la page des destinations mystères"
@@ -76,7 +76,7 @@ function MystDestDetail() {
       >
         <FontAwesomeIcon icon={faArrowLeft} /> Retour
       </button>
-      <section className="container information-destination">
+      <section className="information-destination">
         <h2>{destination.title}</h2>
         <div>
           <img
@@ -137,7 +137,7 @@ function MystDestDetail() {
           {destination.minDuration} à {destination.maxDuration} jours
         </p>
       </section>
-      <section className="container">
+      <section>
         <h2>À vous de jouer</h2>
         <div>
           <p>

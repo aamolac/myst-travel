@@ -23,6 +23,8 @@
 
 @import "./pages/_pagenotfound";
 
+// STYLE GÉNÉRALE
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -97,4 +99,8 @@ button:hover {
   @media #{$laptop} {
     cursor: pointer;
   }
+}
+
+img {
+  border-radius: 10%;
 }

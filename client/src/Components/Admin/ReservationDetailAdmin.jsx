@@ -50,7 +50,7 @@ function ReservationDetail() {
   if (!reservation) return <p>Chargement...</p>;
 
   return (
-    <main className="reservation-admin">
+    <main className="reservation-admin container">
       <button
         onClick={() => navigate(-1)}
         title="Retour à la page des réservations"
@@ -59,7 +59,7 @@ function ReservationDetail() {
         <FontAwesomeIcon icon={faArrowLeft} /> Retour
       </button>
       <h2>Réservation n°{reservation.id}</h2>
-      <section className="container">
+      <section>
         <p>
           <span>Date de la demande :</span> {reservation.createdDate}
         </p>
@@ -77,7 +77,7 @@ function ReservationDetail() {
           {reservation.mystDestination_id} - {reservation.mystDestTitle}
         </p>
         <p>
-          <span>Date de départ:</span> {reservation.startDate}
+          <span>Date de départ :</span> {reservation.startDate}
         </p>
         <p>
           <span>Date de fin :</span> {reservation.endDate}
@@ -90,7 +90,6 @@ function ReservationDetail() {
           <span>Nombre d'enfant :</span>{" "}
           {reservation.numberChild ? reservation.numberChild : 0}
         </p>
-
         <p>
           <span>Status :</span> {reservation.reservationStatus}
         </p>

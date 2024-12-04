@@ -175,7 +175,7 @@ function CustTrip() {
         // Redirige après 15 sec
         setTimeout(() => {
           navigate("/");
-        }, 15000);
+        }, 5000);
       } else {
         setMsg(data.msg); // Affiche le message d'erreur renvoyé par le serveur
       }
@@ -207,214 +207,244 @@ function CustTrip() {
         </div>
       ) : (
         <section className="container">
-          <p>
-            Notre formulaire est conçu pour mieux comprendre vos préférences de
-            voyage et vous proposer une expérience unique, parfaitement adaptée
-            à vos envies. Prenez quelques instants pour remplir les informations
-            ci-dessous, et laissez-nous créer votre prochaine aventure mystère.
-          </p>
-          <div>
+          <div className="introduction-cust-trip">
             <p>
-              <span>Sélectionnez vos préférences</span> - Que vous recherchiez
-              une escapade en bord de mer, une aventure en montagne, ou un
-              week-end culturel en ville, nous avons ce qu'il vous faut.
+              Notre formulaire est conçu pour mieux comprendre vos préférences
+              de voyage et vous proposer une expérience unique, parfaitement
+              adaptée à vos envies. Prenez quelques instants pour remplir les
+              informations ci-dessous, et laissez-nous créer votre prochaine
+              aventure mystère.
             </p>
             <p>
-              <span>Réservez votre voyage</span> - En quelques clics, votre
-              prochaine grande aventure est réservée. Vous connaîtrez la
-              destination seulement 24 heures avant votre départ.
+              <span>
+                La durée des destinations sur-mesure doit être comprise entre 2
+                et 21 jours.
+              </span>
             </p>
-            <p>
-              <span>Partez à l'aventure</span> - Préparez vos valises, et
-              laissez-vous surprendre.
-            </p>
+            {msg && <p className="message">{msg}</p>}
           </div>
-          <p>
-            <span>
-              La durée des destinations sur-mesure doit être comprise entre 2 et
-              21 jours.
-            </span>
-          </p>
-          {msg && <p className="message">{msg}</p>}
-          <form id="cust-trip" onSubmit={submitHandler}>
-            <label htmlFor="duration">
-              <FontAwesomeIcon icon={faCalendarDays} /> Quelle est la durée de
-              votre séjour idéal ?
-            </label>
-            <input
-              type="number"
-              id="duration"
-              name="duration"
-              onChange={handleChange}
-              value={formCustTrip.duration}
-              min="2"
-              max="21"
-              placeholder="Veuillez indiquer le nombre de jours"
-              required
-            />
-            <label htmlFor="budget">
-              <FontAwesomeIcon icon={faSackDollar} /> Quel est votre budget
-              total pour ce voyage, par personne ?
-            </label>
-            <input
-              type="number"
-              id="budget"
-              name="budget"
-              onChange={handleChange}
-              value={formCustTrip.budget}
-              placeholder="Veuillez indiquer votre budget maximal"
-              required
-            />
-            <label htmlFor="location">
-              <FontAwesomeIcon icon={faEarthAmericas} /> Quelle région du monde
-              vous attire le plus ?
-            </label>
-            <select
-              id="location"
-              name="location_id"
-              onChange={handleChange}
-              value={formCustTrip.location_id}
-              required
-            >
-              <option value="">Choisissez une option</option>
-              {options.location.map((opt) => (
-                <option key={opt.id} value={opt.id}>
-                  {opt.choice}
-                </option>
-              ))}
-            </select>
-            <label htmlFor="typeExperience">
-              <FontAwesomeIcon icon={faMountainCity} /> Quel type d'expérience
-              recherchez-vous ?
-            </label>
-            <select
-              id="typeExperience"
-              name="typeExperience_id"
-              onChange={handleChange}
-              value={formCustTrip.typeExperience_id}
-              required
-            >
-              <option value="">Choisissez une option</option>
-              {options.typeExperience.map((opt) => (
-                <option key={opt.id} value={opt.id}>
-                  {opt.choice}
-                </option>
-              ))}
-            </select>
-            <label htmlFor="climate">
-              <FontAwesomeIcon icon={faTemperatureThreeQuarters} /> Quel type de
-              climat préférez-vous ?
-            </label>
-            <select
-              id="climate"
-              name="climate_id"
-              onChange={handleChange}
-              value={formCustTrip.climate_id}
-              required
-            >
-              <option value="">Choisissez une option</option>
-              {options.climate.map((opt) => (
-                <option key={opt.id} value={opt.id}>
-                  {opt.choice}
-                </option>
-              ))}
-            </select>
-            <label htmlFor="accomodation">
-              <FontAwesomeIcon icon={faHouse} /> Quel type d’hébergement
-              préférez-vous ?
-            </label>
-            <select
-              id="accomodation"
-              name="accomodation_id"
-              onChange={handleChange}
-              value={formCustTrip.accomodation_id}
-              required
-            >
-              <option value="">Choisissez une option</option>
-              {options.accomodation.map((opt) => (
-                <option key={opt.id} value={opt.id}>
-                  {opt.choice}
-                </option>
-              ))}
-            </select>
-            <label htmlFor="activity">
-              {" "}
-              <FontAwesomeIcon icon={faPersonRunning} /> Quel niveau d'activité
-              souhaitez-vous pour ce voyage ?
-            </label>
-            <select
-              id="activity"
-              name="activity_id"
-              onChange={handleChange}
-              value={formCustTrip.activity_id}
-              required
-            >
-              <option value="">Choisissez une option</option>
-              {options.activity.map((opt) => (
-                <option key={opt.id} value={opt.id}>
-                  {opt.choice}
-                </option>
-              ))}
-            </select>
-
-            <label htmlFor="culture">
-              <FontAwesomeIcon icon={faUtensils} /> Quelle est l’importance de
-              la gastronomie et de la culture locale dans votre voyage ?
-            </label>
-            <select
-              id="culture"
-              name="culture_id"
-              onChange={handleChange}
-              value={formCustTrip.culture_id}
-              required
-            >
-              <option value="">Choisissez une option</option>
-              {options.culture.map((opt) => (
-                <option key={opt.id} value={opt.id}>
-                  {opt.choice}
-                </option>
-              ))}
-            </select>
-            <label htmlFor="numberAdult">
-              <FontAwesomeIcon icon={faUser} /> Combien d'adultes (à partir de
-              12 ans) participent au voyage ?
-            </label>
-            <input
-              type="number"
-              id="numberAdult"
-              name="numberAdult"
-              onChange={handleChange}
-              value={formCustTrip.numberAdult}
-              min="1"
-              placeholder="Veuillez indiquer le nombre d'adulte"
-              required
-            />
-            <label htmlFor="numberChild">
-              <FontAwesomeIcon icon={faChild} /> Combien d'enfants (moins de 12
-              ans) participent au voyage ?
-            </label>
-            <input
-              type="number"
-              id="numberChild"
-              name="numberChild"
-              onChange={handleChange}
-              value={formCustTrip.numberChild}
-              min="0"
-              placeholder="Veuillez indiquer le nombre d'enfant"
-            />
-
-            <label htmlFor="restriction">
-              <FontAwesomeIcon icon={faBan} /> Avez-vous des restrictions
-              spécifiques pour le voyage mystère ?
-            </label>
-            <input
-              type="text"
-              id="restriction"
-              name="restriction"
-              onChange={handleChange}
-              value={formCustTrip.restriction}
-              placeholder="Veuillez indiquer vos restrictions"
-            />
+          <form onSubmit={submitHandler}>
+            <div className="question">
+              <FontAwesomeIcon icon={faCalendarDays} />
+              <div>
+                <label htmlFor="duration">
+                  Quelle est la durée de votre séjour idéal ?
+                </label>
+                <input
+                  type="number"
+                  id="duration"
+                  name="duration"
+                  onChange={handleChange}
+                  value={formCustTrip.duration}
+                  min="2"
+                  max="21"
+                  placeholder="Veuillez indiquer le nombre de jours"
+                  required
+                />
+              </div>
+            </div>
+            <div className="question">
+              <FontAwesomeIcon icon={faSackDollar} />
+              <div>
+                <label htmlFor="budget">
+                  Quel est votre budget total par personne ?
+                </label>
+                <input
+                  type="number"
+                  id="budget"
+                  name="budget"
+                  onChange={handleChange}
+                  value={formCustTrip.budget}
+                  placeholder="Veuillez indiquer votre budget maximal"
+                  required
+                />
+              </div>
+            </div>
+            <div className="question">
+              <FontAwesomeIcon icon={faEarthAmericas} />
+              <div>
+                <label htmlFor="location">
+                  Quelle région du monde vous attire le plus ?
+                </label>
+                <select
+                  id="location"
+                  name="location_id"
+                  onChange={handleChange}
+                  value={formCustTrip.location_id}
+                  required
+                >
+                  <option value="">Choisissez une option</option>
+                  {options.location.map((opt) => (
+                    <option key={opt.id} value={opt.id}>
+                      {opt.choice}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="question">
+              <FontAwesomeIcon icon={faMountainCity} />
+              <div>
+                <label htmlFor="typeExperience">
+                  Quel type d'expérience recherchez-vous ?
+                </label>
+                <select
+                  id="typeExperience"
+                  name="typeExperience_id"
+                  onChange={handleChange}
+                  value={formCustTrip.typeExperience_id}
+                  required
+                >
+                  <option value="">Choisissez une option</option>
+                  {options.typeExperience.map((opt) => (
+                    <option key={opt.id} value={opt.id}>
+                      {opt.choice}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="question">
+              <FontAwesomeIcon icon={faTemperatureThreeQuarters} />
+              <div>
+                <label htmlFor="climate">
+                  Quel type de climat préférez-vous ?
+                </label>
+                <select
+                  id="climate"
+                  name="climate_id"
+                  onChange={handleChange}
+                  value={formCustTrip.climate_id}
+                  required
+                >
+                  <option value="">Choisissez une option</option>
+                  {options.climate.map((opt) => (
+                    <option key={opt.id} value={opt.id}>
+                      {opt.choice}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="question">
+              <FontAwesomeIcon icon={faHouse} />
+              <div>
+                <label htmlFor="accomodation">
+                  Quel type d’hébergement préférez-vous ?
+                </label>
+                <select
+                  id="accomodation"
+                  name="accomodation_id"
+                  onChange={handleChange}
+                  value={formCustTrip.accomodation_id}
+                  required
+                >
+                  <option value="">Choisissez une option</option>
+                  {options.accomodation.map((opt) => (
+                    <option key={opt.id} value={opt.id}>
+                      {opt.choice}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="question">
+              <FontAwesomeIcon icon={faPersonRunning} />
+              <div>
+                <label htmlFor="activity">
+                  {" "}
+                  Quel niveau d'activité souhaitez-vous ?
+                </label>
+                <select
+                  id="activity"
+                  name="activity_id"
+                  onChange={handleChange}
+                  value={formCustTrip.activity_id}
+                  required
+                >
+                  <option value="">Choisissez une option</option>
+                  {options.activity.map((opt) => (
+                    <option key={opt.id} value={opt.id}>
+                      {opt.choice}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="question">
+              <FontAwesomeIcon icon={faUtensils} />
+              <div>
+                <label htmlFor="culture">
+                  Quelle est l’importance de la gastronomie et de la culture
+                  locale ?
+                </label>
+                <select
+                  id="culture"
+                  name="culture_id"
+                  onChange={handleChange}
+                  value={formCustTrip.culture_id}
+                  required
+                >
+                  <option value="">Choisissez une option</option>
+                  {options.culture.map((opt) => (
+                    <option key={opt.id} value={opt.id}>
+                      {opt.choice}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="question">
+              <FontAwesomeIcon icon={faUser} />
+              <div>
+                <label htmlFor="numberAdult">
+                  Combien d'adultes (à partir de 12 ans) participent au voyage ?
+                </label>
+                <input
+                  type="number"
+                  id="numberAdult"
+                  name="numberAdult"
+                  onChange={handleChange}
+                  value={formCustTrip.numberAdult}
+                  min="1"
+                  placeholder="Veuillez indiquer le nombre d'adulte"
+                  required
+                />
+              </div>
+            </div>
+            <div className="question">
+              <FontAwesomeIcon icon={faChild} />
+              <div>
+                <label htmlFor="numberChild">
+                  Combien d'enfants (moins de 12 ans) ?
+                </label>
+                <input
+                  type="number"
+                  id="numberChild"
+                  name="numberChild"
+                  onChange={handleChange}
+                  value={formCustTrip.numberChild}
+                  min="0"
+                  placeholder="Veuillez indiquer le nombre d'enfant"
+                />
+              </div>
+            </div>
+            <div className="question">
+              <FontAwesomeIcon icon={faBan} />
+              <div>
+                <label htmlFor="restriction">
+                  Avez-vous des restrictions spécifiques pour le voyage ?
+                </label>
+                <input
+                  type="text"
+                  id="restriction"
+                  name="restriction"
+                  onChange={handleChange}
+                  value={formCustTrip.restriction}
+                  placeholder="Veuillez indiquer vos restrictions"
+                />
+              </div>
+            </div>
             <button type="submit" onClick={scrollToTop}>
               Envoyer
             </button>

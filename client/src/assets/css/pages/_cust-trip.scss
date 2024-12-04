@@ -15,51 +15,59 @@
     justify-content: center;
     align-items: center;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    clip-path: ellipse(100% 100% at 50% 0%);
   }
-
+  span {
+    font-family: "Lora-Bold";
+  }
   .confirmation {
     @include confirmation-message;
-    @media #{$laptop} {
-      margin: 5rem auto;
-    }
   }
-
   section {
-    p {
-      margin: 5rem;
-      span {
-        font-family: "Lora-Bold";
+    .introduction-cust-trip {
+      margin: 5rem 5rem 0 5rem;
+
+      p {
+        margin-bottom: 1rem;
       }
     }
     form {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      gap: 1rem;
-      width: 80%;
-      margin: 5rem;
-      label {
-        @include label-style;
-        margin-top: 2rem;
-        margin-bottom: 0.5rem;
+      gap: 2rem;
+      margin: 3rem 5rem;
+      .question {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 2rem;
         svg {
-          font-size: 2rem;
+          font-size: 4rem;
           color: $blue;
+          width: 5rem;
         }
-      }
-      select {
-        @include select-style;
-        width: 60%;
-      }
-      input {
-        @include input-style;
-        width: 60%;
+        div {
+          display: flex;
+          flex-direction: column;
+          width: 32rem;
+          label {
+            @include label-style;
+            margin-bottom: 0.5rem;
+          }
+          select {
+            @include select-style;
+          }
+          input {
+            @include input-style;
+          }
+        }
       }
       button {
         @include button-style;
         width: 30%;
         display: block;
-        margin: 2rem auto;
+        margin: 5rem auto;
       }
       button:hover {
         @media #{$laptop} {
@@ -68,8 +76,14 @@
           border: 3px solid $blue;
         }
       }
-      @media #{$laptop} {
-        align-items: flex-start;
+    }
+    @media #{$tablet} {
+      .question:nth-child(odd) {
+        align-self: flex-start;
+      }
+      .question:nth-child(even) {
+        align-self: flex-end;
+        flex-direction: row-reverse;
       }
     }
   }

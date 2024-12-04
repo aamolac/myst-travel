@@ -62,7 +62,7 @@ function User() {
   }, []);
 
   return (
-    <main className="summary-table">
+    <main className="summary-table container">
       <button onClick={() => navigate("/dashboard")} className="back">
         <FontAwesomeIcon icon={faArrowLeft} /> Retour au tableau de bord
       </button>

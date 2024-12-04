@@ -70,7 +70,6 @@
           font-style: italic;
         }
       }
-
       button {
         @include button-style;
         display: block;
@@ -84,12 +83,6 @@
           border: 3px solid $blue;
         }
       }
-    }
-  }
-  .confirmation {
-    @include confirmation-message;
-    @media #{$laptop} {
-      margin: 5rem auto;
     }
   }
 }

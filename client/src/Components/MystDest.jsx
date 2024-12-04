@@ -267,8 +267,6 @@ function MystDest() {
     activityFilter.length > 0 ||
     accomodationFilter.length > 0;
 
-  // const openSection = isTablet ? "budget" : openSections;
-
   return (
     <main id="myst-dest">
       <h2>Nos destinations mystères</h2>
@@ -286,56 +284,56 @@ function MystDest() {
             et 21 jours.
           </span>
         </p>
-        <p>
-          <span>
-            Total des destinations :{" "}
-            {hasFiltersApplied ? filteredCount : totalDestinations}
-          </span>
-        </p>
+        {(budgetFilter.length > 0 ||
+          durationFilter !== null ||
+          continentFilter.length > 0 ||
+          climateFilter.length > 0 ||
+          activityFilter.length > 0 ||
+          accomodationFilter.length > 0) && (
+          <div>
+            <p>
+              <span>Filtre(s) appliqué(s) :</span>
+            </p>
+            {budgetFilter.length > 0 && (
+              <p>
+                <span>Budget :</span> {budgetFilter.join(", ")} €
+              </p>
+            )}
+            {durationFilter !== null && (
+              <p>
+                <span>Durée :</span> {durationFilter} jours
+              </p>
+            )}
+            {continentFilter.length > 0 && (
+              <p>
+                <span>Continent :</span> {continentFilter.join(", ")}
+              </p>
+            )}
+            {climateFilter.length > 0 && (
+              <p>
+                <span>Climat :</span> {climateFilter.join(", ")}
+              </p>
+            )}
+            {activityFilter.length > 0 && (
+              <p>
+                <span>Activité :</span> {activityFilter.join(", ")}
+              </p>
+            )}
+            {accomodationFilter.length > 0 && (
+              <p>
+                <span>Hébergement :</span> {accomodationFilter.join(", ")}
+              </p>
+            )}
+          </div>
+        )}
+        <h4>
+          Total des destinations :{" "}
+          {hasFiltersApplied ? filteredCount : totalDestinations}
+        </h4>
+
         {msg && <p className="message">{msg}</p>}
       </section>
-      {(budgetFilter.length > 0 ||
-        durationFilter !== null ||
-        continentFilter.length > 0 ||
-        climateFilter.length > 0 ||
-        activityFilter.length > 0 ||
-        accomodationFilter.length > 0) && (
-        <section className="container filter-summary">
-          <p>
-            <span>Filtre(s) appliqué(s) :</span>
-          </p>
-          {budgetFilter.length > 0 && (
-            <p>
-              <span>Budget :</span> {budgetFilter.join(", ")} €
-            </p>
-          )}
-          {durationFilter !== null && (
-            <p>
-              <span>Durée :</span> {durationFilter} jours
-            </p>
-          )}
-          {continentFilter.length > 0 && (
-            <p>
-              <span>Continent :</span> {continentFilter.join(", ")}
-            </p>
-          )}
-          {climateFilter.length > 0 && (
-            <p>
-              <span>Climat :</span> {climateFilter.join(", ")}
-            </p>
-          )}
-          {activityFilter.length > 0 && (
-            <p>
-              <span>Activité :</span> {activityFilter.join(", ")}
-            </p>
-          )}
-          {accomodationFilter.length > 0 && (
-            <p>
-              <span>Hébergement :</span> {accomodationFilter.join(", ")}
-            </p>
-          )}
-        </section>
-      )}
+
       <div
         className={`container ${isTablet ? "design-tablet" : "design-mobile"}`}
       >

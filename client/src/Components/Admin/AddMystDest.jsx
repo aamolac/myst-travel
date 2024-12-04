@@ -160,7 +160,7 @@ function AddMystDest() {
   };
 
   return (
-    <main className="add-myst-dest">
+    <main className="container add-myst-dest">
       <button
         onClick={() => navigate("/dashboard/myst-destination")}
         title="Retour à la page des destinations mystères"
@@ -170,7 +170,7 @@ function AddMystDest() {
       </button>
       <h2>Ajout d'une destination mystère</h2>
       {showConfirmation ? (
-        <section className="container confirmation">
+        <section className="confirmation">
           <FontAwesomeIcon icon={faCircleCheck} />
           <p>La destination a bien été ajoutée !</p>
           <p>
@@ -178,7 +178,7 @@ function AddMystDest() {
           </p>
         </section>
       ) : (
-        <form onSubmit={submitHandler} className="container">
+        <form onSubmit={submitHandler}>
           {msg && <p className="message">{msg}</p>}
           <label htmlFor="title">Titre de la destination</label>
           <input

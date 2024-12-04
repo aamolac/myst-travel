@@ -165,7 +165,7 @@ header section .plane-logo {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 3rem 0;
+  padding: 1rem 0;
 }
 header section .plane-logo img {
   width: 20%;
@@ -199,7 +199,7 @@ header section #burger-menu.open nav {
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
-  gap: 2rem;
+  gap: 1rem;
   position: fixed;
   top: 0;
   left: 0;
@@ -213,7 +213,7 @@ header section #burger-menu.open nav a {
   color: #fdfdfd;
   text-align: right;
   font-size: 2rem;
-  padding: 1rem;
+  padding: 2rem;
   transition: color 0.3s;
   border-radius: 1rem;
 }
@@ -235,30 +235,26 @@ header .tablet-header {
   justify-content: space-between;
   align-items: center;
   padding: 2rem 0.5rem;
-  gap: 2rem;
 }
 header .tablet-header h1 {
   color: #fdfdfd;
   padding: 2rem;
 }
 header .tablet-header nav {
-  color: #fdfdfd;
-  font-size: 1.6rem;
-  font-family: "Lora-Regular";
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   width: 100%;
 }
 header .tablet-header nav a {
+  font-family: "Lora-Regular";
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.8rem;
   color: #fdfdfd;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 1.5rem;
-  margin: 0 0.5rem;
   border-radius: 1rem;
 }
 @media screen and (min-width:1024px) {
@@ -270,6 +266,11 @@ header .tablet-header nav a {
 header .tablet-header nav .active {
   background-color: #fdfdfd;
   color: #274c77;
+}
+@media screen and (min-width:1024px) {
+  header .tablet-header nav a {
+    margin: 0 0.5rem;
+  }
 }
 
 footer {
@@ -388,6 +389,8 @@ footer div .legal p {
   align-items: center;
   height: 40rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  -webkit-clip-path: ellipse(100% 100% at 50% 0%);
+          clip-path: ellipse(100% 100% at 50% 0%);
 }
 #home h3 {
   text-align: center;
@@ -546,18 +549,21 @@ footer div .legal p {
   height: 40rem;
   padding: 5rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  -webkit-clip-path: ellipse(100% 100% at 50% 0%);
+          clip-path: ellipse(100% 100% at 50% 0%);
 }
 #about-us h2,
 #about-us h3 {
   text-align: center;
   padding: 5rem 0rem;
 }
-#about-us .small-presentation {
-  margin: 2rem 0;
-  padding: 5rem;
+#about-us img {
+  display: block;
+  width: 70%;
+  margin: 2rem auto 5rem auto;
 }
-#about-us .small-presentation p {
-  padding: 0 5rem;
+#about-us .small-presentation {
+  margin: 5rem;
 }
 #about-us .small-presentation p span {
   font-family: "Lora-Bold";
@@ -568,34 +574,25 @@ footer div .legal p {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+    gap: 3rem;
+    margin-top: 6rem;
+    margin-bottom: 4rem;
   }
   #about-us .small-presentation img {
     width: 50%;
-    margin: 0;
   }
 }
 @media screen and (min-width:1024px) {
   #about-us .small-presentation {
-    margin: auto;
+    margin: 6rem auto 4rem auto;
   }
-}
-#about-us img {
-  display: block;
-  width: 70%;
-  margin: 2rem auto 5rem auto;
 }
 #about-us .our-team,
 #about-us .trip-with-us {
-  margin: 2rem 0;
-  padding: 5rem;
+  margin: 5rem;
 }
-#about-us .our-team p,
-#about-us .trip-with-us p {
-  padding: 2rem 5rem;
-}
-#about-us .our-team span,
-#about-us .trip-with-us span {
+#about-us .our-team p span,
+#about-us .trip-with-us p span {
   font-family: "Lora-Bold";
   font-style: italic;
 }
@@ -605,12 +602,11 @@ footer div .legal p {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+    gap: 3rem;
   }
   #about-us .our-team div img,
   #about-us .trip-with-us div img {
     width: 50%;
-    margin: 0;
   }
 }
 @media screen and (min-width:768px) {
@@ -653,8 +649,8 @@ footer div .legal p {
   padding: 1rem;
 }
 @media screen and (min-width:768px) {
-  #about-us .why-myst-travel div div div {
-    width: 40%;
+  #about-us .why-myst-travel div div {
+    width: 45%;
   }
 }
 @media screen and (min-width:1024px) {
@@ -683,6 +679,7 @@ footer div .legal p {
   color: #274c77;
   text-align: center;
   border: 0.6rem solid #274c77;
+  border-radius: 10%;
   width: 20rem;
   height: 20rem;
   padding: 3rem 2.5rem;
@@ -750,12 +747,16 @@ footer div .legal p {
   justify-content: center;
   align-items: center;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  -webkit-clip-path: ellipse(100% 100% at 50% 0%);
+          clip-path: ellipse(100% 100% at 50% 0%);
 }
 #myst-dest span {
   font-family: "Lora-Bold";
 }
-#myst-dest .intro-myst-dest p,
-#myst-dest .filter-summary p {
+#myst-dest .intro-myst-dest h4 {
+  margin: 4rem 5rem 0 5rem;
+}
+#myst-dest .intro-myst-dest p {
   margin: 1rem 5rem;
 }
 #myst-dest h3 {
@@ -960,7 +961,7 @@ footer div .legal p {
   }
 }
 #myst-dest-detail section:last-of-type {
-  margin: 3rem;
+  margin: 5rem;
   display: flex;
   flex-direction: column;
 }
@@ -972,12 +973,7 @@ footer div .legal p {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
-    margin: 2rem 0;
-    padding: 5rem;
-  }
-  #myst-dest-detail section:last-of-type div p {
-    padding: 2rem 5rem;
+    gap: 3rem;
   }
   #myst-dest-detail section:last-of-type div img {
     width: 50%;
@@ -993,7 +989,7 @@ footer div .legal p {
   border-radius: 0.5rem;
   display: block;
   width: 20%;
-  margin: 2rem auto;
+  margin: 5rem auto;
 }
 @media screen and (min-width:1024px) {
   #myst-dest-detail section:last-of-type button:hover {
@@ -1020,20 +1016,25 @@ footer div .legal p {
   justify-content: center;
   align-items: center;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  -webkit-clip-path: ellipse(100% 100% at 50% 0%);
+          clip-path: ellipse(100% 100% at 50% 0%);
+}
+#cust-trip span {
+  font-family: "Lora-Bold";
 }
 #cust-trip .confirmation {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  margin: 5rem;
+  margin-bottom: 10rem;
 }
 #cust-trip .confirmation svg {
   font-size: 4rem;
   color: #274c77;
 }
 #cust-trip .confirmation .fa-circle-check {
-  margin: 5rem 0;
+  margin: 2rem 0;
 }
 #cust-trip .confirmation p {
   text-align: center;
@@ -1041,44 +1042,48 @@ footer div .legal p {
 #cust-trip .confirmation p:last-of-type {
   padding-top: 3rem;
 }
-@media screen and (min-width:1024px) {
-  #cust-trip .confirmation {
-    margin: 5rem auto;
-  }
+#cust-trip section .introduction-cust-trip {
+  margin: 5rem 5rem 0 5rem;
 }
-#cust-trip section p {
-  margin: 5rem;
-}
-#cust-trip section p span {
-  font-family: "Lora-Bold";
+#cust-trip section .introduction-cust-trip p {
+  margin-bottom: 1rem;
 }
 #cust-trip section form {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 1rem;
-  width: 80%;
-  margin: 5rem;
+  gap: 2rem;
+  margin: 3rem 5rem;
 }
-#cust-trip section form label {
+#cust-trip section form .question {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+}
+#cust-trip section form .question svg {
+  font-size: 4rem;
+  color: #274c77;
+  width: 5rem;
+}
+#cust-trip section form .question div {
+  display: flex;
+  flex-direction: column;
+  width: 32rem;
+}
+#cust-trip section form .question div label {
   font-size: 1.5rem;
   font-family: "Lora-Bold";
   padding: 0.5rem 0rem;
-  margin-top: 2rem;
   margin-bottom: 0.5rem;
 }
-#cust-trip section form label svg {
-  font-size: 2rem;
-  color: #274c77;
-}
-#cust-trip section form select {
+#cust-trip section form .question div select {
   font-family: "Lora-Regular";
   font-size: 1.6rem;
   padding: 0.5rem 0rem;
   margin-bottom: 0.7rem;
-  width: 60%;
 }
-#cust-trip section form input {
+#cust-trip section form .question div input {
   font-size: 1.6rem;
   font-family: "Lora-Regular";
   border-radius: 0.5rem;
@@ -1086,7 +1091,6 @@ footer div .legal p {
   margin-bottom: 0.7rem;
   padding-left: 0.5rem;
   height: 3rem;
-  width: 60%;
 }
 #cust-trip section form button {
   background-color: #274c77;
@@ -1097,7 +1101,7 @@ footer div .legal p {
   border-radius: 0.5rem;
   width: 30%;
   display: block;
-  margin: 2rem auto;
+  margin: 5rem auto;
 }
 @media screen and (min-width:1024px) {
   #cust-trip section form button:hover {
@@ -1106,9 +1110,13 @@ footer div .legal p {
     border: 3px solid #274c77;
   }
 }
-@media screen and (min-width:1024px) {
-  #cust-trip section form {
-    align-items: flex-start;
+@media screen and (min-width:768px) {
+  #cust-trip section .question:nth-child(odd) {
+    align-self: flex-start;
+  }
+  #cust-trip section .question:nth-child(even) {
+    align-self: flex-end;
+    flex-direction: row-reverse;
   }
 }
 
@@ -1133,14 +1141,14 @@ footer div .legal p {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  margin: 5rem;
+  margin-bottom: 10rem;
 }
 #reservation .confirmation svg {
   font-size: 4rem;
   color: #274c77;
 }
 #reservation .confirmation .fa-circle-check {
-  margin: 5rem 0;
+  margin: 2rem 0;
 }
 #reservation .confirmation p {
   text-align: center;
@@ -1234,31 +1242,6 @@ footer div .legal p {
     border: 3px solid #274c77;
   }
 }
-#reservation .confirmation {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  margin: 5rem;
-}
-#reservation .confirmation svg {
-  font-size: 4rem;
-  color: #274c77;
-}
-#reservation .confirmation .fa-circle-check {
-  margin: 5rem 0;
-}
-#reservation .confirmation p {
-  text-align: center;
-}
-#reservation .confirmation p:last-of-type {
-  padding-top: 3rem;
-}
-@media screen and (min-width:1024px) {
-  #reservation .confirmation {
-    margin: 5rem auto;
-  }
-}
 
 #contact .title {
   background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("/src/assets/images/contact/palm-tree-sunset.webp");
@@ -1269,6 +1252,8 @@ footer div .legal p {
   justify-content: center;
   align-items: center;
   height: 40rem;
+  -webkit-clip-path: ellipse(100% 100% at 50% 0%);
+          clip-path: ellipse(100% 100% at 50% 0%);
 }
 #contact .title h2 {
   color: #fdfdfd;
@@ -1731,7 +1716,7 @@ footer div .legal p {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  margin: 5rem;
+  margin-bottom: 10rem;
 }
 .add-myst-dest .confirmation svg,
 .update-myst-dest .confirmation svg {
@@ -1740,7 +1725,7 @@ footer div .legal p {
 }
 .add-myst-dest .confirmation .fa-circle-check,
 .update-myst-dest .confirmation .fa-circle-check {
-  margin: 5rem 0;
+  margin: 2rem 0;
 }
 .add-myst-dest .confirmation p,
 .update-myst-dest .confirmation p {
@@ -1749,12 +1734,6 @@ footer div .legal p {
 .add-myst-dest .confirmation p:last-of-type,
 .update-myst-dest .confirmation p:last-of-type {
   padding-top: 3rem;
-}
-@media screen and (min-width:1024px) {
-  .add-myst-dest .confirmation,
-  .update-myst-dest .confirmation {
-    margin: 5rem auto;
-  }
 }
 .add-myst-dest form,
 .update-myst-dest form {
@@ -1951,4 +1930,8 @@ a {
   button:hover {
     cursor: pointer;
   }
+}
+
+img {
+  border-radius: 10%;
 }/*# sourceMappingURL=style.css.map */

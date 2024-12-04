@@ -107,7 +107,7 @@ function MystDest() {
   }, []);
 
   return (
-    <main className="summary-table">
+    <main className="summary-table container">
       <button
         onClick={() => navigate("/dashboard")}
         title="Retour au tableau de bord"
@@ -117,7 +117,7 @@ function MystDest() {
       </button>
       <h2>Destination mystère</h2>
 
-      <section className="container">
+      <section>
         {msg && <p className="message">{msg}</p>}
         <div>
           <button

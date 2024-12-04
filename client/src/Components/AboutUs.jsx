@@ -25,8 +25,7 @@ function AboutUs() {
             </span>
           </p>
           <p>
-            Fondée par des passionnés de voyage avec des années d'expérience,
-            {""}
+            Fondée par des passionnés de voyage avec des années d'expérience,{" "}
             <span>
               notre agence a pour mission de réinventer la manière dont vous
               explorez le monde

@@ -176,7 +176,7 @@ function UpdateMystDest() {
   };
 
   return (
-    <main className="update-myst-dest">
+    <main className="container update-myst-dest">
       <button
         onClick={() => navigate("/dashboard/myst-destination")}
         title="Retour à la page des destinations mystères"
@@ -186,7 +186,7 @@ function UpdateMystDest() {
       </button>
       <h2>Modifier la destination mystère</h2>
       {showConfirmation ? (
-        <section className="container confirmation">
+        <section className="confirmation">
           <FontAwesomeIcon icon={faCircleCheck} />
           <p>La destination a bien été modifiée !</p>
           <p>
@@ -194,7 +194,7 @@ function UpdateMystDest() {
           </p>
         </section>
       ) : (
-        <form onSubmit={submitHandler} className="container">
+        <form onSubmit={submitHandler}>
           {msg && <p className="message">{msg}</p>}
           <label htmlFor="title">Titre de la destination</label>
           <input

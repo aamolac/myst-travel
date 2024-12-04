@@ -10,7 +10,7 @@ header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 3rem 0;
+      padding: 1rem 0;
       img {
         width: 20%;
       }
@@ -45,7 +45,7 @@ header {
           flex-direction: column;
           justify-content: center;
           align-items: flex-end;
-          gap: 2rem;
+          gap: 1rem;
           position: fixed;
           top: 0;
           left: 0;
@@ -56,9 +56,9 @@ header {
           z-index: 3;
           a {
             color: $creamy-white;
-            text-align: right; // Alignement à droite des liens
+            text-align: right;
             font-size: 2rem;
-            padding: 1rem;
+            padding: 2rem;
             transition: color 0.3s;
             border-radius: 1rem;
           }
@@ -87,28 +87,24 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 2rem 0.5rem;
-    gap: 2rem;
     h1 {
       color: $creamy-white;
       padding: 2rem;
     }
     nav {
-      color: $creamy-white;
-      font-size: 1.6rem;
-      font-family: "Lora-Regular";
       display: flex;
       flex-direction: row;
       justify-content: space-around;
       width: 100%;
       a {
+        font-family: "Lora-Regular";
         text-align: center;
-        font-size: 2rem;
+        font-size: 1.8rem;
         color: $creamy-white;
         display: flex;
         justify-content: center;
         align-items: center;
         padding: 1.5rem;
-        margin: 0 0.5rem;
         border-radius: 1rem;
       }
       a:hover {
@@ -120,6 +116,11 @@ header {
       .active {
         background-color: $creamy-white;
         color: $blue;
+      }
+      @media #{$laptop} {
+        a {
+          margin: 0 0.5rem;
+        }
       }
     }
   }

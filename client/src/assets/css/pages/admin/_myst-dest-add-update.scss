@@ -9,9 +9,6 @@
   }
   .confirmation {
     @include confirmation-message;
-    @media #{$laptop} {
-      margin: 5rem auto;
-    }
   }
   form {
     display: flex;

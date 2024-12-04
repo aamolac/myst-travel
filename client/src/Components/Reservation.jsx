@@ -208,7 +208,7 @@ function Reservation() {
         // Redirige après 15 sec
         setTimeout(() => {
           navigate(-1);
-        }, 15000);
+        }, 5000);
       } else {
         setMsg(data.msg);
       }
@@ -219,7 +219,7 @@ function Reservation() {
   };
 
   return (
-    <main id="reservation">
+    <main id="reservation" className="container">
       <button
         onClick={() => navigate(`/myst-destination/${id}`)}
         className="back"
@@ -231,7 +231,7 @@ function Reservation() {
       </h2>
 
       {showConfirmation ? (
-        <div className="container confirmation">
+        <div className="confirmation">
           <FontAwesomeIcon icon={faCircleCheck} />
           <p>
             <span>
@@ -258,7 +258,7 @@ function Reservation() {
                 </span>
               </p>
             )}
-            {msg && <p className="container message">{msg}</p>}
+            {msg && <p className="message">{msg}</p>}
           </div>
           <form onSubmit={submitHandler}>
             <section className="date">
@@ -315,7 +315,7 @@ function Reservation() {
             </section>
 
             {formReservation.startDate && formReservation.endDate && (
-              <section className="container budget-duration">
+              <section className="budget-duration">
                 <h3>
                   <span>Durée sélectionnée :</span> {numberOfDays} jours
                 </h3>

@@ -52,7 +52,7 @@ function CustTripDetail() {
   if (!custTrips) return <p>Chargement...</p>;
 
   return (
-    <main className="cust-trip-admin">
+    <main className="cust-trip-admin container">
       <button
         onClick={() => navigate(-1)}
         title="Retour à la page des demandes de destination sur-mesure"
@@ -61,7 +61,7 @@ function CustTripDetail() {
         <FontAwesomeIcon icon={faArrowLeft} /> Retour
       </button>
       <h2>Demande de voyage sur-mesure n° {custTrips.id}</h2>
-      <section className="container">
+      <section>
         <p>
           <span>Date de la demande :</span> {custTrips.createdDate}
         </p>

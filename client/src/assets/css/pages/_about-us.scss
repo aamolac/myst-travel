@@ -14,18 +14,22 @@
     height: 40rem;
     padding: 5rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    clip-path: ellipse(100% 100% at 50% 0%);
   }
+
   h2,
   h3 {
     text-align: center;
     padding: 5rem 0rem;
   }
-
+  img {
+    display: block;
+    width: 70%;
+    margin: 2rem auto 5rem auto;
+  }
   .small-presentation {
-    margin: 2rem 0;
-    padding: 5rem;
+    margin: 5rem;
     p {
-      padding: 0 5rem;
       span {
         font-family: "Lora-Bold";
         font-style: italic;
@@ -35,42 +39,35 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 2rem;
+      gap: 3rem;
+      margin-top: 6rem;
+      margin-bottom: 4rem;
       img {
         width: 50%;
-        margin: 0;
       }
     }
     @media #{$laptop} {
-      margin: auto;
+      margin: 6rem auto 4rem auto;
     }
-  }
-  img {
-    display: block;
-    width: 70%;
-    margin: 2rem auto 5rem auto;
   }
 
   .our-team,
   .trip-with-us {
-    margin: 2rem 0;
-    padding: 5rem;
+    margin: 5rem;
     p {
-      padding: 2rem 5rem;
-    }
-    span {
-      font-family: "Lora-Bold";
-      font-style: italic;
+      span {
+        font-family: "Lora-Bold";
+        font-style: italic;
+      }
     }
     @media #{$tablet} {
       div {
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 2rem;
+        gap: 3rem;
         img {
           width: 50%;
-          margin: 0;
         }
       }
     }
@@ -115,9 +112,9 @@
           padding: 1rem;
         }
       }
-      @media #{$tablet} {
-        div div {
-          width: 40%;
+      div {
+        @media #{$tablet} {
+          width: 45%;
         }
       }
       @media #{$laptop} {
@@ -149,6 +146,7 @@
         color: $blue;
         text-align: center;
         border: 0.6rem solid $blue;
+        border-radius: 10%;
         width: 20rem;
         height: 20rem;
         padding: 3rem 2.5rem;

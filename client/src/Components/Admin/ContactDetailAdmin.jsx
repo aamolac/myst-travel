@@ -79,7 +79,7 @@ function ContactDetail() {
   };
 
   return (
-    <main className="contact-admin">
+    <main className="contact-admin container">
       <button
         onClick={() => navigate(-1)}
         title="Retour à la page des demandes de contact"
@@ -89,7 +89,7 @@ function ContactDetail() {
       </button>
       <h2>Message</h2>
 
-      <section className="container">
+      <section>
         {msg && <p className="message">{msg}</p>}
         <p>
           <span>Date de la demande :</span> {contacts.publishDate}

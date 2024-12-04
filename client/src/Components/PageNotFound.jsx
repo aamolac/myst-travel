@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 function PageNotFound() {
   const navigate = useNavigate();
   return (
-    <main id="page-not-found">
+    <main id="page-not-found" className="container">
       <button
         onClick={() => navigate("/")}
         title="Retour à la page d'accueil"

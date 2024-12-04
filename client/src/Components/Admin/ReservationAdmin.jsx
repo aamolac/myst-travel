@@ -91,13 +91,13 @@ function Reservation() {
   }, []);
 
   return (
-    <main className="summary-table">
+    <main className="summary-table container">
       <button onClick={() => navigate("/dashboard")} className="back">
         <FontAwesomeIcon icon={faArrowLeft} /> Retour au tableau de bord
       </button>
       <h2>Demande de réservation de voyages mystères</h2>
 
-      <section className="container">
+      <section>
         {msg && <p className="message">{msg}</p>}
         <table>
           <thead>
