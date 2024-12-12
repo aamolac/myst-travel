@@ -8,7 +8,6 @@ function userReducer(state, action) {
         user: action.payload,
       };
     case "REGISTER":
-      // Ajouter une logique pour l'enregistrement si nécessaire
       return state;
 
     case "LOGOUT":

@@ -1,7 +1,7 @@
 import pool from "../config/db.js";
 
 class Choice {
-  // Requêtes pour les choix des points demandés
+  // Choix des catégories demandées
   static async getTypeExperiences() {
     const q = "SELECT id, choice FROM typeExperience";
     return await pool.query(q);

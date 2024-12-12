@@ -15,7 +15,6 @@ const router = express.Router();
 // VISITEUR
 //ajouter une demande de contact
 router.post("/add", addRequest);
-
 //afficher les objets de contact
 router.get("/object", getAllObjects);
 
@@ -24,10 +23,8 @@ router.get("/object", getAllObjects);
 router.get("/list", adminAuth, getAll);
 //afficher toutes les infos d'une demande par son id
 router.get("/:id", adminAuth, getById);
-
 //modifier le status d'une demande de contact
 router.patch("/update/:id", adminAuth, update);
-
 //supprimer une demande de contact
 router.delete("/delete/:id", adminAuth, remove);
 

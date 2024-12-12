@@ -9,7 +9,6 @@ import Reservation from "../Components/Reservation.jsx";
 import CustTrip from "../Components/CustTrip.jsx";
 import Auth from "../Components/Auth/Auth.jsx";
 import Register from "../Components/Auth/Register.jsx";
-import useCheckAuth from "../HOOK/useCheckAuth.jsx";
 import TermsOfUse from "../Components/Legal/TermsOfUse.jsx";
 import PrivacyPolicy from "../Components/Legal/PrivacyPolicy.jsx";
 import LegalInformation from "../Components/Legal/LegalInformation.jsx";
@@ -20,13 +19,6 @@ import ProtectedRoute from "../HOC/ProtectedRoute.jsx";
 import TitleUpdater from "./TitleUpdater.jsx";
 
 function UserRouter() {
-  const user = useCheckAuth();
-
-  // Attendre que `user` soit défini avant de continuer
-  if (user === undefined) {
-    return <div>Chargement...</div>;
-  }
-
   return (
     <>
       <TitleUpdater />
@@ -53,7 +45,7 @@ function UserRouter() {
         />
         <Route path="/contact" element={<Contact />} />
         <Route path="/auth" element={<Auth />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/auth/register" element={<Register />} />
         <Route path="/terms-of-use" element={<TermsOfUse />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/legal-information" element={<LegalInformation />} />

@@ -19,17 +19,14 @@ function MystDest() {
   // État pour calculer le nombre total de destinations et celles filtrées
   const [totalDestinations, setTotalDestinations] = useState(0);
   const [filteredCount, setFilteredCount] = useState(0);
-
-  // Pour gérer les messages de retour
-  const [msg, setMsg] = useState("");
-
-  const [openSections, setOpenSections] = useState(null);
-
   //Etat pour la tablette
   const [isTablet, setIsTablet] = useState(window.innerWidth >= 768);
 
+  const [msg, setMsg] = useState("");
+  const [openSections, setOpenSections] = useState(null);
+
   const scrollToTop = () => {
-    window.scrollTo(0, 0); // Défiler en haut de la page
+    window.scrollTo(0, 0);
   };
 
   // Met à jour la taille de l'écran lorsque la fenêtre est redimensionnée
@@ -41,36 +38,42 @@ function MystDest() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  //Fonction de l'ouverture des sections des filtres
   const toggleSection = (section) => {
     setOpenSections(openSections === section ? null : section);
   };
 
   const fetchMystDest = async () => {
-    const response = await fetch(
-      "http://localhost:9000/api/v1/myst-dest/list",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      }
-    );
-
-    const data = await response.json();
-
-    // On met à jour l'état avec les destinations récupérées
-    setMystDestinations(data);
-    setTotalDestinations(data.length); // Mise à jour du total des destinations
+    try {
+      const response = await fetch(
+        "http://localhost:9000/api/v1/myst-dest/list",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+      const data = await response.json();
+      // Maj de l'état avec les destinations récupérées
+      setMystDestinations(data);
+      // Maj du total des destinations
+      setTotalDestinations(data.length);
+    } catch (error) {
+      setContacts({
+        error: `Impossible de récupérer les données des destinations mystères. Veuillez réessayer plus tard. Détails de l'erreur : ${error.message}`,
+      });
+    }
   };
 
-  // useEffect pour charger les infos
+  // useEffect pour charger les destinations mystères
   useEffect(() => {
     fetchMystDest();
   }, []);
 
+  // Mise à jour du nombre de destinations filtrées
   useEffect(() => {
-    // Mise à jour du nombre de destinations filtrées
     setFilteredCount(filteredDestinations.length);
   }, [
     mystDestinations.status !== 0,
@@ -109,29 +112,40 @@ function MystDest() {
   // Fonction pour gérer les changements de la durée
   const handleDurationChange = (e) => {
     const value = e.target.value;
-    // Permettre à l'utilisateur de vider l'input
+
+    // Pour que l'utilisateur vide l'input
     if (value === "") {
       setDurationFilter(null);
-      setMsg(""); // Réinitialiser le message
+      return;
+    }
+    // Mettre à jour l'état avec la valeur brute (non validée)
+    setDurationFilter(value);
+  };
+
+  // Fonction appelée après la perte du focus pour afficher le message d'erreur
+  const handleDurationBlur = () => {
+    // Pas de message si l'input est vide
+    if (durationFilter === null || durationFilter === "") {
+      setMsg("");
       return;
     }
 
     // Convertir la valeur en nombre
-    const numericValue = Number(value);
+    const numericValue = Number(durationFilter);
 
-    // Validation si la valeur est un nombre
+    // Vérification si la valeur est un nombre valide
     if (isNaN(numericValue)) {
       setMsg("Veuillez entrer un nombre valide.");
       return;
     }
 
+    // Vérification des limites
     if (numericValue < 2 || numericValue > 21) {
       setMsg("La durée doit être comprise entre 2 et 21 jours.");
-      return;
+    } else {
+      // Réinitialiser le message si tout est correct
+      setMsg("");
     }
-
-    setDurationFilter(numericValue);
-    setMsg(""); // Réinitialiser le message si la validation est correcte
   };
 
   const handleCheckboxChange = (e, filterState, setFilterState) => {
@@ -155,24 +169,6 @@ function MystDest() {
     handleCheckboxChange(e, activityFilter, setActivityFilter);
   const handleAccomodationChange = (e) =>
     handleCheckboxChange(e, accomodationFilter, setAccomodationFilter);
-
-  useEffect(() => {
-    // Sauvegarder dans sessionStorage à chaque changement
-    sessionStorage.setItem("budgetFilter", JSON.stringify(budgetFilter));
-    sessionStorage.setItem("continentFilter", JSON.stringify(continentFilter));
-    sessionStorage.setItem("climateFilter", JSON.stringify(climateFilter));
-    sessionStorage.setItem("activityFilter", JSON.stringify(activityFilter));
-    sessionStorage.setItem(
-      "accomodationFilter",
-      JSON.stringify(accomodationFilter)
-    );
-  }, [
-    budgetFilter,
-    continentFilter,
-    climateFilter,
-    activityFilter,
-    accomodationFilter,
-  ]);
 
   // Enregistrer l'état des filtres dans sessionStorage à chaque mise à jour
   useEffect(() => {
@@ -211,32 +207,25 @@ function MystDest() {
       }
     }
 
-    // Vérifie le filtre des continents (s'il y en a)
+    // Vérifie les autres filtre (s'il y en a)
     if (
       continentFilter.length > 0 &&
       !continentFilter.includes(dest.continent)
     ) {
       return false;
     }
-
-    // Vérifie le filtre du climat (s'il y en a)
     if (climateFilter.length > 0 && !climateFilter.includes(dest.climate)) {
       return false;
     }
-
-    // Vérifie le filtre de l'activité (s'il y en a)
     if (activityFilter.length > 0 && !activityFilter.includes(dest.activity)) {
       return false;
     }
-
-    // Vérifie le filtre de l'hébergement (s'il y en a)
     if (
       accomodationFilter.length > 0 &&
       !accomodationFilter.includes(dest.accomodation)
     ) {
       return false;
     }
-
     // Si aucun filtre du budget, afficher toutes les destinations
     if (budgetFilter.length === 0) return true;
 
@@ -268,9 +257,23 @@ function MystDest() {
     accomodationFilter.length > 0;
 
   return (
-    <main id="myst-dest">
+    <main id="myst-dest" aria-label="Page des destinations mystères">
+      <nav
+        className="menu-accessible"
+        role="navigation"
+        aria-label="Menu accessible avec tabulation"
+      >
+        <a href="#myst-dest">Nos destinations mystères</a>
+        <a href="#trip-begin-here">Le voyage commence ici</a>
+        <a href="#filter">Filtrer les destinations</a>
+        {filteredDestinations.map((mystDest) => (
+          <a key={mystDest.id} href={`#${mystDest.title}`}>
+            {mystDest.title}
+          </a>
+        ))}
+      </nav>
       <h2>Nos destinations mystères</h2>
-      <section className="container intro-myst-dest">
+      <section className="container" id="trip-begin-here">
         <h3>Le voyage commence ici </h3>
         <p>
           Préparez-vous à partir pour une aventure inédite. Pas de noms de
@@ -290,7 +293,7 @@ function MystDest() {
           climateFilter.length > 0 ||
           activityFilter.length > 0 ||
           accomodationFilter.length > 0) && (
-          <div>
+          <div aria-live="polite">
             <p>
               <span>Filtre(s) appliqué(s) :</span>
             </p>
@@ -326,20 +329,31 @@ function MystDest() {
             )}
           </div>
         )}
-        <h4>
+        <h4 aria-live="polite">
           Total des destinations :{" "}
           {hasFiltersApplied ? filteredCount : totalDestinations}
         </h4>
 
-        {msg && <p className="message">{msg}</p>}
+        {msg && (
+          <p className="message" role="alert">
+            {msg}
+          </p>
+        )}
       </section>
 
       <div
         className={`container ${isTablet ? "design-tablet" : "design-mobile"}`}
       >
-        <fieldset className={isTablet ? "tablet-filter" : "mobile-filter"}>
+        <fieldset
+          className={isTablet ? "tablet-filter" : "mobile-filter"}
+          aria-label="Filtrer les destinations"
+          id="filter"
+        >
           <legend>Filtrer par :</legend>
-          <section className={openSections === "budget" ? "active-filter" : ""}>
+          <section
+            className={openSections === "budget" ? "active-filter" : ""}
+            aria-label="Filtrer les destinations par budget"
+          >
             <h4
               onClick={() => {
                 toggleSection("budget");
@@ -398,6 +412,7 @@ function MystDest() {
           </section>
           <section
             className={openSections === "duration" ? "active-filter" : ""}
+            aria-label="Filtrer les destinations par durée du séjour"
           >
             <h4 onClick={() => toggleSection("duration")}>
               Durée du séjour (jours)
@@ -412,6 +427,8 @@ function MystDest() {
                     name="duration"
                     value={durationFilter || ""}
                     onChange={handleDurationChange}
+                    onBlur={handleDurationBlur}
+                    className="input-duration"
                   />
                 </div>
               </div>
@@ -419,6 +436,7 @@ function MystDest() {
           </section>
           <section
             className={openSections === "continent" ? "active-filter" : ""}
+            aria-label="Filtrer les destinations par continent"
           >
             <h4 onClick={() => toggleSection("continent")}>Continent</h4>
             {isTablet || openSections === "continent" ? (
@@ -483,6 +501,7 @@ function MystDest() {
           </section>
           <section
             className={openSections === "climate" ? "active-filter" : ""}
+            aria-label="Filtrer les destinations par climat"
           >
             <h4 onClick={() => toggleSection("climate")}>Climat</h4>
             {isTablet || openSections === "climate" ? (
@@ -509,7 +528,7 @@ function MystDest() {
                     onChange={handleClimateChange}
                     checked={climateFilter.includes("Tempéré et doux")}
                   />
-                  <label htmlFor="Tempéré/doux">Tempéré et doux</label>
+                  <label htmlFor="Tempéré et doux">Tempéré et doux</label>
                 </div>
                 <div className="input-label">
                   <input
@@ -549,6 +568,7 @@ function MystDest() {
           </section>
           <section
             className={openSections === "activity" ? "active-filter" : ""}
+            aria-label="Filtrer les destinations par activité"
           >
             <h4 onClick={() => toggleSection("activity")}>Activité physique</h4>
             {isTablet || openSections === "activity" ? (
@@ -613,6 +633,7 @@ function MystDest() {
           </section>
           <section
             className={openSections === "accomodation" ? "active-filter" : ""}
+            aria-label="Filtrer les destinations par type d'hébergement"
           >
             <h4 onClick={() => toggleSection("accomodation")}>Hébergement</h4>
             {isTablet || openSections === "accomodation" ? (
@@ -620,46 +641,46 @@ function MystDest() {
                 <div className="input-label">
                   <input
                     type="checkbox"
-                    id="Classique et Confortable"
-                    name="Classique et Confortable"
-                    value="Classique et Confortable"
+                    id="Classique et confortable"
+                    name="Classique et confortable"
+                    value="Classique et confortable"
                     onChange={handleAccomodationChange}
                     checked={accomodationFilter.includes(
-                      "Classique et Confortable"
+                      "Classique et confortable"
                     )}
                   />
-                  <label htmlFor="Classique et Confortable">
-                    Classique et Confortable
+                  <label htmlFor="Classique et confortable">
+                    Classique et confortable
                   </label>
                 </div>
                 <div className="input-label">
                   <input
                     type="checkbox"
-                    id="Nature et Authentique"
-                    name="Nature et Authentique"
-                    value="Nature et Authentique"
+                    id="Nature et authentique"
+                    name="Nature et authentique"
+                    value="Nature et authentique"
                     onChange={handleAccomodationChange}
                     checked={accomodationFilter.includes(
-                      "Nature et Authentique"
+                      "Nature et authentique"
                     )}
                   />
-                  <label htmlFor="Nature et Authentique">
-                    Nature et Authentique
+                  <label htmlFor="Nature et authentique">
+                    Nature et authentique
                   </label>
                 </div>
                 <div className="input-label">
                   <input
                     type="checkbox"
-                    id="Économique et Pratique"
-                    name="Économique et Pratique"
-                    value="Économique et Pratique"
+                    id="Économique et pratique"
+                    name="Économique et pratique"
+                    value="Économique et pratique"
                     onChange={handleAccomodationChange}
                     checked={accomodationFilter.includes(
-                      "Économique et Pratique"
+                      "Économique et pratique"
                     )}
                   />
-                  <label htmlFor="Économique et Pratique">
-                    Économique et Pratique
+                  <label htmlFor="Économique et pratique">
+                    Économique et pratique
                   </label>
                 </div>
                 <div className="input-label">
@@ -677,7 +698,7 @@ function MystDest() {
             ) : null}
           </section>
         </fieldset>
-        <section className="info-dest">
+        <section id="info-dest">
           {filteredDestinations.map((mystDest) => (
             <article key={mystDest.id}>
               <h4>{mystDest.title}</h4>
@@ -696,6 +717,8 @@ function MystDest() {
                 <Link
                   to={`/myst-destination/${mystDest.id}`}
                   onClick={scrollToTop}
+                  id={mystDest.title}
+                  aria-label="Découvrir les informations de la destination mystère"
                 >
                   En savoir plus
                 </Link>

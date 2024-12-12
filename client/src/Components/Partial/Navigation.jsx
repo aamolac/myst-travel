@@ -2,71 +2,114 @@ import { useNavigate, NavLink, Link } from "react-router-dom";
 
 import { useContext } from "react";
 import { LoginContext } from "../../store/user/Context.jsx";
-import { MenuContext } from "../../store/menu/Context.jsx";
+import { MenuContext } from "../../store/menu/ContextMenu.jsx";
 
 function Navigation({ isFooter }) {
-  // pour récupérer les données de l'utilisateur on utilise le hook useContext
-  // en lui passant le contexte à utiliser ici il correspond au contexte de l'utilisateur
+  // useContext permet d'accéder au contexte User, contient la fonction user, isLogged, logout
   const { user, isLogged, logout } = useContext(LoginContext);
-  //  faire appel au composant isOpen et toggleMenu indiqué dans le fichier Context du dossier Menu
+  // Appel au composant isOpen et toggleMenu dans MenuContext
   const { toggleMenu } = useContext(MenuContext);
-
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    const response = await fetch("http://localhost:9000/api/v1/auth/logout", {
-      method: "GET",
-      credentials: "include",
-    });
-
-    if (response.ok) {
-      // Mettre à jour le contexte global pour signifier que l'utilisateur est déconnecté
-      logout();
-      if (!isFooter) toggleMenu(); // Ferme le menu si ce n'est pas dans le footer
-      navigate("/");
-    } else {
-      console.error("Logout failed");
+    try {
+      const response = await fetch("http://localhost:9000/api/v1/auth/logout", {
+        method: "GET",
+        credentials: "include",
+      });
+      if (response.ok) {
+        // Mettre à jour le contexte global pour signifier que l'utilisateur est déconnecté
+        logout();
+        navigate("/");
+      } else {
+        console.error("Logout failed");
+        setMsg(
+          "Une erreur s'est produite lors de la déconnexion. Veuillez réessayer."
+        );
+      }
+    } catch (error) {
+      console.error("Erreur lors de la déconnexion :", error.message);
+      setMsg("Une erreur s'est produite. Veuillez réessayer plus tard.");
     }
   };
 
   const handleNavClick = () => {
-    if (!isFooter) toggleMenu(); // Ne ferme le menu que si ce n'est pas dans le footer
-    window.scrollTo(0, 0); // Défiler en haut de la page
+    // Ne ferme le menu que si ce n'est pas dans le footer
+    if (!isFooter) toggleMenu();
+    window.scrollTo(0, 0);
   };
 
   return (
-    <nav className="container">
-      <NavLink to={"/"} onClick={handleNavClick}>
+    <nav className="container" role="navigation">
+      <NavLink
+        to={"/"}
+        onClick={handleNavClick}
+        aria-label="Aller sur la page d'accueil"
+      >
         Accueil
       </NavLink>
-      <NavLink to={"/about-us"} onClick={handleNavClick}>
+      <NavLink
+        to={"/about-us"}
+        onClick={handleNavClick}
+        aria-label="Aller sur la page Qui sommes-nous ?"
+      >
         Qui sommes-nous ?
       </NavLink>
-      <NavLink to={"/myst-destination"} onClick={handleNavClick}>
+      <NavLink
+        to={"/myst-destination"}
+        onClick={handleNavClick}
+        aria-label="Aller sur la page Nos destinations mystères"
+      >
         Nos destinations mystères
       </NavLink>
 
       {isLogged ? (
         <>
-          <NavLink to={"/customized-trip"} onClick={handleNavClick}>
+          <NavLink
+            to={"/customized-trip"}
+            onClick={handleNavClick}
+            aria-label="Aller sur la page Destination sur-mesure"
+          >
             Destination sur-mesure
           </NavLink>
-          <NavLink to={"/contact"} onClick={handleNavClick}>
+          <NavLink
+            to={"/contact"}
+            onClick={handleNavClick}
+            aria-label="Aller sur la page Contact"
+          >
             Contact
           </NavLink>
           {user?.role === "admin" && (
-            <NavLink to={"/dashboard"} onClick={handleNavClick}>
+            <NavLink
+              to={"/dashboard"}
+              onClick={handleNavClick}
+              aria-label="Aller sur le tableau de bord"
+            >
               Tableau de bord
             </NavLink>
           )}
-          <Link onClick={handleLogout}>Se déconnecter</Link>
+          <Link
+            onClick={handleLogout}
+            role="button"
+            aria-label="Se déconnecter"
+          >
+            Se déconnecter
+          </Link>
         </>
       ) : (
         <>
-          <NavLink to={"/contact"} onClick={handleNavClick}>
+          <NavLink
+            to={"/contact"}
+            onClick={handleNavClick}
+            aria-label="Aller sur la page Contact"
+          >
             Contact
           </NavLink>
-          <NavLink to={"/auth"} onClick={handleNavClick}>
+          <NavLink
+            to={"/auth"}
+            onClick={handleNavClick}
+            aria-label="Se connecter ou créer un compte"
+          >
             Se connecter
           </NavLink>
         </>

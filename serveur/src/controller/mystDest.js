@@ -23,14 +23,15 @@ const getById = async (req, res) => {
   try {
     // Récupération de l'ID à partir des paramètres de l'URL
     const mystDestId = req.params.id;
-    // Appel de la méthode pour récupérer la destination avec l'ID fourni
+
+    // Exécute la requête pour récupérer la destination correspondant à l'ID
     const [mystDests] = await MystDest.findById(mystDestId);
 
     // Vérification si la destination a été trouvée
-    if (!mystDests || mystDests.length === 0) {
+    if (!mystDests.length) {
       return res
         .status(404)
-        .json({ msg: "La destination demandée n'existe pas." });
+        .json({ msg: "Erreur : La destination demandée n'existe pas." });
     }
 
     // Renvoie les infos de la destination en format JSON
@@ -50,10 +51,10 @@ const update = async (req, res) => {
     const [mystDests] = await MystDest.findById(mystDestId);
 
     // Vérification si la destination existe
-    if (!mystDests || mystDests.length === 0) {
+    if (!mystDests.length) {
       return res
         .status(404)
-        .json({ msg: "La destination demandée n'existe pas." });
+        .json({ msg: "Erreur : La destination demandée n'existe pas." });
     }
 
     // Récupérer les informations actuelles de la destination, y compris l'URL de l'image
@@ -93,12 +94,12 @@ const update = async (req, res) => {
       }
     }
 
-    // Ajouter l'URL de la nouvelle image dans les champs à mettre à jour si une image a été uploadée
+    // Ajouter l'URL de la nouvelle image dans les champs à MAJ si une image a été uploadée
     if (newImage !== currentImage) {
       fieldsToUpdate.image = newImage;
     }
 
-    // Vérifier si des champs ont été fournis pour la mise à jour
+    // Vérifier si des champs ont été fournis pour la MAJ
     if (Object.keys(fieldsToUpdate).length === 0) {
       return res.status(400).json({ msg: "Pas de champs trouvé à modifier" });
     }
@@ -108,6 +109,17 @@ const update = async (req, res) => {
     fieldsToUpdate.maxDuration = Number(fieldsToUpdate.maxDuration);
     fieldsToUpdate.minDuration = Number(fieldsToUpdate.minDuration);
 
+    // Vérification des champs numériques
+    if (
+      isNaN(fieldsToUpdate.budget) ||
+      isNaN(fieldsToUpdate.maxDuration) ||
+      isNaN(fieldsToUpdate.minDuration)
+    ) {
+      return res.status(400).json({
+        msg: "Veuillez entrer des chiffres valides pour les champs requis.",
+      });
+    }
+
     // Vérification des valeurs de minDuration et maxDuration
     if (
       (fieldsToUpdate.minDuration &&
@@ -116,7 +128,7 @@ const update = async (req, res) => {
         (fieldsToUpdate.maxDuration < 2 || fieldsToUpdate.maxDuration > 21))
     ) {
       return res.status(400).json({
-        msg: "La durée minimale est de 2 jours et la durée maximale de 21 jours.",
+        msg: "Les durées doivent être comprises entre 2 et 21 jours.",
       });
     }
 
@@ -127,18 +139,18 @@ const update = async (req, res) => {
       });
     }
 
-    // Mise à jour de la destination
-    const result = await MystDest.update(mystDestId, fieldsToUpdate);
+    // Exécute la requête pour MAJ le status de la destination
+    const [result] = await MystDest.update(mystDestId, fieldsToUpdate);
 
-    // Vérification si la mise à jour a réussi
-    if (result[0].affectedRows === 0) {
-      return res
-        .status(404)
-        .json({ msg: "La modification de la destination n'a abouti." });
+    // Vérification si la MAJ a réussi
+    if (!result.affectedRows) {
+      return res.status(404).json({
+        msg: "Erreur : La destination mystère n'a pas pu être modifiée.",
+      });
     }
 
-    // Renvoie une réponse JSON confirmant la mise à jour
-    res.json({ msg: "La destination a bien été modifiée" });
+    // Renvoie une réponse JSON confirmant la MAJ
+    res.json({ msg: "La destination a bien été modifiée." });
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }
@@ -154,10 +166,10 @@ const remove = async (req, res) => {
     const destination = await MystDest.findById(mystDestId);
 
     // Si la destination n'existe pas
-    if (!destination) {
+    if (!destination.length) {
       return res
         .status(404)
-        .json({ msg: "La destination demandée n'existe pas." });
+        .json({ msg: "Erreur : La destination demandée n'existe pas." });
     }
 
     const image = destination[0][0].image;
@@ -175,26 +187,29 @@ const remove = async (req, res) => {
       try {
         // Supprimer l'image du dossier
         await fsPromises.unlink(imagePath);
-        console.log("Image supprimée avec succès");
+        console.log("Image supprimée avec succès !");
       } catch (err) {
-        console.error("Erreur lors de la suppression de l'image", err);
+        console.error("Erreur lors de la suppression de l'image.", err);
         return res
           .status(500)
-          .json({ msg: "Erreur lors de la suppression de l'image" });
+          .json({ msg: "Erreur lors de la suppression de l'image." });
       }
     }
 
-    //supprimer la destination de la bdd
-    const result = await MystDest.deleteById(mystDestId);
+    // Exécute la requête pour supprimer la destination correspondant à l'ID
+    const [result] = await MystDest.deleteById(mystDestId);
+
     // Si aucune destination n'a été supprimée (par ex si l'ID n'existe pas)
-    if (result[0].affectedRows === 0) {
+    if (!result.affectedRows) {
       return res
         .status(404)
-        .json({ msg: "Erreur lors de la suppression de la destination" });
+        .json({
+          msg: "Erreur : La destination mystère n'a pas pu être supprimée.",
+        });
     }
 
     // Si la destination a bien été supprimée
-    res.json({ msg: "Destination et image supprimées" });
+    res.json({ msg: "La destination a bien été supprimée." });
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }
@@ -243,6 +258,13 @@ const create = async (req, res) => {
     const minDurationNum = Number(minDuration);
     const maxDurationNum = Number(maxDuration);
 
+    // Vérification des champs numériques
+    if (isNaN(budgetNum) || isNaN(minDurationNum) || isNaN(maxDurationNum)) {
+      return res.status(400).json({
+        msg: "Veuillez entrer des chiffres valides pour les champs requis.",
+      });
+    }
+
     // Vérification des valeurs de minDuration et maxDuration
     if (
       minDurationNum < 2 ||
@@ -251,7 +273,7 @@ const create = async (req, res) => {
       maxDurationNum > 21
     ) {
       return res.status(400).json({
-        msg: "La durée minimale est de 2 jours et la durée maximale de 21 jours.",
+        msg: "Les durées doivent être comprises entre 2 et 21 jours.",
       });
     }
 
@@ -265,9 +287,11 @@ const create = async (req, res) => {
     // Upload de l'image
     const imageUrl = await uploadImage(req, res);
     if (!imageUrl) {
-      return; // Arrête la fonction si une erreur survient lors de l'upload de l'image
+      // Arrête la fonction si une erreur survient lors de l'upload de l'image
+      return;
     }
 
+    // Ajout de la destination dans la BDD
     await MystDest.add(
       title,
       climateClue,
@@ -284,32 +308,35 @@ const create = async (req, res) => {
       imageUrl,
       alt
     );
-    return res.json({ msg: "Nouvelle destination ajoutée !" });
+
+    // Réponse de succès
+    res.json({ msg: "Nouvelle destination ajoutée !" });
   } catch (err) {
-    return res.status(500).json({ msg: err.message });
+    res.status(500).json({ msg: err.message });
   }
 };
 
-//MODIFIER LE STATUS D'UNE DESTINATION
+// MODIFIER LE STATUS D'UNE DESTINATION
 const updateStatus = async (req, res) => {
   try {
     // Récupération de l'ID à partir des paramètres de l'URL
     const mystDestStatusId = req.params.id;
+
     // Récupération du nouveau statut à partir du corps de la requête
     const { status } = req.body;
 
-    // Mise à jour du statut
-    const result = await MystDest.updateStat(mystDestStatusId, status);
+    // Exécute la requête pour MAJ le status de la destination
+    const [result] = await MystDest.updateStat(mystDestStatusId, status);
 
-    // Vérification si la mise à jour a réussi
-    if (result[0].affectedRows === 0) {
+    // Vérification si la MAJ a réussi
+    if (!result.affectedRows) {
       return res.status(404).json({
-        msg: "Le status de la destination n'a pas pu être modifié",
+        msg: "Erreur : Le status de la destination n'a pas pu être modifié.",
       });
     }
 
-    // Renvoie une réponse JSON confirmant la mise à jour
-    res.json({ msg: "Le status de la destination a bien été modifié" });
+    // Renvoie une réponse JSON confirmant la MAJ
+    res.json({ msg: "Le status de la destination a bien été modifié." });
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }

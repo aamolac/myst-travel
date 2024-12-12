@@ -15,7 +15,7 @@ footer {
       }
       h4,
       p {
-        line-height: 1.5rem;
+        line-height: 2rem;
       }
       h4 {
         padding-bottom: 1rem;
@@ -37,7 +37,7 @@ footer {
       nav {
         display: flex;
         flex-direction: column;
-        gap: 0.7rem;
+        gap: 2rem;
       }
       @media #{$tablet} {
         grid-area: navigation;

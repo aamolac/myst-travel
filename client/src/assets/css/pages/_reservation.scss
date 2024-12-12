@@ -16,72 +16,87 @@
   h3 {
     margin: 0 3rem;
   }
-  section {
+  p {
+    text-align: center;
+  }
+  form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    form {
+    div {
       display: flex;
       flex-direction: column;
+      align-items: center;
       gap: 1rem;
+      width: 30rem;
       label {
         @include label-style;
+        margin-top: 4rem;
       }
+    }
+    #date {
       input {
         @include input-style;
+        width: 13rem;
       }
-      .date {
-        margin: 0 3rem;
+    }
+    #people {
+      input {
+        @include input-style;
+        width: 30rem;
+      }
+    }
+    @media #{$tablet} {
+      align-items: flex-start;
+      margin-left: 3rem;
+      #date,
+      #people {
         display: flex;
         flex-direction: row;
-        justify-content: center;
-        gap: 7rem;
+        gap: 8rem;
+        margin: auto;
         div {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-          width: 30rem;
-          label {
-            margin-top: 3rem;
-          }
-          input {
-            width: 20rem;
-          }
+          align-items: flex-start;
         }
       }
-      .people {
-        margin: 3rem;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        gap: 7rem;
-        div {
-          display: flex;
-          flex-direction: column;
-          width: 30rem;
-          gap: 1rem;
-        }
+    }
+    @media #{$laptop} {
+      #date,
+      #people {
+        align-items: center;
+        gap: 15rem;
       }
+    }
+
+    .budget-duration {
+      margin-top: 4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      .info-price {
+        font-style: italic;
+      }
+    }
+    @media #{$tablet} {
       .budget-duration {
-        margin-top: 4rem;
-        display: flex;
-        align-items: flex-start;
-        .info-price {
-          font-style: italic;
+        margin-top: 5rem;
+        p,
+        h3 {
+          margin-left: 0;
         }
       }
-      button {
-        @include button-style;
-        display: block;
-        width: 20%;
-        margin: 3rem auto;
-      }
-      button:hover {
-        @media #{$laptop} {
-          background-color: $creamy-white;
-          color: $blue;
-          border: 3px solid $blue;
-        }
+    }
+    button {
+      @include button-style;
+      display: block;
+      width: 20%;
+      margin: 3rem auto;
+    }
+    button:hover {
+      @media #{$laptop} {
+        background-color: $creamy-white;
+        color: $blue;
+        border: 0.3rem solid $blue;
       }
     }
   }

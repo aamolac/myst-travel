@@ -2,13 +2,13 @@ import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import Navigation from "./Navigation.jsx";
-import { MenuContext } from "../../store/menu/Context.jsx";
+import { MenuContext } from "../../store/menu/ContextMenu.jsx";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 function Header() {
-  //  faire appel au composant isOpen et toggleMenu indiqué dans le fichier Context du dossier Menu
+  // Appel au composant isOpen et toggleMenu dans le MenuContext
   const { isOpen, toggleMenu } = useContext(MenuContext);
   //Etat pour la tablette
   const [isTablet, setIsTablet] = useState(window.innerWidth >= 768);
@@ -34,59 +34,62 @@ function Header() {
   // Réinitialise isOpen lorsque la taille de l'écran passe à un mode tablette ou inférieur
   useEffect(() => {
     if (isTablet && isOpen) {
-      toggleMenu(); // Ferme le menu si on passe en mode tablette
+      // Ferme le menu si on passe en mode tablette
+      toggleMenu();
     }
   }, [isTablet, isOpen, toggleMenu]);
 
   return (
     <header>
-      <section className={`${isTablet ? "tablet-header" : ""}`}>
-        {!isTablet && (
-          <>
-            <div className="plane-logo header-mobile">
-              <img
-                src="/src/assets/images/plane-line-straight.webp"
-                alt="Dessin d'un avion volant vers la droite avec des pointillés."
-              />
-              <Link
-                to="/"
-                title="Aller à la page d'accueil"
-                className="myst-travel"
-              >
-                Myst'Travel
-              </Link>
-            </div>
-            <div id="burger-menu" className={isOpen ? "open" : ""}>
-              <FontAwesomeIcon
-                icon={isOpen ? faXmark : faBars}
-                onClick={toggleMenu}
-              />
-              {/* Menu qui s'affiche quand 'isOpen' est true */}
-              {isOpen && <Navigation />}
-            </div>
-          </>
-        )}
-        {isTablet && (
-          <>
-            <div className="plane-logo">
-              <img
-                src="/src/assets/images/plane-line-straight.webp"
-                alt="Dessin d'un avion volant vers la droite avec des pointillés."
-              />
-              <Link
-                to="/"
-                title="Aller à la page d'accueil"
-                className="myst-travel"
-              >
-                Myst'Travel
-              </Link>
-              <img
-                src="/src/assets/images/plane-line-straight-right.webp"
-                alt="Dessin d'un avion volant vers la gauche avec des pointillés."
-              />
-            </div>
-            <Navigation />
-          </>
+      <section
+        className={`${isTablet ? "tablet-header" : "header-mobile"}`}
+        aria-label={isTablet ? "En-tête pour tablette" : "En-tête pour mobile"}
+      >
+        <div
+          className="plane-logo"
+          aria-label={
+            isTablet
+              ? "Logo Myst'Travel avec deux avions"
+              : "Logo Myst'Travel avec un avion"
+          }
+        >
+          <img
+            src="/src/assets/images/plane-line-straight.webp"
+            alt="Dessin d'un avion volant vers la droite avec des pointillés."
+          />
+          <Link
+            to="/"
+            title="Aller à la page d'accueil"
+            className="myst-travel"
+            aria-label="Aller à l'accueil de Myst'Travel"
+          >
+            Myst'Travel
+          </Link>
+          {isTablet && (
+            <img
+              src="/src/assets/images/plane-line-straight-right.webp"
+              alt="Dessin d'un avion volant vers la gauche avec des pointillés."
+            />
+          )}
+        </div>
+        {!isTablet ? (
+          <div
+            id="burger-menu"
+            className={isOpen ? "open" : ""}
+            role="navigation"
+            aria-label="Menu de navigation mobile"
+          >
+            <FontAwesomeIcon
+              icon={isOpen ? faXmark : faBars}
+              onClick={toggleMenu}
+              role="button"
+              aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
+              aria-expanded={isOpen}
+            />
+            {isOpen && <Navigation />}
+          </div>
+        ) : (
+          <Navigation />
         )}
       </section>
     </header>

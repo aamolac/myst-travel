@@ -3,64 +3,71 @@ import { useNavigate, Link } from "react-router-dom";
 import { LoginContext } from "../../store/user/Context.jsx";
 
 function Auth() {
-  // useContext permet d'accéder au contexte global 'Context', ici il contient l'état global et les fonctions comme 'login'
+  // useContext permet d'accéder au contexte User, contient la fonction login
   const { login } = useContext(LoginContext);
   // États pour stocker les données du formulaire
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // useState pour gérer les messages d'erreur ou d'information
   const [msg, setMsg] = useState(null);
   const navigate = useNavigate();
 
   const scrollToTop = () => {
-    window.scrollTo(0, 0); // Défiler en haut de la page
+    window.scrollTo(0, 0);
   };
 
+  // Gérer la soumission du formulaire
   async function submitHandler(e) {
+    // Empêche le rechargement de la page lors de la soumission du formulaire
     e.preventDefault();
 
-    // Validation de l'email
-    const emailValidate = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!email || !emailValidate.test(email)) {
-      setMsg("L'adresse email n'est pas valide.");
-      return;
-    }
-
-    // Validation du mot de passe
-    if (!password || password.length < 8) {
-      setMsg(
-        "Le mot de passe doit contenir au moins 8 caractères, avec au moins une minuscule, une majuscule, un chiffre et un caractère spécial."
+    try {
+      const response = await fetch("http://localhost:9000/api/v1/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        // Met à jour le contexte global avec les données utilisateur
+        login(data.user);
+        if (data.user.role === "admin") {
+          navigate("/dashboard");
+        } else {
+          // Vérifie l'URL précédente pour déterminer la redirection
+          const previousPath = location.state?.from || document.referrer || "/"; // Utilise l'historique ou referrer comme fallback
+          if (previousPath.includes("/register")) {
+            navigate(-2);
+          } else {
+            navigate(-1);
+          }
+        }
+      } else {
+        setMsg(data.msg);
+      }
+    } catch (error) {
+      console.log(
+        `Erreur lors de la tentative de connexion : ${error.message}`
       );
-      return;
-    }
-
-    // Envoi des données au back-end
-    const response = await fetch("http://localhost:9000/api/v1/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({ email, password }),
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
-      login(data.user); // Met à jour le contexte global avec les données utilisateur
-      navigate(-1);
-    } else {
-      setMsg(data.msg); // Affiche un message d'erreur si la connexion échoue
+      setMsg(
+        "Une erreur s'est produite lors de la tentative de connexion. Veuillez vérifier votre connexion et réessayer."
+      );
     }
   }
 
   return (
-    <main>
+    <main aria-label="Page pour se connecter">
       <section className="auth">
         <h2>Connexion</h2>
 
-        {msg && <p className="message">{msg}</p>}
+        {msg && (
+          <p className="message" role="alert">
+            {msg}
+          </p>
+        )}
         <form onSubmit={submitHandler}>
           <label htmlFor="email">Email</label>
           <input
@@ -69,24 +76,34 @@ function Auth() {
             name="email"
             placeholder="Entrer votre adresse mail"
             value={email}
-            onChange={(e) => setEmail(e.target.value)} // Met à jour 'username' à chaque saisie
+            onChange={(e) => setEmail(e.target.value)} // Met à jour 'email' à chaque saisie
             required
           />
           <label htmlFor="password">Mot de passe</label>
+          <p className="password-condition">
+            Minimum 8 caractères, 1 minuscule, 1 majuscule, 1 chiffre, 1
+            caractère spécial
+          </p>
           <input
             type="password"
             id="password"
             name="password"
             placeholder="Entrer votre mot de passe"
             value={password}
-            onChange={(e) => setPassword(e.target.value)} // Met à jour 'password' à chaque saisie
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
-
-          <button type="submit">Se connecter</button>
+          <button type="submit" aria-label="Se connecter">
+            Se connecter
+          </button>
           <p>
             Vous n'avez pas encore de compte ?{" "}
-            <Link to="/register" id="account" onClick={scrollToTop}>
+            <Link
+              to="/auth/register"
+              id="account"
+              onClick={scrollToTop}
+              aria-label="S'inscrire"
+            >
               Inscrivez-vous
             </Link>
           </p>

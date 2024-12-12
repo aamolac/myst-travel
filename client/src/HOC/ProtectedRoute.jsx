@@ -7,7 +7,8 @@ function ProtectedRoute({ children, roles }) {
 
   // Attendre que l'état d'authentification soit défini
   if (isLogged === undefined || user === undefined) {
-    return <div>Chargement...</div>; // Loader global
+    // Loader global
+    return <div>Chargement...</div>;
   }
 
   // Vérifie si l'utilisateur est connecté et a le rôle demandé

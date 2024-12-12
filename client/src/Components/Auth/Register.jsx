@@ -3,9 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { LoginContext } from "../../store/user/Context.jsx";
 
 function Register() {
-  // useContext permet d'accéder au contexte global 'Context', ici il contient l'état global et les fonctions comme 'login'
+  // useContext permet d'accéder au contexte User, contient la fonction register
   const { register } = useContext(LoginContext);
-
   // États pour stocker les données du formulaire
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
@@ -13,47 +12,48 @@ function Register() {
   const [password, setPassword] = useState("");
   const [acceptedTerms, setAcceptedTerms] = useState(false);
 
-  // useState pour gérer les messages d'erreur ou d'information
   const [msg, setMsg] = useState(null);
   const navigate = useNavigate();
 
   const scrollToTop = () => {
-    window.scrollTo(0, 0); // Défiler en haut de la page
+    window.scrollTo(0, 0);
   };
 
-  // Fonction appelée lors de la soumission du formulaire
-  async function submitHandler(e) {
-    // Empêche le rechargement de la page lors de la soumission du formulaire
-    e.preventDefault();
+  // Validation du formulaire
+  const validateForm = () => {
+    // Vérification que tous les champs sont remplis
+    if (!firstname || !lastname || !email || !password) {
+      setMsg("Tous les champs sont requis.");
+      return false;
+    }
 
-    // Validation des champs
     if (firstname.length < 2 || !/^[A-Za-zÀ-ÿ]+$/.test(firstname)) {
       setMsg(
         "Le prénom doit avoir au moins 2 caractères et ne contenir que des lettres."
       );
-      return;
+      return false;
     }
 
     if (lastname.length < 2 || !/^[A-Za-zÀ-ÿ]+$/.test(lastname)) {
       setMsg(
         "Le nom doit avoir au moins 2 caractères et ne contenir que des lettres."
       );
-      return;
+      return false;
     }
 
+    // Vérification de l'email
     const emailValidate = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailValidate.test(email)) {
       setMsg("L'adresse email n'est pas valide.");
-      return;
+      return false;
     }
-
     // Vérification des espaces internes dans l'email
     if (email.includes(" ")) {
-      return res.status(400).json({
-        msg: "L'adresse email ne doit pas contenir d'espaces.",
-      });
+      setMsg("L'adresse email ne doit pas contenir d'espaces.");
+      return false;
     }
 
+    //Vérification du mot de passe
     if (
       password.length < 8 ||
       !/[a-z]/.test(password) ||
@@ -64,14 +64,13 @@ function Register() {
       setMsg(
         "Le mot de passe doit avoir au moins 8 caractères, inclure au moins une minuscule, une majuscule, un chiffre et un caractère spécial."
       );
-      return;
+      return false;
     }
 
     // Vérification des espaces internes dans le mot de passe
     if (password.includes(" ")) {
-      return res.status(400).json({
-        msg: "Le mot de passe ne doit pas contenir d'espaces.",
-      });
+      setMsg("Le mot de passe ne doit pas contenir d'espaces.");
+      return false;
     }
 
     // Vérification de la case à cocher
@@ -79,36 +78,60 @@ function Register() {
       setMsg(
         "Vous devez accepter les conditions générales d'utilisation et la politique de confidentialité."
       );
+      return false;
+    }
+    // Si tout est valide, on réinitialise le message d'erreur
+    setMsg("");
+    return true;
+  };
+
+  // Gérer la soumission du formulaire
+  async function submitHandler(e) {
+    // Empêche le rechargement de la page lors de la soumission du formulaire
+    e.preventDefault();
+
+    if (!validateForm()) {
+      // Ne pas soumettre si le formulaire est invalide
       return;
     }
-
-    const response = await fetch("http://localhost:9000/api/v1/auth/register", {
-      method: "POST",
-      headers: {
-        // des données au format JSON qui vont transiter
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      // body contient les données qu'on converti en JSON
-      body: JSON.stringify({ firstname, lastname, email, password }),
-    });
-    // conversion de notre réponse json envoyé depuis le back
-    const data = await response.json();
-
-    if (response.ok) {
-      register(data.user); // Met à jour le contexte global avec le nom d'utilisateur
-      navigate("/auth");
-    } else {
-      setMsg(data.msg); // Affiche un message d'erreur si la connexion échoue
+    try {
+      const response = await fetch(
+        "http://localhost:9000/api/v1/auth/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ firstname, lastname, email, password }),
+        }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        // Met à jour le contexte global avec les données utilisateur
+        register(data.user);
+        navigate("/auth");
+      } else {
+        setMsg(data.msg);
+      }
+    } catch (error) {
+      console.log(`Erreur lors de l'inscription: ${error.message}`);
+      setMsg(
+        "Une erreur s'est produite lors de la tentative d'inscription. Veuillez réessayer plus tard."
+      );
     }
   }
 
   return (
-    <main>
+    <main aria-label="Page pour s'inscrire">
       <section className="auth">
         <h2>Inscription</h2>
 
-        {msg && <p className="message">{msg}</p>}
+        {msg && (
+          <p className="message" role="alert">
+            {msg}
+          </p>
+        )}
         <form onSubmit={submitHandler}>
           <label htmlFor="firstname">Prénom</label>
           <input
@@ -161,20 +184,31 @@ function Register() {
               name="acceptTerms"
               checked={acceptedTerms}
               onChange={(e) => setAcceptedTerms(e.target.checked)}
+              aria-required="true"
             />
             <label htmlFor="acceptTerms">
               J’accepte les{" "}
-              <Link to="/terms-of-use" onClick={scrollToTop}>
+              <Link
+                to="/terms-of-use"
+                onClick={scrollToTop}
+                aria-label="Accéder à la page des conditions générales d'utilisation"
+              >
                 conditions générales d'utilisation
               </Link>{" "}
               et la{" "}
-              <Link to="/privacy-policy" onClick={scrollToTop}>
+              <Link
+                to="/privacy-policy"
+                onClick={scrollToTop}
+                aria-label="Acéder à la page de la politique de confidentialité"
+              >
                 politique de confidentialité
               </Link>
               .
             </label>
           </div>
-          <button type="submit">S'inscrire</button>
+          <button type="submit" aria-label="S'inscrire">
+            S'inscrire
+          </button>
         </form>
       </section>
     </main>

@@ -2,7 +2,6 @@ header {
   background-color: $blue;
   section {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding: 2rem 0.5rem;
@@ -10,7 +9,8 @@ header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 0;
+      gap: 1rem;
+      z-index: 5;
       img {
         width: 20%;
       }
@@ -19,10 +19,11 @@ header {
         font-size: 3.5rem;
         color: $creamy-white;
         padding: 2rem;
-        z-index: 5;
       }
     }
-    .header-mobile {
+  }
+  .header-mobile {
+    .plane-logo {
       justify-content: flex-start;
       gap: 7rem;
       img {
@@ -30,7 +31,6 @@ header {
       }
     }
     #burger-menu {
-      /* Styles de base de l'icône du burger */
       svg {
         font-size: 3rem;
         padding: 2rem;
@@ -73,12 +73,6 @@ header {
         display: none;
       }
     }
-  }
-
-  body.no-scroll {
-    overflow: hidden; // Désactive le défilement vertical
-    position: fixed; // Empêche le contenu de bouger
-    width: 100%; // Évite tout décalage lié aux barres de défilement
   }
 
   .tablet-header {

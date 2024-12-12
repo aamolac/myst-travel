@@ -13,7 +13,7 @@
     align-items: center;
     height: 40rem;
     padding: 5rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    text-shadow: 0.2rem 0.2rem 0.4rem rgba(0, 0, 0, 0.7);
     clip-path: ellipse(100% 100% at 50% 0%);
   }
 
@@ -27,7 +27,7 @@
     width: 70%;
     margin: 2rem auto 5rem auto;
   }
-  .small-presentation {
+  #small-presentation {
     margin: 5rem;
     p {
       span {
@@ -51,8 +51,8 @@
     }
   }
 
-  .our-team,
-  .trip-with-us {
+  #our-team,
+  #trip-with-us {
     margin: 5rem;
     p {
       span {
@@ -71,8 +71,11 @@
         }
       }
     }
+    @media #{$laptop} {
+      margin: auto;
+    }
   }
-  .our-team {
+  #our-team {
     div {
       @media #{$tablet} {
         flex-direction: row-reverse;
@@ -80,7 +83,7 @@
     }
   }
 
-  .why-myst-travel {
+  #why-myst-travel {
     background-image: url("/src/assets/images/about-us/palm-tree-beach.webp");
     background-size: cover;
     background-position: center;
@@ -104,7 +107,8 @@
           font-size: 4rem;
           color: $blue;
         }
-        h4 {
+        h3 {
+          font-size: 2rem;
           text-align: center;
           padding: 1rem;
         }
@@ -123,7 +127,7 @@
     }
   }
 
-  .number {
+  #number {
     background: linear-gradient(
         rgba(255, 255, 255, 0.6),
         rgba(255, 255, 255, 0.6)
@@ -132,7 +136,7 @@
     background-size: cover;
     background-position: center;
     margin-top: 5rem;
-    padding: 0rem 5rem 5rem 5rem;
+    padding: 0rem 4rem 5rem 4rem;
     h3 {
       color: $blue;
     }
@@ -160,14 +164,14 @@
         font-family: "Lora-Bold";
       }
       @media #{$laptop} {
-        margin: 7rem auto;
+        flex-wrap: nowrap;
       }
     }
     @media #{$tablet} {
-      padding: 5rem 20rem;
+      padding: 5rem 15rem;
     }
   }
-  .trip-with-us {
+  #trip-with-us {
     a {
       display: block;
       @include button-style;
@@ -182,10 +186,11 @@
         border: 3px solid $blue;
       }
     }
-    .container div {
+    div div {
       @media #{$tablet} {
         display: flex;
         flex-direction: column;
+        margin-bottom: 3rem;
         a {
           margin: 0;
           width: 70%;

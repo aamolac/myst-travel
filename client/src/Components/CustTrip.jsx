@@ -20,9 +20,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 function CustTrip() {
-  // Récupère les informations utilisateur depuis le contexte
+  // useContext permet d'accéder au contexte User, contient la fonction user
   const { user } = useContext(LoginContext);
-
   // États pour stocker les données du formulaire
   const [formCustTrip, setFormCustTrip] = useState({
     typeExperience_id: "",
@@ -38,8 +37,7 @@ function CustTrip() {
     restriction: "",
     user_id: "",
   });
-
-  // Pour stocker les options récupérées depuis l'API
+  // Etat pour stocker les options récupérées depuis l'API
   const [options, setOptions] = useState({
     typeExperience: [],
     climate: [],
@@ -50,12 +48,11 @@ function CustTrip() {
   });
 
   const navigate = useNavigate();
-  // Pour gérer les messages de retour
   const [msg, setMsg] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const scrollToTop = () => {
-    window.scrollTo(0, 0); // Défiler en haut de la page
+    window.scrollTo(0, 0);
   };
 
   // Validation du formulaire
@@ -70,6 +67,7 @@ function CustTrip() {
       location_id,
       culture_id,
       numberAdult,
+      numberChild,
     } = formCustTrip;
 
     // Validation de tout les champs requis
@@ -90,7 +88,7 @@ function CustTrip() {
 
     // Validation que la durée soit entre 2 et 21 jours
     if (duration < 2 || duration > 21) {
-      setMsg("La durée doit être comrpise entre 2 et 21 jours.");
+      setMsg("La durée doit être comprise entre 2 et 21 jours.");
       return false;
     }
 
@@ -100,6 +98,18 @@ function CustTrip() {
       return false;
     }
 
+    // Vérifier si les champs numériques contiennent des valeurs valides
+    if (
+      isNaN(duration) ||
+      isNaN(budget) ||
+      isNaN(numberAdult) ||
+      isNaN(numberChild)
+    ) {
+      setMsg("Veuillez entrer des chiffres valides pour les champs requis.");
+      return false;
+    }
+    // Si tout est valide, on réinitialise le message d'erreur
+    setMsg("");
     return true;
   };
 
@@ -115,7 +125,6 @@ function CustTrip() {
           }
         );
         const data = await response.json();
-
         setOptions({
           typeExperience: data.typeExperience || [],
           climate: data.climate || [],
@@ -142,16 +151,18 @@ function CustTrip() {
 
   // Gérer la soumission du formulaire
   const submitHandler = async (e) => {
+    // Empêche le rechargement de la page lors de la soumission du formulaire
     e.preventDefault();
 
     if (!validateForm()) {
-      return; // Ne pas soumettre si le formulaire est invalide
+      // Ne pas soumettre si le formulaire est invalide
+      return;
     }
 
-    // Ajoute l'user_id au formulaire
+    // Ajoute l'ID de l'utilisateur connecté au formulaire
     const formWithUser = {
       ...formCustTrip,
-      user_id: user.id, // Ajoute l'ID de l'utilisateur connecté
+      user_id: user.id,
     };
 
     try {
@@ -166,30 +177,50 @@ function CustTrip() {
           body: JSON.stringify(formWithUser),
         }
       );
-
       const data = await response.json();
-
       if (response.ok) {
-        setShowConfirmation(true); // Affiche la fenêtre de confirmation
-
+        // Affiche la fenêtre de confirmation
+        setShowConfirmation(true);
         // Redirige après 15 sec
         setTimeout(() => {
           navigate("/");
-        }, 5000);
+        }, 15000);
       } else {
-        setMsg(data.msg); // Affiche le message d'erreur renvoyé par le serveur
+        setMsg(data.msg);
       }
     } catch (error) {
-      setMsg("Erreur lors de l'envoi de la demande.");
+      setMsg(
+        "Erreur lors de l'envoi de la demande de voyage sur-mesure. Veuillez réessayer plus tard."
+      );
     }
   };
 
   return (
-    <main id="cust-trip">
+    <main
+      id="cust-trip"
+      aria-label="Page pour planifier une destination sur-mesure"
+    >
+      <nav
+        className="menu-accessible"
+        role="navigation"
+        aria-label="Menu accessible avec tabulation"
+      >
+        <a href="#introduction-cust-trip">
+          Présentation de la destination sur-mesure
+        </a>
+        <a href="#form-cust-trip">
+          Formulaire pour planifier une destination sur-mesure
+        </a>
+      </nav>
       <h2>Planifiez votre destination sur-mesure</h2>
       {showConfirmation ? (
-        <div className="container confirmation">
-          <FontAwesomeIcon icon={faCircleCheck} />
+        <section
+          className="container confirmation"
+          role="status"
+          aria-live="polite"
+          aria-label="Message de confirmation de la demande de destination sur-mesure"
+        >
+          <FontAwesomeIcon icon={faCircleCheck} aria-hidden="true" />
           <p>
             <span>
               Votre demande de destination sur-mesure a été effectuée avec
@@ -202,12 +233,15 @@ function CustTrip() {
             sur-mesure.
           </p>
           <p>À très bientôt pour l'aventure ! </p>
-          <FontAwesomeIcon icon={faSuitcaseRolling} />
+          <FontAwesomeIcon icon={faSuitcaseRolling} aria-hidden="true" />
           <p>Vous allez être redirigé vers la page d'accueil ...</p>
-        </div>
+        </section>
       ) : (
         <section className="container">
-          <div className="introduction-cust-trip">
+          <div
+            id="introduction-cust-trip"
+            aria-label="Présentation de la destination sur-mesure"
+          >
             <p>
               Notre formulaire est conçu pour mieux comprendre vos préférences
               de voyage et vous proposer une expérience unique, parfaitement
@@ -221,14 +255,30 @@ function CustTrip() {
                 et 21 jours.
               </span>
             </p>
-            {msg && <p className="message">{msg}</p>}
+            <p>
+              <span>
+                Les champs marqués par un astérisque (
+                <span className="obligate">*</span>) sont requis pour finaliser
+                votre demande.
+              </span>
+            </p>
+            {msg && (
+              <p className="message" role="alert">
+                {msg}
+              </p>
+            )}
           </div>
-          <form onSubmit={submitHandler}>
+          <form
+            onSubmit={submitHandler}
+            aria-label="Formulaire pour planifier une destination sur-mesure"
+            id="form-cust-trip"
+          >
             <div className="question">
-              <FontAwesomeIcon icon={faCalendarDays} />
+              <FontAwesomeIcon icon={faCalendarDays} aria-hidden="true" />
               <div>
                 <label htmlFor="duration">
-                  Quelle est la durée de votre séjour idéal ?
+                  Quelle est la durée de votre séjour idéal ?{" "}
+                  <span className="obligate">*</span>
                 </label>
                 <input
                   type="number"
@@ -244,10 +294,11 @@ function CustTrip() {
               </div>
             </div>
             <div className="question">
-              <FontAwesomeIcon icon={faSackDollar} />
+              <FontAwesomeIcon icon={faSackDollar} aria-hidden="true" />
               <div>
                 <label htmlFor="budget">
-                  Quel est votre budget total par personne ?
+                  Quel est votre budget total par personne ?{" "}
+                  <span className="obligate">*</span>
                 </label>
                 <input
                   type="number"
@@ -261,10 +312,11 @@ function CustTrip() {
               </div>
             </div>
             <div className="question">
-              <FontAwesomeIcon icon={faEarthAmericas} />
+              <FontAwesomeIcon icon={faEarthAmericas} aria-hidden="true" />
               <div>
                 <label htmlFor="location">
-                  Quelle région du monde vous attire le plus ?
+                  Quelle région du monde vous attire le plus ?{" "}
+                  <span className="obligate">*</span>
                 </label>
                 <select
                   id="location"
@@ -283,10 +335,11 @@ function CustTrip() {
               </div>
             </div>
             <div className="question">
-              <FontAwesomeIcon icon={faMountainCity} />
+              <FontAwesomeIcon icon={faMountainCity} aria-hidden="true" />
               <div>
                 <label htmlFor="typeExperience">
-                  Quel type d'expérience recherchez-vous ?
+                  Quelle expérience recherchez-vous ?{" "}
+                  <span className="obligate">*</span>
                 </label>
                 <select
                   id="typeExperience"
@@ -305,10 +358,14 @@ function CustTrip() {
               </div>
             </div>
             <div className="question">
-              <FontAwesomeIcon icon={faTemperatureThreeQuarters} />
+              <FontAwesomeIcon
+                icon={faTemperatureThreeQuarters}
+                aria-hidden="true"
+              />
               <div>
                 <label htmlFor="climate">
-                  Quel type de climat préférez-vous ?
+                  Quel climat préférez-vous ?{" "}
+                  <span className="obligate">*</span>
                 </label>
                 <select
                   id="climate"
@@ -327,10 +384,11 @@ function CustTrip() {
               </div>
             </div>
             <div className="question">
-              <FontAwesomeIcon icon={faHouse} />
+              <FontAwesomeIcon icon={faHouse} aria-hidden="true" />
               <div>
                 <label htmlFor="accomodation">
-                  Quel type d’hébergement préférez-vous ?
+                  Quel hébergement préférez-vous ?{" "}
+                  <span className="obligate">*</span>
                 </label>
                 <select
                   id="accomodation"
@@ -349,11 +407,12 @@ function CustTrip() {
               </div>
             </div>
             <div className="question">
-              <FontAwesomeIcon icon={faPersonRunning} />
+              <FontAwesomeIcon icon={faPersonRunning} aria-hidden="true" />
               <div>
                 <label htmlFor="activity">
                   {" "}
-                  Quel niveau d'activité souhaitez-vous ?
+                  Quel niveau d'activité souhaitez-vous ?{" "}
+                  <span className="obligate">*</span>
                 </label>
                 <select
                   id="activity"
@@ -372,11 +431,11 @@ function CustTrip() {
               </div>
             </div>
             <div className="question">
-              <FontAwesomeIcon icon={faUtensils} />
+              <FontAwesomeIcon icon={faUtensils} aria-hidden="true" />
               <div>
                 <label htmlFor="culture">
                   Quelle est l’importance de la gastronomie et de la culture
-                  locale ?
+                  locale ? <span className="obligate">*</span>
                 </label>
                 <select
                   id="culture"
@@ -395,10 +454,11 @@ function CustTrip() {
               </div>
             </div>
             <div className="question">
-              <FontAwesomeIcon icon={faUser} />
+              <FontAwesomeIcon icon={faUser} aria-hidden="true" />
               <div>
                 <label htmlFor="numberAdult">
-                  Combien d'adultes (à partir de 12 ans) participent au voyage ?
+                  Combien d'adultes (à partir de 12 ans) participent au voyage ?{" "}
+                  <span className="obligate">*</span>
                 </label>
                 <input
                   type="number"
@@ -413,7 +473,7 @@ function CustTrip() {
               </div>
             </div>
             <div className="question">
-              <FontAwesomeIcon icon={faChild} />
+              <FontAwesomeIcon icon={faChild} aria-hidden="true" />
               <div>
                 <label htmlFor="numberChild">
                   Combien d'enfants (moins de 12 ans) ?
@@ -430,7 +490,7 @@ function CustTrip() {
               </div>
             </div>
             <div className="question">
-              <FontAwesomeIcon icon={faBan} />
+              <FontAwesomeIcon icon={faBan} aria-hidden="true" />
               <div>
                 <label htmlFor="restriction">
                   Avez-vous des restrictions spécifiques pour le voyage ?
@@ -445,7 +505,11 @@ function CustTrip() {
                 />
               </div>
             </div>
-            <button type="submit" onClick={scrollToTop}>
+            <button
+              type="submit"
+              onClick={scrollToTop}
+              aria-label="Envoyer votre demande pour une destination sur-mesure"
+            >
               Envoyer
             </button>
           </form>

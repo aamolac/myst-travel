@@ -1,7 +1,7 @@
 import pool from "../config/db.js";
 
 class MystDest {
-  // Requête pour afficher toutes les destinations
+  // Afficher toutes les destinations
   static async findAll() {
     const q = `SELECT id, title, climate, accomodation, activity, continent, budget, minDuration, maxDuration, image, alt, CASE
     WHEN status = 0 THEN "En ligne"
@@ -11,7 +11,7 @@ class MystDest {
     return await pool.query(q);
   }
 
-  // Requête pour afficher toutes les infos d'une destination
+  // Afficher toutes les infos d'une destination
   static async findById(id) {
     const q = `SELECT id, title, climateClue, climate, experienceClue, accomodation, activityClue, activity, locationClue, continent, budget, minDuration, maxDuration, image, alt 
       FROM mystDestination 
@@ -19,9 +19,9 @@ class MystDest {
     return await pool.execute(q, [id]);
   }
 
-  // Requête pour modifier une destination par son ID
+  // Modifier une destination par son ID
   static async update(id, fieldsToUpdate) {
-    // Construction de la requête SQL pour mettre à jour uniquement les champs fournis
+    // MAJ uniquement les champs fournis
     //COALESCENCE : signifie "si la valeur n'est pas donnée, garde la valeur actuelle"
     const q = `UPDATE mystDestination 
     SET title = COALESCE(?, title),
@@ -59,13 +59,13 @@ class MystDest {
     ]);
   }
 
-  // Requête pour supprimer une destination par son ID
+  // Supprimer une destination par son ID
   static async deleteById(id) {
     const q = "DELETE FROM mystDestination WHERE id = ?";
     return await pool.execute(q, [id]);
   }
 
-  // Requête pour ajouter une destination
+  // Ajouter une destination
   static async add(
     title,
     climateClue,
@@ -102,7 +102,7 @@ class MystDest {
     ]);
   }
 
-  // Requête pour mettre à jour le statut d'une destination par son ID
+  // MAJ le statut d'une destination par son ID
   static async updateStat(id, status) {
     const q = "UPDATE mystDestination SET status = ? WHERE id = ?";
     return await pool.execute(q, [status, id]);

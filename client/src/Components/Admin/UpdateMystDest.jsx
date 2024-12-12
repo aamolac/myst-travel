@@ -8,12 +8,14 @@ import {
   faSackDollar,
   faCalendarDays,
   faCircleCheck,
+  faImage,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 function UpdateMystDest() {
-  const { id } = useParams(); // Récupérer l'ID de la destination via l'URL
+  // Récupérer l'ID de la destination via l'URL
+  const { id } = useParams();
 
   const [formMystDest, setFormMystDest] = useState({
     title: "",
@@ -33,16 +35,16 @@ function UpdateMystDest() {
   });
 
   const navigate = useNavigate();
-  // Pour gérer les messages de retour
   const [msg, setMsg] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const scrollToTop = () => {
-    window.scrollTo(0, 0); // Défiler en haut de la page
+    window.scrollTo(0, 0);
   };
 
   // Validation du formulaire
   const validateForm = () => {
+    // Conversion des champs en nombres
     const budget = parseFloat(formMystDest.budget);
     const minDuration = Number(formMystDest.minDuration);
     const maxDuration = Number(formMystDest.maxDuration);
@@ -79,10 +81,18 @@ function UpdateMystDest() {
       !alt
     ) {
       setMsg("Tous les champs sont requis.");
+      // Arrêter la soumission du formulaire si la validation échoue
       return false;
     }
 
-    // Validation : vérifier que les durées sont comprises entre 2 et 21 jours
+    // Vérifier si les champs numériques contiennent des valeurs valides
+    if (isNaN(budget) || isNaN(minDuration) || isNaN(maxDuration)) {
+      setMsg("Veuillez entrer des chiffres valides pour les champs requis.");
+      // Arrêter la soumission du formulaire si la validation échoue
+      return false;
+    }
+
+    // Vérifier que les durées sont comprises entre 2 et 21 jours
     if (
       minDuration < 2 ||
       minDuration > 21 ||
@@ -90,34 +100,42 @@ function UpdateMystDest() {
       maxDuration > 21
     ) {
       setMsg("Les durées doivent être comprises entre 2 et 21 jours.");
-      return; // Arrêter la soumission du formulaire si la validation échoue
+      // Arrêter la soumission du formulaire si la validation échoue
+      return;
     }
-
-    // Validation : vérifier que maxDuration est supérieur à minDuration
+    // Vérifier que maxDuration est supérieur à minDuration
     if (maxDuration <= minDuration) {
       setMsg("La durée maximale doit être supérieure à la durée minimale.");
-      return; // Arrêter la soumission du formulaire si la validation échoue
+      // Arrêter la soumission du formulaire si la validation échoue
+      return;
     }
+    // Si tout est valide, on réinitialise le message d'erreur
+    setMsg("");
     return true;
   };
 
+  // Met à jour le titre à chaque fois que l'id change
   useEffect(() => {
     document.title = `Modifier la destination mystère #${id} - Myst'Travel`;
-  }, [id]); // Met à jour chaque fois que l'id change
+  }, [id]);
 
   // Récupérer la destination existante
   useEffect(() => {
     const fetchMystDest = async () => {
-      const response = await fetch(
-        `http://localhost:9000/api/v1/myst-dest/${id}`
-      );
-      const data = await response.json();
-      setFormMystDest(data);
+      try {
+        const response = await fetch(
+          `http://localhost:9000/api/v1/myst-dest/${id}`
+        );
+        const data = await response.json();
+        setFormMystDest(data);
+      } catch (error) {
+        setMsg("Erreur lors de l'affichage de la destination mystère");
+      }
     };
-
     fetchMystDest();
   }, [id]);
 
+  // Gérer les changements de champs de formulaire
   const handleChange = (e) => {
     setFormMystDest({
       ...formMystDest,
@@ -125,25 +143,29 @@ function UpdateMystDest() {
     });
   };
 
+  // Gérer les changements de l'image
   const handleFileChange = (e) => {
     setFormMystDest({
       ...formMystDest,
-      image: e.target.files[0], // On récupère le fichier image
+      image: e.target.files[0],
     });
   };
 
+  // Gérer la soumission du formulaire
   const submitHandler = async (e) => {
+    // Empêche le rechargement de la page lors de la soumission du formulaire
     e.preventDefault();
 
     if (!validateForm()) {
-      return; // Ne pas soumettre si le formulaire est invalide
+      // Ne pas soumettre si le formulaire est invalide
+      return;
     }
 
     try {
       const formData = new FormData();
-      // Utilisation d'une boucle pour ajouter tous les champs au FormData
+      // Ajouter tous les champs au FormData
       for (const key in formMystDest) {
-        // Assurez-vous de ne pas ajouter des champs non voulus (par exemple, les champs vides ou l'image si elle n'est pas sélectionnée)
+        // Ne pas ajouter des champs non voulus (l'image si pas sélectionnée)
         if (formMystDest[key] || key === "image") {
           formData.append(key, formMystDest[key]);
         }
@@ -153,16 +175,14 @@ function UpdateMystDest() {
         `http://localhost:9000/api/v1/myst-dest/update/${id}`,
         {
           method: "PATCH",
-          body: formData,
           credentials: "include",
+          body: formData,
         }
       );
-
       const data = await response.json();
-
       if (response.ok) {
-        setShowConfirmation(true); // Affiche la fenêtre de confirmation
-
+        // Affiche la fenêtre de confirmation
+        setShowConfirmation(true);
         // Redirige après 5 sec
         setTimeout(() => {
           navigate("/dashboard/myst-destination");
@@ -171,31 +191,48 @@ function UpdateMystDest() {
         setMsg(data.msg);
       }
     } catch (error) {
-      console.error("Erreur lors de la mise à jour:", error);
+      console.error("Erreur lors de la mise à jour de la destination mystère");
     }
   };
 
   return (
-    <main className="container update-myst-dest">
+    <main
+      className="container update-myst-dest"
+      aria-label="Page pour modifier une destination mystère"
+    >
       <button
         onClick={() => navigate("/dashboard/myst-destination")}
         title="Retour à la page des destinations mystères"
         className="back"
+        aria-label="Retour à la page des destinations mystères"
       >
-        <FontAwesomeIcon icon={faArrowLeft} /> Retour
+        <FontAwesomeIcon icon={faArrowLeft} aria-hidden="true" /> Retour
       </button>
       <h2>Modifier la destination mystère</h2>
       {showConfirmation ? (
-        <section className="confirmation">
-          <FontAwesomeIcon icon={faCircleCheck} />
-          <p>La destination a bien été modifiée !</p>
+        <section
+          className="confirmation"
+          aria-live="polite"
+          aria-label="Message de confirmation de la modification d'une destination mystère"
+        >
+          <FontAwesomeIcon icon={faCircleCheck} aria-hidden="true" />
+          <p>
+            <span>La destination a bien été modifiée !</span>
+          </p>
           <p>
             Vous allez être redirigé vers la page de toutes les destinations ...
           </p>
         </section>
       ) : (
-        <form onSubmit={submitHandler}>
-          {msg && <p className="message">{msg}</p>}
+        <form
+          onSubmit={submitHandler}
+          aria-label="Formulaire pour modifier la destination mystère"
+        >
+          {msg && (
+            <p className="message" role="alert">
+              {msg}
+            </p>
+          )}
           <label htmlFor="title">Titre de la destination</label>
           <input
             type="text"
@@ -207,8 +244,8 @@ function UpdateMystDest() {
           />
 
           <label htmlFor="locationClue">
-            <FontAwesomeIcon icon={faEarthAmericas} /> Indice n°1 : La région
-            géographique
+            <FontAwesomeIcon icon={faEarthAmericas} aria-hidden="true" /> Indice
+            n°1 : La région géographique
           </label>
           <textarea
             id="locationClue"
@@ -235,8 +272,11 @@ function UpdateMystDest() {
           </select>
 
           <label htmlFor="climateClue">
-            <FontAwesomeIcon icon={faTemperatureThreeQuarters} /> Indice n°2 :
-            Le climat
+            <FontAwesomeIcon
+              icon={faTemperatureThreeQuarters}
+              aria-hidden="true"
+            />{" "}
+            Indice n°2 : Le climat
           </label>
           <textarea
             id="climateClue"
@@ -263,8 +303,8 @@ function UpdateMystDest() {
           </select>
 
           <label htmlFor="experienceClue">
-            <FontAwesomeIcon icon={faMountainCity} /> Indice n°3 : Le type
-            d'expérience
+            <FontAwesomeIcon icon={faMountainCity} aria-hidden="true" /> Indice
+            n°3 : Le type d'expérience
           </label>
           <textarea
             id="experienceClue"
@@ -282,19 +322,19 @@ function UpdateMystDest() {
             required
           >
             <option value="">Choisir le type d'hébergement</option>
-            <option value="Classique et Confortable">
-              Classique et Confortable
+            <option value="Classique et confortable">
+              Classique et confortable
             </option>
-            <option value="Nature et Authentique">Nature et Authentique</option>
-            <option value="Économique et Pratique">
-              Économique et Pratique
+            <option value="Nature et authentique">Nature et authentique</option>
+            <option value="Économique et pratique">
+              Économique et pratique
             </option>
             <option value="Multi-hébergements">Multi-hébergements</option>
           </select>
 
           <label htmlFor="activityClue">
-            <FontAwesomeIcon icon={faPersonRunning} /> Indice n°4 : Le niveau
-            d’activité physique
+            <FontAwesomeIcon icon={faPersonRunning} aria-hidden="true" /> Indice
+            n°4 : Le niveau d’activité physique
           </label>
           <textarea
             id="activityClue"
@@ -320,8 +360,8 @@ function UpdateMystDest() {
           </select>
 
           <label htmlFor="budget">
-            <FontAwesomeIcon icon={faSackDollar} /> Budget par jour/personne (en
-            €)
+            <FontAwesomeIcon icon={faSackDollar} aria-hidden="true" /> Budget
+            par jour/personne (en €)
           </label>
           <input
             type="number"
@@ -333,7 +373,8 @@ function UpdateMystDest() {
           />
 
           <label htmlFor="minDuration">
-            <FontAwesomeIcon icon={faCalendarDays} /> Durée minimale (en jours)
+            <FontAwesomeIcon icon={faCalendarDays} aria-hidden="true" /> Durée
+            minimale (en jours)
           </label>
           <input
             type="number"
@@ -346,7 +387,8 @@ function UpdateMystDest() {
             required
           />
           <label htmlFor="maxDuration">
-            <FontAwesomeIcon icon={faCalendarDays} /> Durée maximale (en jours)
+            <FontAwesomeIcon icon={faCalendarDays} aria-hidden="true" /> Durée
+            maximale (en jours)
           </label>
           <input
             type="number"
@@ -359,7 +401,9 @@ function UpdateMystDest() {
             required
           />
 
-          <label htmlFor="image">L'image</label>
+          <label htmlFor="image">
+            <FontAwesomeIcon icon={faImage} aria-hidden="true" /> L'image
+          </label>
           <p>
             Les extensions autorisées sont :{" "}
             <span>.png, .jpg, .jpeg, .webp.</span> Il faut privilégier
@@ -383,7 +427,11 @@ function UpdateMystDest() {
             required
           />
 
-          <button type="submit" onClick={scrollToTop}>
+          <button
+            type="submit"
+            onClick={scrollToTop}
+            aria-label="Valider la modification de la destination mystère"
+          >
             Mettre à jour la destination
           </button>
         </form>

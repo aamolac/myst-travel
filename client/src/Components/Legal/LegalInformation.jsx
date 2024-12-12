@@ -7,12 +7,28 @@ function LegalInformation() {
   const navigate = useNavigate();
 
   return (
-    <main className="container legals-docs">
-      <button onClick={() => navigate(-1)}>
-        <FontAwesomeIcon icon={faArrowLeft} /> Retour
+    <main
+      className="container legals-docs"
+      aria-label="Page des mentions légales"
+    >
+      <nav
+        className="menu-accessible"
+        role="navigation"
+        aria-label="Menu accessible avec tabulation"
+      >
+        <a href="#site-editor">Éditeur du site</a>
+        <a href="#hosting">Hébergement</a>
+        <a href="#personal-data">Données personnelles</a>
+      </nav>
+      <button
+        onClick={() => navigate(-1)}
+        title="Retour à la page précédente"
+        aria-label="Retour à la page précédente"
+      >
+        <FontAwesomeIcon icon={faArrowLeft} aria-hidden="true" /> Retour
       </button>
       <h2>Mentions légales</h2>
-      <section>
+      <section id="site-editor">
         <h3>Éditeur du site</h3>
         <p>Le site Myst'Travel est édité par :</p>
         <ul>
@@ -38,22 +54,27 @@ function LegalInformation() {
         </ul>
       </section>
 
-      <section>
+      <section id="hosting">
         <h3>Hébergement</h3>
         <p>Ce site est un projet fictif et n'est pas hébergé actuellement.</p>
       </section>
 
-      <section>
+      <section id="personal-data">
         <h3>Données personnelles</h3>
         <p>
           Conformément au Règlement Général sur la Protection des Données
           (RGPD), vous disposez d’un droit d’accès, de modification et de
           suppression de vos données personnelles.
-          <p>
-            Pour toute demande, contactez-nous à :{" "}
-            <a href="mailto:contact@myst-travel.com">contact@myst-travel.com</a>
-            .
-          </p>
+        </p>
+        <p>
+          Pour toute demande, contactez-nous à :{" "}
+          <a
+            href="mailto:contact@myst-travel.com"
+            aria-label="Envoyer un email à Myst'Travel"
+          >
+            contact@myst-travel.com
+          </a>
+          .
         </p>
       </section>
     </main>

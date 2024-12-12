@@ -6,13 +6,51 @@
     text-align: center;
     padding: 2rem;
   }
+  .message {
+    margin-top: 5rem;
+  }
+  .search-bar {
+    margin: 5rem 5rem 0 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    label {
+      @include label-style;
+      display: flex;
+      align-items: center;
+      svg {
+        color: $blue;
+        font-size: 2rem;
+        padding-right: 1rem;
+      }
+    }
+    .search-select-input {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 1rem;
+      select {
+        @include select-style;
+        margin-bottom: 0;
+      }
+      input {
+        width: 30rem;
+        padding: 1rem;
+        font-size: 1.6rem;
+        border: 0.1rem solid $grey;
+        border-radius: 0.5rem;
+      }
+    }
+  }
 
   section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    div {
-      .add-myst-dest {
+    .add-myst-dest {
+      button {
         margin: 3rem 2rem 0 2rem;
         padding: 0.5rem;
         border: 0.15rem solid $blue;
@@ -21,7 +59,7 @@
         font-family: "Lora-Medium";
       }
       @media #{$laptop} {
-        .add-myst-dest:hover {
+        button:hover {
           background-color: $blue;
           color: $creamy-white;
           svg {
@@ -53,7 +91,7 @@
         align-items: center;
         select {
           @include select-style;
-          width: 16rem;
+          width: 17rem;
           margin: 0.5rem;
         }
         div {
@@ -103,6 +141,10 @@
         }
       }
     }
+    .no-results {
+      margin-top: 3rem;
+    }
+
     //contact
     .bold-status {
       font-family: "Lora-Medium";

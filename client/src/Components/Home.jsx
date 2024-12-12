@@ -2,33 +2,49 @@ import { Link } from "react-router-dom";
 
 function Home() {
   const scrollToTop = () => {
-    window.scrollTo(0, 0); // Défiler en haut de la page
+    window.scrollTo(0, 0);
   };
 
   return (
-    <main id="home">
+    <main id="home" aria-label="Page d'accueil">
+      <nav
+        className="menu-accessible"
+        role="navigation"
+        aria-label="Menu accessible avec tabulation"
+      >
+        <a href="#presentation">Présentation</a>
+        <a href="#how-it-works">Comment ça marche ?</a>
+        <a href="#myst-dest">Nos destinations mystères</a>
+        <a href="#cust-trip">Notre destination sur-mesure</a>
+        <a href="#why-choose-mystery">Pourquoi choisir le mystère ?</a>
+        <a href="#destination-escape">Des destinations pour s’évader</a>
+        <a href="#ready-for-adventure">Prêt pour l'aventure ?</a>
+      </nav>
       <h2>Bienvenue chez Myst’Travel</h2>
 
-      <section className="container presentation">
+      <section
+        className="container"
+        aria-label="Présentation"
+        id="presentation"
+      >
         <p>
           <span>Le voyage est une aventure</span>.
         </p>
         <p>
-          Que se passerait-il si vous laissiez complètement tomber la carte et
+          Que se passerait-il si vous abandonniez complètement la carte et
           l’itinéraire ? Si, pour une fois, vous laissiez l’inconnu prendre le
           dessus ?
         </p>
         <p>
-          Chez Myst’Travel, nous croyons que{" "}
+          Chez Myst’Travel, nous pensions que{" "}
           <span>
             les plus belles aventures commencent là où les plans s'arrêtent.
           </span>
         </p>
         <p>
           Oubliez les itinéraires prédéfinis et laissez-vous guider par
-          l'excitation de l'inattendu
+          l'excitation de l'inattendu.
         </p>
-
         <p>
           <span>
             Un voyage où chaque étape est une découverte, où la destination
@@ -37,7 +53,11 @@ function Home() {
           .
         </p>
       </section>
-      <section className="container images">
+      <section
+        className="container images"
+        aria-label="Galerie d'images"
+        role="img"
+      >
         <img
           src="/src/assets/images/home/mountains-view.webp"
           alt="Un homme en haut d'une montagne regardant la vue."
@@ -59,10 +79,10 @@ function Home() {
           alt="Des champs de rizières."
         />
       </section>
-      <section>
+      <section id="how-it-works">
         <h3>Comment ça marche ?</h3>
         <div className="offer">
-          <div>
+          <div aria-label="Nos destinations mystères">
             <h4>Choisissez parmi nos destinations mystères</h4>
             <p>
               Que{" "}
@@ -73,7 +93,12 @@ function Home() {
               , nous avons une sélection de destinations prêtes à vous
               surprendre !
             </p>
-            <Link to="/myst-destination" onClick={scrollToTop}>
+            <Link
+              to="/myst-destination"
+              onClick={scrollToTop}
+              aria-label="Aller sur la page des destinations mystères"
+              id="myst-dest"
+            >
               Nos destinations mystères
             </Link>
           </div>
@@ -84,16 +109,21 @@ function Home() {
               notre formulaire et nous organiserons tout pour vous, en fonction
               de vos envies et besoins !
             </p>
-            <Link to="/customized-trip" onClick={scrollToTop}>
+            <Link
+              to="/customized-trip"
+              onClick={scrollToTop}
+              aria-label="Aller sur la page de voyages sur-mesure"
+              id="cust-trip"
+            >
               Surprenez-Moi
             </Link>
           </div>
         </div>
       </section>
 
-      <section className="mystery">
+      <section id="why-choose-mystery" className="container">
         <h3>Pourquoi choisir le mystère ?</h3>
-        <div className="container">
+        <div>
           <p>
             Les plus belles découvertes ne sont pas planifiées. Le simple fait
             de ne pas savoir où vous vous réveillerez demain apporte une
@@ -110,7 +140,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="destination-escape">
+      <section id="destination-escape">
         <div>
           <h3>Des destinations pour s’évader</h3>
           <p className="container">
@@ -123,9 +153,9 @@ function Home() {
         </div>
       </section>
 
-      <section className="ready-for-adventure">
+      <section id="ready-for-adventure" className="container">
         <h3>Prêt pour l'aventure ?</h3>
-        <div className="container">
+        <div>
           <p>
             La vie est trop courte pour{" "}
             <span>toujours rester dans sa zone de confort</span>. Embarquez pour

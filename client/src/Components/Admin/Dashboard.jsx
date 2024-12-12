@@ -4,13 +4,13 @@ import { faGear } from "@fortawesome/free-solid-svg-icons";
 
 function Dashboard() {
   const scrollToTop = () => {
-    window.scrollTo(0, 0); // Défiler en haut de la page
+    window.scrollTo(0, 0);
   };
   return (
-    <main id="dashboard">
+    <main id="dashboard" aria-label="Page du tableau de bord">
       <h2>
-        <FontAwesomeIcon icon={faGear} /> Tableau de bord{" "}
-        <FontAwesomeIcon icon={faGear} />
+        <FontAwesomeIcon icon={faGear} aria-hidden="true" /> Tableau de bord{" "}
+        <FontAwesomeIcon icon={faGear} aria-hidden="true" />
       </h2>
       <section className="container">
         <Link to="/dashboard/user" onClick={scrollToTop}>

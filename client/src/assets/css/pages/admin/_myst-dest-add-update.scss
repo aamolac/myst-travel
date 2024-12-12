@@ -10,6 +10,9 @@
   .confirmation {
     @include confirmation-message;
   }
+  span {
+    font-family: "Lora-Bold";
+  }
   form {
     display: flex;
     flex-direction: column;
@@ -33,9 +36,6 @@
       width: 30%;
       display: block;
       margin: 3rem auto;
-    }
-    span {
-      font-family: "Lora-Bold";
     }
     button:hover {
       @media #{$laptop} {

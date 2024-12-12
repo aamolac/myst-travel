@@ -3,6 +3,7 @@ import {
   faArrowLeft,
   faTrashCan,
   faEye,
+  faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,24 +11,31 @@ import { useNavigate } from "react-router-dom";
 function Contact() {
   // État local pour stocker les demandes de contact récupérées depuis l'API
   const [contacts, setContacts] = useState([]);
-  const navigate = useNavigate();
-  // Pour gérer les messages de retour
+  // État pour la barre de recherche
+  const [searchBar, setSearchBar] = useState("");
+  // État pour le champ sélectionné
+  const [searchField, setSearchField] = useState("all");
   const [msg, setMsg] = useState("");
+  const navigate = useNavigate();
 
-  //pour récupérer les démandes de contact
+  //Fonction pour récupérer les demandes de contact
   const fetchContact = async () => {
-    const response = await fetch("http://localhost:9000/api/v1/contact/list", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    });
-
-    //convertit la réponse en json
-    const data = await response.json();
-    //mise à jour de l'état avec les demandes récupérées
-    setContacts(data);
+    try {
+      const response = await fetch(
+        "http://localhost:9000/api/v1/contact/list",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+      const data = await response.json();
+      setContacts(data);
+    } catch (error) {
+      setMsg("Erreur lors du chargement des demandes de contact");
+    }
   };
 
   // Fonction pour marquer un contact comme "Lu"
@@ -35,7 +43,8 @@ function Contact() {
     // Parcourir les contacts pour vérifier le statut
     for (const contact of contacts) {
       if (contact.id === id && contact.status !== "Non lu") {
-        return; // Si le contact est déjà "Lu" ou "Répondu", on arrête la fonction
+        // Si le contact est déjà "Lu" ou "Répondu", on arrête la fonction
+        return;
       }
     }
     try {
@@ -47,14 +56,16 @@ function Contact() {
             "Content-Type": "application/json",
           },
           credentials: "include",
-          body: JSON.stringify({ status: 1 }), // Envoi du statut "Lu"
+          // Envoi du statut "Lu"
+          body: JSON.stringify({ status: 1 }),
         }
       );
+      const data = await response.json();
       if (response.ok) {
-        // Recharger la liste des contacts pour afficher la mise à jour du statut
+        // Actualise la liste après la mise à jour
         fetchContact();
       } else {
-        setMsg("Erreur lors de la mise à jour du statut");
+        setMsg(data.msg);
       }
     } catch (error) {
       setMsg("Erreur lors de la mise à jour du statut");
@@ -68,24 +79,28 @@ function Contact() {
     );
 
     if (isConfirmed) {
-      const response = await fetch(
-        `http://localhost:9000/api/v1/contact/delete/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
+      try {
+        const response = await fetch(
+          `http://localhost:9000/api/v1/contact/delete/${id}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          }
+        );
+        const data = await response.json();
+        if (response.ok) {
+          setMsg(data.msg);
+          // Rechargement de la liste des demandes de contact
+          fetchContact();
+          window.scrollTo(0, 0);
+        } else {
+          setMsg(data.msg);
         }
-      );
-
-      // Vérifie si la suppression a été effectuée avec succès
-      if (response.ok) {
-        // Rechargement de la liste des demandes de contact
-        fetchContact();
-        window.scrollTo(0, 0);
-      } else {
-        setMsg("Erreur lors de la suppression de la demande de contact");
+      } catch (error) {
+        setMsg("Erreur lors du la suppression de la demande de contact");
       }
     }
   };
@@ -95,64 +110,147 @@ function Contact() {
     fetchContact();
   }, []);
 
+  // Filtrage des demandes de contact en fonction du terme de recherche
+  const filteredContacts = contacts.filter((contact) => {
+    const search = searchBar.toLowerCase();
+    if (searchField === "all") {
+      return (
+        contact.id.toString().includes(search) ||
+        contact.email.toLowerCase().includes(search) ||
+        contact.choice.toLowerCase().includes(search) ||
+        contact.message.toLowerCase().includes(search) ||
+        contact.publishDate.includes(search) ||
+        contact.status.toLowerCase().startsWith(search)
+      );
+    }
+    if (searchField === "id") {
+      return contact.id.toString().includes(search);
+    }
+    if (searchField === "email") {
+      return contact.email.toLowerCase().includes(search);
+    }
+    if (searchField === "choice") {
+      return contact.choice.toLowerCase().includes(search);
+    }
+    if (searchField === "message") {
+      return contact.message.toLowerCase().includes(search);
+    }
+    if (searchField === "date") {
+      return contact.publishDate.includes(search);
+    }
+    if (searchField === "status") {
+      return contact.status.toLowerCase().startsWith(search);
+    }
+    return false;
+  });
+
   return (
-    <main className="summary-table container">
+    <main
+      className="summary-table container"
+      aria-label="Liste des demandes de contact"
+    >
       <button onClick={() => navigate("/dashboard")} className="back">
-        <FontAwesomeIcon icon={faArrowLeft} /> Retour au tableau de bord
+        <FontAwesomeIcon icon={faArrowLeft} aria-hidden="true" /> Retour au
+        tableau de bord
       </button>
       <h2>Demande de contact</h2>
 
-      <section>
-        {msg && <p className="message">{msg}</p>}
-        <table>
-          <thead>
-            <tr>
-              <th>N° demande</th>
-              <th>Adresse mail</th>
-              <th>Objet</th>
-              <th>Message</th>
-              <th>Date</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {contacts.map((contact) => (
-              <tr
-                key={contact.id}
-                className={contact.status === "Non lu" ? "bold-status" : ""}
-              >
-                <td>{contact.id}</td>
-                <td>{contact.email}</td>
-                <td>{contact.choice}</td>
-                <td>
-                  {contact.message.length > 50
-                    ? `${contact.message.slice(0, 50)}...`
-                    : contact.message}
-                </td>
-                <td>{contact.publishDate}</td>
-                <td>{contact.status}</td>
-                <td className="contact-button">
-                  <button
-                    onClick={() => {
-                      markAsRead(contact.id);
-                      window.scrollTo(0, 0);
-                      navigate(`/dashboard/contact/${contact.id}`);
-                    }}
-                    title={`Aller à la page de la demande de contact ${contact.id}`}
-                  >
-                    <FontAwesomeIcon icon={faEye} />
-                  </button>
-                  <button
-                    onClick={() => deleteContact(contact.id)}
-                    title={`Supprimer de la demande de contact ${contact.id}`}
-                  >
-                    <FontAwesomeIcon icon={faTrashCan} />
-                  </button>
-                </td>
+      <section className="search-bar">
+        <div>
+          <label htmlFor="search-input">
+            {" "}
+            <FontAwesomeIcon icon={faMagnifyingGlass} aria-hidden="true" />
+            Rechercher une demande de contact
+          </label>
+        </div>
+        <div className="search-select-input">
+          <select
+            id="search-select"
+            name="search"
+            value={searchField}
+            onChange={(e) => setSearchField(e.target.value)}
+          >
+            <option value="all">Type de recherche</option>
+            <option value="id">N° demande</option>
+            <option value="email">Adresse mail</option>
+            <option value="choice">Objet</option>
+            <option value="message">Message</option>
+            <option value="date">Date</option>
+            <option value="status">Status</option>
+          </select>
+          <input
+            type="search"
+            id="search-input"
+            name="search"
+            placeholder="Rechercher ..."
+            value={searchBar}
+            onChange={(e) => setSearchBar(e.target.value)}
+          />
+        </div>
+      </section>
+      <section aria-live="polite">
+        {msg && (
+          <p className="message" role="alert">
+            {msg}{" "}
+          </p>
+        )}
+        {filteredContacts.length > 0 ? (
+          <table>
+            <thead>
+              <tr>
+                <th>N° demande</th>
+                <th>Adresse mail</th>
+                <th>Objet</th>
+                <th>Message</th>
+                <th>Date</th>
+                <th>Status</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredContacts.map((contact) => (
+                <tr
+                  key={contact.id}
+                  className={contact.status === "Non lu" ? "bold-status" : ""}
+                >
+                  <td>{contact.id}</td>
+                  <td>{contact.email}</td>
+                  <td>{contact.choice}</td>
+                  <td>
+                    {contact.message.length > 50
+                      ? `${contact.message.slice(0, 50)}...`
+                      : contact.message}
+                  </td>
+                  <td>{contact.publishDate}</td>
+                  <td>{contact.status}</td>
+                  <td className="contact-button">
+                    <button
+                      onClick={() => {
+                        markAsRead(contact.id);
+                        window.scrollTo(0, 0);
+                        navigate(`/dashboard/contact/${contact.id}`);
+                      }}
+                      title={`Aller à la page de la demande de contact ${contact.id}`}
+                      aria-label={`Aller à la page de la demande de contact ${contact.id}`}
+                    >
+                      <FontAwesomeIcon icon={faEye} />
+                    </button>
+                    <button
+                      onClick={() => deleteContact(contact.id)}
+                      title={`Supprimer de la demande de contact ${contact.id}`}
+                      aria-label={`Supprimer de la demande de contact ${contact.id}`}
+                    >
+                      <FontAwesomeIcon icon={faTrashCan} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p className="no-results">
+            Aucun résultat trouvé pour votre recherche.
+          </p>
+        )}
       </section>
     </main>
   );

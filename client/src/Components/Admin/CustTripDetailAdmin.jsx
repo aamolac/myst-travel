@@ -10,9 +10,10 @@ function CustTripDetail() {
   const [custTrips, setCustTrips] = useState(null);
   const navigate = useNavigate();
 
+  // Met à jour le titre à chaque fois que l'id change
   useEffect(() => {
     document.title = `Demande de voyage sur-mesure #${id} - Myst'Travel`;
-  }, [id]); // Met à jour chaque fois que l'id change
+  }, [id]);
 
   const fetchCustTrip = async () => {
     try {
@@ -26,21 +27,21 @@ function CustTripDetail() {
           credentials: "include",
         }
       );
-
       if (!response.ok) {
         if (response.status === 404) {
-          navigate("/*"); // Redirige vers la page "PageNotFound"
+          navigate("/*");
           return;
         }
         throw new Error(
-          "Une erreur est survenue lors de la récupération des données.."
+          "Une erreur est survenue lors de la récupération des données..."
         );
       }
-
       const data = await response.json();
       setCustTrips(data);
     } catch (error) {
-      setCustTrips({ error: error.message });
+      setCustTrips({
+        error: `Impossible de récupérer les données de la demande de voyage sur-mesure. Veuillez réessayer plus tard. Détails de l'erreur : ${error.message}`,
+      });
     }
   };
 
@@ -52,13 +53,17 @@ function CustTripDetail() {
   if (!custTrips) return <p>Chargement...</p>;
 
   return (
-    <main className="cust-trip-admin container">
+    <main
+      className="cust-trip-admin container"
+      aria-label="Détail d'une demande de voyage sur-mesure"
+    >
       <button
-        onClick={() => navigate(-1)}
+        onClick={() => navigate("/dashboard/customized-trip")}
         title="Retour à la page des demandes de destination sur-mesure"
         className="back"
+        aria-label="Retour à la page des demandes de destination sur-mesure"
       >
-        <FontAwesomeIcon icon={faArrowLeft} /> Retour
+        <FontAwesomeIcon icon={faArrowLeft} aria-hidden="true" /> Retour
       </button>
       <h2>Demande de voyage sur-mesure n° {custTrips.id}</h2>
       <section>

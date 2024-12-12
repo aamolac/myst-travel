@@ -8,6 +8,7 @@ import {
   faSackDollar,
   faCalendarDays,
   faCircleCheck,
+  faImage,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -32,16 +33,16 @@ function AddMystDest() {
   });
 
   const navigate = useNavigate();
-  // Pour gérer les messages de retour
   const [msg, setMsg] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const scrollToTop = () => {
-    window.scrollTo(0, 0); // Défiler en haut de la page
+    window.scrollTo(0, 0);
   };
 
   // Validation du formulaire
   const validateForm = () => {
+    // Conversion des champs en nombres
     const budget = parseFloat(formMystDest.budget);
     const minDuration = Number(formMystDest.minDuration);
     const maxDuration = Number(formMystDest.maxDuration);
@@ -78,10 +79,18 @@ function AddMystDest() {
       !alt
     ) {
       setMsg("Tous les champs sont requis.");
+      // Arrêter la soumission du formulaire si la validation échoue
       return false;
     }
 
-    // Validation : vérifier que les durées sont comprises entre 2 et 21 jours
+    // Vérifier si les champs numériques contiennent des valeurs valides
+    if (isNaN(budget) || isNaN(minDuration) || isNaN(maxDuration)) {
+      setMsg("Veuillez entrer des chiffres valides pour les champs requis.");
+      // Arrêter la soumission du formulaire si la validation échoue
+      return false;
+    }
+
+    // Vérifier que les durées sont comprises entre 2 et 21 jours
     if (
       minDuration < 2 ||
       minDuration > 21 ||
@@ -89,15 +98,18 @@ function AddMystDest() {
       maxDuration > 21
     ) {
       setMsg("Les durées doivent être comprises entre 2 et 21 jours.");
+      // Arrêter la soumission du formulaire si la validation échoue
       return false;
     }
 
     // Vérifier que la durée maximale est supérieure à la durée minimale
     if (minDuration >= maxDuration) {
       setMsg("La durée maximale doit être supérieure à la durée minimale.");
+      // Arrêter la soumission du formulaire si la validation échoue
       return false;
     }
-
+    // Si tout est valide, on réinitialise le message d'erreur
+    setMsg("");
     return true;
   };
 
@@ -109,26 +121,28 @@ function AddMystDest() {
     });
   };
 
+  // Gérer les changements de l'image
   const handleFileChange = (e) => {
     setFormMystDest({
       ...formMystDest,
-      image: e.target.files[0], // Assurez-vous que vous prenez le bon fichier
+      image: e.target.files[0],
     });
   };
 
   // Gérer la soumission du formulaire
   const submitHandler = async (e) => {
+    // Empêche le rechargement de la page lors de la soumission du formulaire
     e.preventDefault();
 
     if (!validateForm()) {
-      return; // Ne pas soumettre si le formulaire est invalide
+      // Ne pas soumettre si le formulaire est invalide
+      return;
     }
 
     try {
       // Créez une instance de FormData
       const formData = new FormData();
-
-      // Ajoutez tous les champs de votre état au FormData
+      // Ajouter tous les champs au FormData
       for (const key in formMystDest) {
         formData.append(key, formMystDest[key]);
       }
@@ -141,12 +155,10 @@ function AddMystDest() {
           body: formData,
         }
       );
-
       const data = await response.json();
-
       if (response.ok) {
-        setShowConfirmation(true); // Affiche la fenêtre de confirmation
-
+        // Affiche la fenêtre de confirmation
+        setShowConfirmation(true);
         // Redirige après 5 sec
         setTimeout(() => {
           navigate("/dashboard/myst-destination");
@@ -160,26 +172,43 @@ function AddMystDest() {
   };
 
   return (
-    <main className="container add-myst-dest">
+    <main
+      className="container add-myst-dest"
+      aria-label="Page pour ajouter une destination mystère"
+    >
       <button
         onClick={() => navigate("/dashboard/myst-destination")}
         title="Retour à la page des destinations mystères"
         className="back"
+        aria-label="Retour à la page des destinations mystères"
       >
-        <FontAwesomeIcon icon={faArrowLeft} /> Retour
+        <FontAwesomeIcon icon={faArrowLeft} aria-hidden="true" /> Retour
       </button>
       <h2>Ajout d'une destination mystère</h2>
       {showConfirmation ? (
-        <section className="confirmation">
-          <FontAwesomeIcon icon={faCircleCheck} />
-          <p>La destination a bien été ajoutée !</p>
+        <section
+          className="confirmation"
+          aria-live="polite"
+          aria-label="Message de confirmation de l'ajout d'une destination mystère"
+        >
+          <FontAwesomeIcon icon={faCircleCheck} aria-hidden="true" />
+          <p>
+            <span>La destination a bien été ajoutée !</span>
+          </p>
           <p>
             Vous allez être redirigé vers la page de toutes les destinations ...
           </p>
         </section>
       ) : (
-        <form onSubmit={submitHandler}>
-          {msg && <p className="message">{msg}</p>}
+        <form
+          onSubmit={submitHandler}
+          aria-label="Formulaire pour ajouter une destination mystère"
+        >
+          {msg && (
+            <p className="message" role="alert">
+              {msg}
+            </p>
+          )}
           <label htmlFor="title">Titre de la destination</label>
           <input
             type="text"
@@ -191,8 +220,8 @@ function AddMystDest() {
             required
           />
           <label htmlFor="locationClue">
-            <FontAwesomeIcon icon={faEarthAmericas} /> Indice n°1 : La région
-            géographique
+            <FontAwesomeIcon icon={faEarthAmericas} aria-hidden="true" /> Indice
+            n°1 : La région géographique
           </label>
           <textarea
             id="locationClue"
@@ -218,8 +247,11 @@ function AddMystDest() {
             <option value="Océanie">Océanie</option>
           </select>
           <label htmlFor="climateClue">
-            <FontAwesomeIcon icon={faTemperatureThreeQuarters} /> Indice n°2 :
-            Le climat
+            <FontAwesomeIcon
+              icon={faTemperatureThreeQuarters}
+              aria-hidden="true"
+            />{" "}
+            Indice n°2 : Le climat
           </label>
           <textarea
             id="climateClue"
@@ -245,8 +277,8 @@ function AddMystDest() {
             <option value="Hivernal">Hivernal</option>
           </select>
           <label htmlFor="experienceClue">
-            <FontAwesomeIcon icon={faMountainCity} /> Indice n°3 : Le type
-            d'expérience
+            <FontAwesomeIcon icon={faMountainCity} aria-hidden="true" /> Indice
+            n°3 : Le type d'expérience
           </label>
           <textarea
             id="experienceClue"
@@ -256,7 +288,7 @@ function AddMystDest() {
             onChange={handleChange}
             required
           ></textarea>
-          <label htmlFor="accomodation">Type d'expérience</label>
+          <label htmlFor="accomodation">Type d'hébergement</label>
           <select
             id="accomodation"
             name="accomodation"
@@ -265,18 +297,18 @@ function AddMystDest() {
             required
           >
             <option value="">Choisir le type d'hébergement</option>
-            <option value="Classique et Confortable">
-              Classique et Confortable
+            <option value="Classique et confortable">
+              Classique et confortable
             </option>
-            <option value="Nature et Authentique">Nature et Authentique</option>
-            <option value="Économique et Pratique">
-              Économique et Pratique
+            <option value="Nature et authentique">Nature et authentique</option>
+            <option value="Économique et pratique">
+              Économique et pratique
             </option>
             <option value="Multi-hébergements">Multi-hébergements</option>
           </select>
           <label htmlFor="activityClue">
-            <FontAwesomeIcon icon={faPersonRunning} /> Indice n°4 : Le niveau
-            d’activité physique
+            <FontAwesomeIcon icon={faPersonRunning} aria-hidden="true" /> Indice
+            n°4 : Le niveau d’activité physique
           </label>
           <textarea
             id="activityClue"
@@ -303,8 +335,8 @@ function AddMystDest() {
           </select>
 
           <label htmlFor="budget">
-            <FontAwesomeIcon icon={faSackDollar} /> Budget par jour/personne (en
-            €)
+            <FontAwesomeIcon icon={faSackDollar} aria-hidden="true" /> Budget
+            par jour/personne (en €)
           </label>
           <input
             type="number"
@@ -316,7 +348,8 @@ function AddMystDest() {
             required
           />
           <label htmlFor="minDuration">
-            <FontAwesomeIcon icon={faCalendarDays} /> Durée minimale (en jours)
+            <FontAwesomeIcon icon={faCalendarDays} aria-hidden="true" /> Durée
+            minimale (en jours)
           </label>
           <input
             type="number"
@@ -330,7 +363,8 @@ function AddMystDest() {
             required
           />
           <label htmlFor="maxDuration">
-            <FontAwesomeIcon icon={faCalendarDays} /> Durée maximale (en jours)
+            <FontAwesomeIcon icon={faCalendarDays} aria-hidden="true" /> Durée
+            maximale (en jours)
           </label>
           <input
             type="number"
@@ -343,7 +377,9 @@ function AddMystDest() {
             placeholder="Entrer la durée maximale"
             required
           />
-          <label htmlFor="image">L'image</label>
+          <label htmlFor="image">
+            <FontAwesomeIcon icon={faImage} aria-hidden="true" /> L'image
+          </label>
           <p>
             Les extensions autorisées sont :{" "}
             <span>.png, .jpg, .jpeg, .webp.</span> Il faut privilégier
@@ -369,7 +405,11 @@ function AddMystDest() {
             required
           />
 
-          <button type="submit" onClick={scrollToTop}>
+          <button
+            type="submit"
+            onClick={scrollToTop}
+            aria-label="Valider l'ajout de la destination mystère"
+          >
             Ajouter la destination mystère
           </button>
         </form>

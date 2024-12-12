@@ -9,28 +9,30 @@ import cors from "cors";
 // express-session pour gérer les sessions utilisateur
 // (les sessions permettent de maintenir l'état de connexion entre plusieurs requêtes)
 import session from "express-session";
-// Importation des routes
 import router from "./router/index.routes.js";
 
 import fileUpload from "express-fileupload";
 
-// createRequire pour utiliser le système de modules CommonJS dans un fichier ES Module
+// module `createRequire` pour permettre l'utilisation de modules CommonJS dans un fichier de type ES Module
 import { createRequire } from "module";
-// require pour utiliser un module CommonJS (express-mysql-session ici)
+// Création de la fonction `require` pour importer des modules CommonJS (ici, on importe `express-mysql-session`)
 const require = createRequire(import.meta.url);
-// express-mysql-session' pour stocker les sessions dans MySQL
+// Importation de `express-mysql-session`, un module qui permet de stocker les sessions dans une base de données MySQL
 const MySQLStore = require("express-mysql-session")(session);
 
+// Initialisation d'une application Express
 const app = express();
+// Définition du port sur lequel le serveur écoutera, récupéré depuis les variables d'environnement
 const PORT = process.env.LOCAL_PORT;
 
-// CONFIGURATION DE CORS
-// autorise à communiquer avec notre serveur uniquement
-// Cela empêche les requêtes malveillantes provenant d'autres domaines
+// CONFIGURATION DE CORS (Cross-Origin Resource Sharing)
+// Permet au serveur d'accepter les requêtes venant d'une URL spécifique (par exemple, votre application front-end)
+// Cela évite les erreurs de sécurité liées aux requêtes entre domaines
 app.use(
   cors({
     origin: "http://localhost:5173",
-    credentials: true, // Autorise l'envoi de cookies pour les requêtes cross-origin
+    // Autorise l'envoi de cookies pour les requêtes cross-origin
+    credentials: true,
   })
 );
 
@@ -40,7 +42,7 @@ app.use(
     secret: process.env.EXPRESS_SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false, httpOnly: true, maxAge: 1000 * 60 * 60 * 24 }, // Durée de validité du cookie : 1 jour
+    cookie: { secure: false, httpOnly: true, maxAge: 1000 * 60 * 60 * 24 },
     // utilisation d'un store pour stocker les sessions dans MySQL, plus optimisé que le store par défaut en mémoire
     store: new MySQLStore({
       host: process.env.DB_HOST,
@@ -53,15 +55,19 @@ app.use(
 );
 
 // DOSSIER STATIQUE POUR LES IMAGES
+// Configure un dossier où seront stockées les images accessibles publiquement
 app.use("/img", express.static(path.join(process.cwd(), "public/img")));
 
 // MIDDLEWARE POUR GÉRER LES FICHIERS UPLOADÉS
+// Permet de recevoir des fichiers envoyés par l'utilisateur via des formulaires
 app.use(fileUpload());
 
-// MIDDLEWARE pour interpréter les données reçues au format JSON
+// MIDDLEWARE POUR LES DONNÉES EN FORMAT JSON
+// Permet de traiter les données envoyées au serveur en format JSON
 app.use(express.json());
 
-// FORMULAIRE - Middleware pour gérer les données de formulaire
+// MIDDLEWARE POUR LES FORMULAIRE
+// Permet de traiter les données envoyées via des formulaires HTML classiques
 // converti les données d'un formulaire dans un objet body
 app.use(express.urlencoded({ extended: false }));
 
@@ -70,17 +76,18 @@ app.use(router);
 
 // CONFIGURER SESSION PERSONNALISÉE utilisation d'un middleware
 // req.session est un objet qu'on va compléter lors de la connexion de l'utilisateur sur la route /login si tout correspond
-app.use((req, res, next) => {
-  if (req.session && req.session.user) {
-    // Si l'utilisateur est connecté, affiche ses informations
-    console.log("Utilisateur connecté:", req.session.user);
-  } else {
-    // Affiche un message lorsque l'utilisateur n'est pas connecté
-    console.log("Aucun utilisateur connecté pour l'instant.");
-  }
-  next(); // Passe à la suite du traitement de la requête
-});
+// app.use((req, res, next) => {
+//   if (req.session && req.session.user) {
+//     // Si l'utilisateur est connecté, affiche ses informations
+//     // console.log("Utilisateur connecté:", req.session.user);
+//   } else {
+//     // Affiche un message lorsque l'utilisateur n'est pas connecté
+//     // console.log("Aucun utilisateur connecté pour l'instant.");
+//   }
+//   next(); // Passe à la suite du traitement de la requête
+// });
 
+// LANCEMENT DU SERVEUR
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
 });

@@ -104,3 +104,24 @@ button:hover {
 img {
   border-radius: 10%;
 }
+
+body.no-scroll {
+  position: fixed;
+  width: 100%;
+}
+
+.menu-accessible a {
+  display: block;
+  background-color: $creamy-white;
+  color: $blue;
+  text-decoration: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 1em;
+  opacity: 0;
+}
+
+.menu-accessible a:focus {
+  opacity: 1;
+}

@@ -38,6 +38,7 @@ $red: #b22234;
   font-family: "Lora-Medium";
   padding: 1.5rem 1rem;
   border-radius: 0.5rem;
+  border: 0.1rem solid $grey;
 }
 
 @mixin button-back-style {
@@ -48,6 +49,7 @@ $red: #b22234;
   padding: 0.7rem;
   margin: 2rem;
   border-radius: 0.5rem;
+  border: 0.1rem solid $grey;
 }
 
 @mixin form-style {
@@ -66,7 +68,7 @@ $red: #b22234;
   font-size: 1.6rem;
   font-family: "Lora-Regular";
   border-radius: 0.5rem;
-  border: 0.1rem solid black;
+  border: 0.1rem solid $grey;
   margin-bottom: 0.7rem;
   padding-left: 0.5rem;
   height: 3rem;
@@ -76,7 +78,7 @@ $red: #b22234;
   font-size: 1.6rem;
   font-family: "Lora-Regular";
   border-radius: 0.5rem;
-  border: 0.1rem solid black;
+  border: 0.1rem solid $grey;
   margin-bottom: 0.7rem;
   padding: 0.5rem 0.5rem;
   height: 10rem;
@@ -85,8 +87,10 @@ $red: #b22234;
 @mixin select-style {
   font-family: "Lora-Regular";
   font-size: 1.6rem;
-  padding: 0.5rem 0rem;
+  padding: 0.5rem;
   margin-bottom: 0.7rem;
+  background-color: $creamy-white;
+  border: 0.1rem solid $grey;
 }
 
 @mixin info-label {

@@ -8,9 +8,10 @@ function ReservationDetail() {
   const [reservation, setReservation] = useState(null);
   const navigate = useNavigate();
 
+  // Met à jour le titre à chaque fois que l'id change
   useEffect(() => {
     document.title = `Réservation #${id} - Myst'Travel`;
-  }, [id]); // Met à jour chaque fois que l'id change
+  }, [id]);
 
   const fetchReservation = async () => {
     try {
@@ -24,10 +25,9 @@ function ReservationDetail() {
           credentials: "include",
         }
       );
-
       if (!response.ok) {
         if (response.status === 404) {
-          navigate("/*"); // Redirige vers la page "PageNotFound"
+          navigate("/*");
           return;
         }
         throw new Error(
@@ -38,7 +38,9 @@ function ReservationDetail() {
       const data = await response.json();
       setReservation(data);
     } catch (error) {
-      setReservation({ error: error.message });
+      setReservation({
+        error: `Impossible de récupérer les données de la réservation. Veuillez réessayer plus tard. Détails de l'erreur : ${error.message}`,
+      });
     }
   };
 
@@ -50,13 +52,17 @@ function ReservationDetail() {
   if (!reservation) return <p>Chargement...</p>;
 
   return (
-    <main className="reservation-admin container">
+    <main
+      className="reservation-admin container"
+      aria-label="Détail d'une réservation de destination mystère"
+    >
       <button
-        onClick={() => navigate(-1)}
+        onClick={() => navigate("/dashboard/reservation")}
         title="Retour à la page des réservations"
         className="back"
+        aria-label="Retour à la page des réservations"
       >
-        <FontAwesomeIcon icon={faArrowLeft} /> Retour
+        <FontAwesomeIcon icon={faArrowLeft} aria-hidden="true" /> Retour
       </button>
       <h2>Réservation n°{reservation.id}</h2>
       <section>

@@ -4,7 +4,7 @@ import userReducer from "./reducer.js";
 
 // Création du contexte qui va permettre de partager l'état utilisateur à travers les composants
 const LoginContext = createContext();
-// État initial pour l'utilisateur : non connecté (isLogged: false) et sans email (email: "")
+// État initial pour l'utilisateur : non connecté
 const INITIAL_STATE = {
   isLogged: false,
   user: null,
@@ -34,6 +34,7 @@ function UserProvider(props) {
   }
 
   return (
+    // Fournit les valeurs à tous les composants
     <LoginContext.Provider
       value={{
         user: state.user,
@@ -49,8 +50,5 @@ function UserProvider(props) {
   );
 }
 
-// Export du contexte pour que les composants puissent l'utiliser via useContext
 export { LoginContext };
-
-// Export par défaut du composant Provider pour qu'il puisse envelopper l'application
 export default UserProvider;

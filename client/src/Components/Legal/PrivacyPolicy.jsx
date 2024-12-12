@@ -6,13 +6,38 @@ function PrivacyPolicy() {
   const navigate = useNavigate();
 
   return (
-    <main className="container legals-docs">
-      <button onClick={() => navigate(-1)}>
-        <FontAwesomeIcon icon={faArrowLeft} /> Retour
+    <main
+      className="container legals-docs"
+      aria-label="Page de la politique de confidentialité"
+    >
+      <nav
+        className="menu-accessible"
+        role="navigation"
+        aria-label="Menu accessible avec tabulation"
+      >
+        <a href="#introduction">Introduction</a>
+        <a href="#collected-data">Données collectées</a>
+        <a href="#use-collected-data">Utilisation des données collectées</a>
+        <a href="#data-sharing">Partage des données</a>
+        <a href="#data-security">Sécurité des données</a>
+        <a href="#your-rights">Vos droits</a>
+        <a href="#data-storage">Conservation des données</a>
+        <a href="#cookies">Cookies</a>
+        <a href="#update-privacy-policy">
+          Modifications de la politique de confidentialité
+        </a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button
+        onClick={() => navigate(-1)}
+        title="Retour à la page précédente"
+        aria-label="Retour à la page précédente"
+      >
+        <FontAwesomeIcon icon={faArrowLeft} aria-hidden="true" /> Retour
       </button>
       <h2>Politique de confidentialité</h2>
 
-      <section>
+      <section id="introduction">
         <h3>1. Introduction</h3>
         <p>
           Chez Myst'Travel, nous respectons votre vie privée et nous nous
@@ -23,7 +48,7 @@ function PrivacyPolicy() {
         </p>
       </section>
 
-      <section>
+      <section id="collected-data">
         <h3>2. Données collectées</h3>
         <p>
           Lorsque vous utilisez Myst'Travel, nous collectons différentes
@@ -46,7 +71,7 @@ function PrivacyPolicy() {
         </ul>
       </section>
 
-      <section>
+      <section id="use-collected-data">
         <h3>3. Utilisation des données collectées</h3>
         <p>Nous utilisons les données collectées aux fins suivantes :</p>
         <ul>
@@ -69,7 +94,7 @@ function PrivacyPolicy() {
         </ul>
       </section>
 
-      <section>
+      <section id="data-sharing">
         <h3>4. Partage des données</h3>
         <p>
           Nous ne vendons, ni ne louons, ni ne partageons vos données
@@ -78,8 +103,7 @@ function PrivacyPolicy() {
         <ul>
           <li>
             Prestataires de services : Nous partageons certaines données avec
-            des prestataires pour nous aider à fournir nos services (par
-            exemple, les services de paiement ou de marketing).
+            des prestataires pour nous aider à fournir nos services.
           </li>
           <li>
             Obligations légales : Si la loi l'exige, nous pouvons partager vos
@@ -93,7 +117,7 @@ function PrivacyPolicy() {
         </ul>
       </section>
 
-      <section>
+      <section id="data-security">
         <h3>5. Sécurité des données</h3>
         <p>
           Nous mettons en œuvre des mesures de sécurité techniques et
@@ -105,7 +129,7 @@ function PrivacyPolicy() {
         </p>
       </section>
 
-      <section>
+      <section id="your-rights">
         <h3>6. Vos droits</h3>
         <p>
           En tant qu'utilisateur, vous disposez des droits suivants sur vos
@@ -140,12 +164,18 @@ function PrivacyPolicy() {
         </ul>
         <p>
           Pour exercer ces droits, veuillez nous contacter à l'adresse suivante
-          : <a href="mailto:privacy@myst-travel.com">privacy@myst-travel.com</a>
+          :{" "}
+          <a
+            href="mailto:contact@myst-travel.com"
+            aria-label="Envoyer un email à Myst'Travel"
+          >
+            contact@myst-travel.com
+          </a>
           .
         </p>
       </section>
 
-      <section>
+      <section id="data-storage">
         <h3>7. Conservation des données</h3>
         <p>
           Nous conservons vos données personnelles aussi longtemps que
@@ -158,7 +188,7 @@ function PrivacyPolicy() {
       <section>
         <h3>8. Cookies</h3>
         <p>
-          Mystery Explorer utilise des cookies pour améliorer l'expérience
+          Myst'Travel utilise des cookies pour améliorer l'expérience
           utilisateur. Les cookies sont des fichiers textes stockés sur votre
           appareil qui nous permettent d'analyser votre utilisation du site et
           de vous proposer des fonctionnalités personnalisées. Vous pouvez
@@ -167,7 +197,7 @@ function PrivacyPolicy() {
         </p>
       </section>
 
-      <section>
+      <section id="update-privacy-policy">
         <h3>9. Modifications de la politique de confidentialité</h3>
         <p>
           Nous nous réservons le droit de modifier cette politique de
@@ -177,13 +207,19 @@ function PrivacyPolicy() {
         </p>
       </section>
 
-      <section>
+      <section id="contact">
         <h3>10. Contact</h3>
         <p>
           Si vous avez des questions concernant cette politique de
           confidentialité ou si vous souhaitez exercer vos droits relatifs à vos
           données personnelles, veuillez nous contacter à{" "}
-          <a href="mailto:privacy@myst-travel.com">privacy@myst-travel.com</a>.
+          <a
+            href="mailto:contact@myst-travel.com"
+            aria-label="Envoyer un email à Myst'Travel"
+          >
+            contact@myst-travel.com
+          </a>
+          .
         </p>
       </section>
     </main>

@@ -19,16 +19,15 @@ const getById = async (req, res) => {
   try {
     // Récupération de l'ID à partir des paramètres de l'URL
     const custTripId = req.params.id;
-    // Appel de la méthode pour récupérer la demande avec l'ID fourni
+
+    // Exécute la requête pour récupérer la demande correspondant à l'ID
     const [custTrips] = await CustTrip.findById(custTripId);
 
     // Vérification si la demande a été trouvée
-    if (!custTrips || custTrips.length === 0) {
-      return res
-        .status(404)
-        .json({
-          msg: "La demande de destination sur-mesure n'a pas été trouvée.",
-        });
+    if (!custTrips.length) {
+      return res.status(404).json({
+        msg: "Erreur : La demande de destination sur-mesure n'a pas été trouvée.",
+      });
     }
 
     // Renvoie les infos de la demande en format JSON
@@ -46,19 +45,18 @@ const update = async (req, res) => {
     // Récupération du nouveau statut à partir du corps de la requête
     const { status } = req.body;
 
-    // Mise à jour du statut
-    const result = await CustTrip.updateStatus(custTripId, status);
+    // Exécute la requête pour MAJ le status de la demande
+    const [result] = await CustTrip.updateStatus(custTripId, status);
 
-    // Vérification si la mise à jour a réussi
-    if (result[0].affectedRows === 0) {
+    // Vérification si la MAJ a réussi
+    if (!result.affectedRows) {
       return res.status(404).json({
-        msg: "Le status de la demande de destination sur-mesure n'a pas pu être modifié",
+        msg: "Erreur : Le status de la demande de destination sur-mesure n'a pas pu être modifié.",
       });
     }
-
-    // Renvoie une réponse JSON confirmant la mise à jour
+    // Renvoie une réponse JSON confirmant la MAJ
     res.json({
-      msg: "Le status de la demande de destination sur-mesure a bien été modifié",
+      msg: "Le status de la demande de destination sur-mesure a bien été modifié.",
     });
   } catch (err) {
     res.status(500).json({ msg: err.message });
@@ -70,18 +68,18 @@ const remove = async (req, res) => {
   try {
     // Récupération de l'ID à partir des paramètres de l'URL
     const custTripId = req.params.id;
-    const result = await CustTrip.deleteById(custTripId);
+    // Exécute la requête pour supprimer la demande correspondant à l'ID
+    const [result] = await CustTrip.deleteById(custTripId);
 
-    // Si aucune demande n'a été supprimée (par exemple, si l'ID n'existe pas)
-    if (result[0].affectedRows === 0) {
+    // Si aucune demande n'a été supprimée (par ex si l'ID n'existe pas)
+    if (!result.affectedRows) {
       return res.status(404).json({
-        msg: "La demande de destination sur-mesure n'a pas été trouvée",
+        msg: "Erreur : La demande de destination sur-mesure n'a pas pu être supprimée.",
       });
     }
-
     // Si la demande a bien été supprimée
     res.json({
-      msg: "La demande de destination sur-mesure a bien été supprimée",
+      msg: "La demande de destination sur-mesure a bien été supprimée.",
     });
   } catch (err) {
     res.status(500).json({ msg: err.message });
@@ -90,7 +88,6 @@ const remove = async (req, res) => {
 
 //AJOUTER UNE DEMANDE
 const addRequest = async (req, res) => {
-  console.log("mon req.body :", req.body);
   try {
     const {
       typeExperience_id,
@@ -107,10 +104,6 @@ const addRequest = async (req, res) => {
       user_id,
     } = req.body;
 
-    // Récupérer l'user_id de la session
-    // Si req.session.user est défini, utilise-le, sinon prends l'user_id du body
-    const sessionUserId = req.session.user ? req.session.user.id : user_id;
-
     // Validation de tout les champs requis
     if (
       !typeExperience_id ||
@@ -126,6 +119,10 @@ const addRequest = async (req, res) => {
       return res.status(400).json({ msg: "Tous les champs sont requis." });
     }
 
+    // Récupérer l'user_id de la session
+    // Si req.session.user est défini, utilise-le, sinon prends l'user_id du body
+    const sessionUserId = req.session.user ? req.session.user.id : user_id;
+
     // Validation que la durée soit comprise entre 2 et 21 jours
     if (duration < 2 || duration > 21) {
       return res
@@ -140,6 +137,19 @@ const addRequest = async (req, res) => {
         .json({ msg: "Il doit y avoir au moins un adulte." });
     }
 
+    // Vérification des champs numériques
+    if (
+      isNaN(duration) ||
+      isNaN(budget) ||
+      isNaN(numberAdult) ||
+      (numberChild && isNaN(numberChild)) // Vérifie numberChild uniquement s'il est défini
+    ) {
+      return res.status(400).json({
+        msg: "Veuillez entrer des chiffres valides pour les champs requis.",
+      });
+    }
+
+    // Ajout de la demande dans la BDD
     await CustTrip.add(
       typeExperience_id,
       duration,
@@ -154,6 +164,7 @@ const addRequest = async (req, res) => {
       restriction,
       sessionUserId
     );
+    // Réponse de succès
     res.json({
       msg: "Votre demande de destination sur-mesure a bien été effectuée ! L'agence reviendra vers vous par mail dans les plus brefs délais.",
     });
@@ -162,16 +173,18 @@ const addRequest = async (req, res) => {
   }
 };
 
-//récupérer les choix ds cléfs étrangères
+// Afficher les choix des catégories des voyages sur-mesure
 const getAllChoices = async (req, res) => {
   try {
+    // Récupération de tous les choix
     const [typeExperience] = await Choice.getTypeExperiences();
     const [climate] = await Choice.getClimates();
-    const [accomodation] = await Choice.getAccomodations(); // Même chose pour accomodation, activity, etc.
+    const [accomodation] = await Choice.getAccomodations();
     const [activity] = await Choice.getActivities();
     const [location] = await Choice.getLocations();
     const [culture] = await Choice.getCultures();
 
+    // Renvoie les choix en format JSON
     res.json({
       typeExperience,
       climate,
@@ -181,9 +194,7 @@ const getAllChoices = async (req, res) => {
       culture,
     });
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Erreur lors de la récupération des options" });
+    res.status(500).json({ msg: err.message });
   }
 };
 

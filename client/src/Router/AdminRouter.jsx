@@ -14,18 +14,10 @@ import ContactDetail from "../Components/Admin/ContactDetailAdmin.jsx";
 import PageNotFound from "../Components/PageNotFound.jsx";
 
 import UserRouter from "./UserRouter";
-import useCheckAuth from "../HOOK/useCheckAuth.jsx";
 import ProtectedRoute from "../HOC/ProtectedRoute.jsx";
 import TitleUpdater from "./TitleUpdater.jsx";
 
 function AdminRouter() {
-  const user = useCheckAuth();
-
-  // Attendre que `user` soit défini avant de continuer
-  if (user === undefined) {
-    return <div>Chargement...</div>;
-  }
-
   return (
     <>
       <TitleUpdater />

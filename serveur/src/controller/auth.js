@@ -5,14 +5,21 @@ import Auth from "../model/Auth.js";
 // REGISTER
 const register = async (req, res) => {
   try {
-    // Changement de const à let pour email
+    // Let pour l'email
     let { firstname, lastname, email, password } = req.body;
 
-    // Supprimer les espaces au début/à la fin des champs
+    // Supprimer les espaces au début/fin des champs
     firstname = firstname.trim();
     lastname = lastname.trim();
     email = email.trim();
     password = password.trim();
+
+    // Vérification si tous les champs sont remplis
+    if (!firstname || !lastname || !email || !password) {
+      return res.status(400).json({
+        msg: "Tous les champs sont requis.",
+      });
+    }
 
     // Vérification des infos
     if (firstname.length < 2 || !/^[A-Za-zÀ-ÿ]+$/.test(firstname)) {
@@ -29,7 +36,6 @@ const register = async (req, res) => {
 
     // Validation simplifiée de l'email
     const emailValidate = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
     if (!emailValidate.test(email)) {
       return res.status(400).json({
         msg: "L'adresse email n'est pas valide.",
@@ -43,7 +49,7 @@ const register = async (req, res) => {
       });
     }
 
-    // Validation du mdp
+    // Validation du mot de passe
     if (
       password.length < 8 ||
       !/[a-z]/.test(password) ||
@@ -66,15 +72,15 @@ const register = async (req, res) => {
     // Nettoyage de l'adresse e-mail (suppression du "+1" s'il est présent)
     email = email.replace("+1", "");
 
-    // vérifier si l'email existe déjà
-    const existingUser = await Auth.getOneByEmail(email);
+    // Vérifier si l'email existe déjà
+    const [[existingUser]] = await Auth.getOneByEmail(email);
     if (existingUser) {
       return res.status(400).json({ msg: "L'adresse email existe déjà." });
     }
 
     // Hashage du mdp
     // méthode hash, prend en paramètre le mdp et le nbre de tours de la fonction de hachage
-    //plus la valeur est élevée plus le hash est sécurisé et coûteux en ressources
+    // plus la valeur est élevée plus le hash est sécurisé et coûteux en ressources
     const hash = await bcrypt.hash(password, 10);
     // on ajoute le nouvel utilisateur à la BDD avec ttes les infos
     // et on passe le mdp haché
@@ -90,34 +96,29 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // préparation de la requête SQL afin de vérifier si l'email existe
+    // Exécute la requête pour vérifier si l'email existe
     const [[user]] = await Auth.getOneByEmail(email);
 
     // on récupère la donnée dans un tableau bi-dimensional --> destructuration double
     // Vérifie si un utilisateur avec cet email a été trouvé dans la BDD
     if (user) {
-      // méthode compare de bcrypt : compare le mdp fourni avec celui stocké dans la BDD
+      // méthode compare de bcrypt : compare le mot de passe fourni avec celui stocké dans la BDD
       const same = await bcrypt.compare(password, user.password);
-      // si les mdp correspondent
+      // si le mot de passe correspond
       if (same) {
-        // préparation de la requête SQL afin de vérifier si l'email existe
-        // const [[userById]] = await Auth.getUserInfoById(id);
-
         // Stocke les infos de l'utilisateur dans la session pour maintenir l'état de la connexion
         req.session.user = {
-          id: user.id, // ID de l'utilisateur récupéré depuis la base de données
+          id: user.id,
           firstname: user.firstname,
           lastname: user.lastname,
           email: user.email,
           role: user.role,
         };
 
-        // Marque l'utilisateur comme connecté en définissant 'isLogged' à true dans la session
+        // Marque l'utilisateur comme connecté
         req.session.isLogged = true;
 
-        console.log("Utilisateur connecté :", req.session.user);
-        console.log("Utilisateur ID :", req.session.user.id);
-        // Renvoie une réponse JSON avec le prénom et le nom de l'utilisateur
+        // Renvoie une réponse JSON avec les infos de l'utilisateur
         return res.json({
           msg: "Utilisateur connecté",
           isLogged: true,
@@ -131,7 +132,6 @@ const login = async (req, res) => {
         });
       }
     }
-
     return res.status(500).json({
       msg: "Echec de la connexion. L'adresse email et le mot de passe ne correspondent pas.",
     });

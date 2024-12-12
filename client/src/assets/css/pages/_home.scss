@@ -23,7 +23,7 @@
     font-family: "Lora-Bold";
     font-style: italic;
   }
-  .presentation {
+  #presentation {
     padding: 5rem;
     p {
       text-align: center;
@@ -98,8 +98,8 @@
       }
     }
   }
-  .mystery,
-  .ready-for-adventure {
+  #why-choose-mystery,
+  #ready-for-adventure {
     margin: 2rem 0;
     padding: 5rem;
     div {
@@ -114,25 +114,23 @@
         align-items: center;
         gap: 2rem;
         img {
-          width: 60%;
+          width: 50%;
           margin: 0;
         }
       }
-      @media #{$tablet} {
-        img {
-          width: 50%;
-        }
-      }
+    }
+    @media #{$laptop} {
+      margin: auto;
     }
   }
-  .ready-for-adventure {
+  #ready-for-adventure {
     div {
       @media #{$tablet} {
         flex-direction: row-reverse;
       }
     }
   }
-  .destination-escape {
+  #destination-escape {
     background-image: url("/src/assets/images/home/sea.webp");
     background-size: cover;
     background-position: center;

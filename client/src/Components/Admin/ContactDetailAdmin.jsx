@@ -11,9 +11,10 @@ function ContactDetail() {
   const navigate = useNavigate();
   const [msg, setMsg] = useState("");
 
+  // Met à jour le titre à chaque fois que l'id change
   useEffect(() => {
     document.title = `Demande de contact #${id} - Myst'Travel`;
-  }, [id]); // Met à jour chaque fois que l'id change
+  }, [id]);
 
   const fetchContact = async () => {
     try {
@@ -27,21 +28,21 @@ function ContactDetail() {
           credentials: "include",
         }
       );
-
       if (!response.ok) {
         if (response.status === 404) {
-          navigate("/*"); // Redirige vers la page "PageNotFound"
+          navigate("/*");
           return;
         }
         throw new Error(
-          "Une erreur est survenue lors de la récupération des données.."
+          "Une erreur est survenue lors de la récupération des données..."
         );
       }
-
       const data = await response.json();
       setContacts(data);
     } catch (error) {
-      setContacts({ error: error.message });
+      setContacts({
+        error: `Impossible de récupérer les données de la demande de contact. Veuillez réessayer plus tard. Détails de l'erreur : ${error.message}`,
+      });
     }
   };
 
@@ -63,15 +64,17 @@ function ContactDetail() {
             "Content-Type": "application/json",
           },
           credentials: "include",
-          body: JSON.stringify({ status: 2 }), // Status 2 pour "Répondu"
+          // Status 2 pour "Répondu"
+          body: JSON.stringify({ status: 2 }),
         }
       );
-
+      const data = await response.json();
       if (response.ok) {
+        setMsg(data.msg);
         setContacts({ ...contacts, status: "Répondu" });
         window.scrollTo(0, 0);
       } else {
-        setMsg("Erreur lors de la mise à jour du statut");
+        setMsg(data.msg);
       }
     } catch (error) {
       setMsg("Erreur lors de la mise à jour du statut");
@@ -79,18 +82,26 @@ function ContactDetail() {
   };
 
   return (
-    <main className="contact-admin container">
+    <main
+      className="contact-admin container"
+      aria-label="Détail d'une demande de contact"
+    >
       <button
-        onClick={() => navigate(-1)}
+        onClick={() => navigate("/dashboard/contact")}
         title="Retour à la page des demandes de contact"
         className="back"
+        aria-label="Retour à la page des demandes de contact"
       >
-        <FontAwesomeIcon icon={faArrowLeft} /> Retour
+        <FontAwesomeIcon icon={faArrowLeft} aria-hidden="true" /> Retour
       </button>
       <h2>Message</h2>
 
       <section>
-        {msg && <p className="message">{msg}</p>}
+        {msg && (
+          <p className="message" role="alert">
+            {msg}
+          </p>
+        )}
         <p>
           <span>Date de la demande :</span> {contacts.publishDate}
         </p>
@@ -111,7 +122,12 @@ function ContactDetail() {
           </p>
         )}
         {contacts.status !== "Répondu" && (
-          <button onClick={markAsReplied}>Répondu</button>
+          <button
+            onClick={markAsReplied}
+            aria-label="Modifier le status de la demande de contact en Répondu"
+          >
+            Répondu
+          </button>
         )}
       </section>
     </main>

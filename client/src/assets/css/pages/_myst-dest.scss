@@ -20,7 +20,7 @@
   span {
     font-family: "Lora-Bold";
   }
-  .intro-myst-dest {
+  #trip-begin-here {
     h4 {
       margin: 4rem 5rem 0 5rem;
     }
@@ -51,6 +51,10 @@
     }
     input {
       width: 2.5rem;
+    }
+    .input-duration {
+      width: 3.5rem;
+      padding: 0.5rem;
     }
     label {
       font-family: "Lora-Regular";
@@ -102,19 +106,25 @@
       background-color: rgba(128, 128, 128, 0.2);
       display: flex;
       flex-direction: column;
-      padding: 2rem;
+      padding-left: 2rem;
       border-right: 1px solid $grey;
       margin-bottom: 3rem;
       h4 {
         font-size: 1.6rem;
-        padding-top: 2rem;
-        padding-bottom: 1rem;
+        padding: 2rem 1rem 1rem 0;
       }
-      p {
+      .input-label {
         margin-left: 0;
+        input {
+          width: 1.5rem;
+        }
+        .input-duration {
+          width: 3.5rem;
+          padding: 0.5rem;
+        }
       }
     }
-    .info-dest {
+    #info-dest {
       flex-direction: row;
       flex-wrap: wrap;
       article {
@@ -124,14 +134,14 @@
       }
     }
   }
-  .info-dest {
+  #info-dest {
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin-bottom: 5rem;
     article {
       width: 70%;
-      height: 63rem;
+      height: 65rem;
       margin: 2rem auto;
       padding: 0.5rem;
       border-radius: 1rem;

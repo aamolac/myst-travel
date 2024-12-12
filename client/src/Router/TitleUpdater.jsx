@@ -15,7 +15,6 @@ function TitleUpdater() {
       case "/myst-destination":
         document.title = "Destinations mystères - Myst'Travel";
         break;
-
       case "/customized-trip":
         document.title = "Destination sur-mesure - Myst'Travel";
         break;
@@ -51,7 +50,6 @@ function TitleUpdater() {
       case "/dashboard/myst-destination/add":
         document.title = "Ajouter une destination mystère - Myst'Travel";
         break;
-
       case "/dashboard/customized-trip":
         document.title = "Gestion des voyages sur-mesure - Myst'Travel";
         break;
@@ -65,16 +63,16 @@ function TitleUpdater() {
         document.title = "Myst'Travel";
     }
   }, [location]);
-
-  return null; // Ce composant n'a pas besoin de rendre quoi que ce soit
+  // Ce composant n'a pas besoin de rendre quoi que ce soit
+  return null;
 }
 
 export default TitleUpdater;
 
 // Pour les routes suivantes, directement dans la page pour changer dynamiquement avec l'id
-//   "/myst-destination/:id"
-//   "/myst-destination/:id/reserve"
-//   "/dashboard/myst-destination/update/:id"
+// "/myst-destination/:id"
+// "/myst-destination/:id/reserve"
+// "/dashboard/myst-destination/update/:id"
 // "/dashboard/customized-trip/:id"
 // "/dashboard/reservation/:id"
 // "/dashboard/contact/:id"

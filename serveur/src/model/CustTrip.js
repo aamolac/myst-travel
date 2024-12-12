@@ -1,7 +1,7 @@
 import pool from "../config/db.js";
 
 class CustTrip {
-  // Requête pour afficher toutes les demandes de destination sur-mesure
+  // Afficher toutes les demandes de destination sur-mesure
   static async findAll() {
     const q = `SELECT customizedTrip.id, DATE_FORMAT (customizedTrip.createdDate, '%d/%m/%Y %H:%i') AS createdDate, CASE 
     WHEN status = 0 THEN "Non traité" 
@@ -13,7 +13,7 @@ END AS status, customizedTrip.user_id, user.email AS userEmail
     return await pool.query(q);
   }
 
-  // Requête pour afficher toutes les infos d'une demande de destination sur-mesure par son ID
+  // Afficher toutes les infos d'une demande de destination sur-mesure par son ID
   static async findById(id) {
     const q = `SELECT customizedTrip.id, typeExperience.choice AS typeExperienceChoice, customizedTrip.duration, customizedTrip.budget, climate.choice AS climateChoice, accomodation.choice AS accomodationChoice, 
     activity.choice AS activityChoice, location.choice AS locationChoice, customizedTrip.numberAdult, customizedTrip.numberChild, culture.choice AS cultureChoice, customizedTrip.restriction, DATE_FORMAT (customizedTrip.createdDate, '%d/%m/%Y %H:%i') AS createdDate, CASE 
@@ -28,24 +28,23 @@ END AS status, customizedTrip.user_id, user.email AS userEmail
     JOIN location ON customizedTrip.location_id = location.id
     JOIN culture ON customizedTrip.culture_id = culture.id
     JOIN user ON customizedTrip.user_id = user.id
-    WHERE customizedTrip.id = ?
-    ORDER BY customizedTrip.createdDate DESC`;
+    WHERE customizedTrip.id = ?`;
     return await pool.execute(q, [id]);
   }
 
-  // Requête pour mettre à jour le statut d'une demande de destination sur-mesure par son ID
+  // MAJ le statut d'une demande de destination sur-mesure par son ID
   static async updateStatus(id, status) {
     const q = `UPDATE customizedTrip SET status = ? WHERE id = ?`;
     return await pool.execute(q, [status, id]);
   }
 
-  // Requête pour supprimer une demande de destination sur-mesure par son ID
+  // Supprimer une demande de destination sur-mesure par son ID
   static async deleteById(id) {
     const q = "DELETE FROM customizedTrip WHERE id = ?";
     return await pool.execute(q, [id]);
   }
 
-  // Requête pour ajouter une demande de destination sur-mesure par un utilisateur
+  // Ajouter une demande de destination sur-mesure par un utilisateur
   static async add(
     typeExperience_id,
     duration,

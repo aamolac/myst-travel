@@ -20,13 +20,15 @@
   span {
     font-family: "Lora-Bold";
   }
+  .obligate {
+    color: $red;
+  }
   .confirmation {
     @include confirmation-message;
   }
   section {
-    .introduction-cust-trip {
-      margin: 5rem 5rem 0 5rem;
-
+    #introduction-cust-trip {
+      margin: 5rem;
       p {
         margin-bottom: 1rem;
       }
@@ -34,9 +36,16 @@
     form {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: flex-end;
       gap: 2rem;
       margin: 3rem 5rem;
+      background-image: linear-gradient(
+          rgba(255, 255, 255, 0.2),
+          rgba(255, 255, 255, 0.2)
+        ),
+        url("/src/assets/images/cust-trip/road-mobile.webp");
+      background-position: left top;
+      background-repeat: no-repeat;
       .question {
         display: flex;
         flex-direction: row;
@@ -50,7 +59,7 @@
         div {
           display: flex;
           flex-direction: column;
-          width: 32rem;
+          width: 33rem;
           label {
             @include label-style;
             margin-bottom: 0.5rem;
@@ -67,7 +76,7 @@
         @include button-style;
         width: 30%;
         display: block;
-        margin: 5rem auto;
+        margin: 6rem auto;
       }
       button:hover {
         @media #{$laptop} {
@@ -78,6 +87,29 @@
       }
     }
     @media #{$tablet} {
+      form {
+        align-items: center;
+        background-image: linear-gradient(
+            rgba(255, 255, 255, 0.2),
+            rgba(255, 255, 255, 0.2)
+          ),
+          url("/src/assets/images/cust-trip/road-tablet.webp");
+        background-position: top left;
+        background-repeat: no-repeat;
+        margin-left: 0.5rem;
+      }
+    }
+    @media #{$laptop} {
+      form {
+        background-image: linear-gradient(
+            rgba(255, 255, 255, 0.2),
+            rgba(255, 255, 255, 0.2)
+          ),
+          url("/src/assets/images/cust-trip/road-laptop.webp");
+        background-position: top center;
+        background-size: 100% 90%;
+        background-repeat: no-repeat;
+      }
       .question:nth-child(odd) {
         align-self: flex-start;
       }
