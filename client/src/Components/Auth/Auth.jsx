@@ -39,6 +39,8 @@ function Auth() {
         } else {
           navigate("/");
         }
+      } else {
+        setMsg(data.msg);
       }
     } catch (error) {
       console.log(

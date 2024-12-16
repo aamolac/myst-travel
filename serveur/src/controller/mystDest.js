@@ -84,7 +84,7 @@ const update = async (req, res) => {
         try {
           // Suppression asynchrone de l'ancienne image
           await fsPromises.unlink(oldImagePath);
-          console.log("Ancienne image supprimée avec succès");
+          // console.log("Ancienne image supprimée avec succès");
         } catch (err) {
           console.error(
             "Erreur lors de la suppression de l'ancienne image:",
@@ -187,7 +187,7 @@ const remove = async (req, res) => {
       try {
         // Supprimer l'image du dossier
         await fsPromises.unlink(imagePath);
-        console.log("Image supprimée avec succès !");
+        // console.log("Image supprimée avec succès !");
       } catch (err) {
         console.error("Erreur lors de la suppression de l'image.", err);
         return res
@@ -201,11 +201,9 @@ const remove = async (req, res) => {
 
     // Si aucune destination n'a été supprimée (par ex si l'ID n'existe pas)
     if (!result.affectedRows) {
-      return res
-        .status(404)
-        .json({
-          msg: "Erreur : La destination mystère n'a pas pu être supprimée.",
-        });
+      return res.status(404).json({
+        msg: "Erreur : La destination mystère n'a pas pu être supprimée.",
+      });
     }
 
     // Si la destination a bien été supprimée
