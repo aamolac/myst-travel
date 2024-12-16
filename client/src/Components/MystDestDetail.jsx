@@ -30,7 +30,6 @@ function MystDestDetail() {
       const response = await fetch(
         `http://localhost:9000/api/v1/myst-dest/${id}`,
         {
-          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },

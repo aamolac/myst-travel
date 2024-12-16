@@ -26,7 +26,7 @@ function PrivacyPolicy() {
         <a href="#update-privacy-policy">
           Modifications de la politique de confidentialité
         </a>
-        <a href="#contact">Contact</a>
+        <a href="#contact-legal">Contact</a>
       </nav>
       <button
         onClick={() => navigate(-1)}
@@ -207,7 +207,7 @@ function PrivacyPolicy() {
         </p>
       </section>
 
-      <section id="contact">
+      <section id="contact-contact">
         <h3>10. Contact</h3>
         <p>
           Si vous avez des questions concernant cette politique de

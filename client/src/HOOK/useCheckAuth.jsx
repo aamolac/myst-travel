@@ -26,7 +26,7 @@ function useCheckAuth() {
           "http://localhost:9000/api/v1/auth/check-auth",
           {
             // Envoi des cookies pour vérifier l'état de connexion sur le serveur
-            credentials: "include", // s'assurer que les cookies de session sont inclus
+            credentials: "include",
           }
         );
 
@@ -36,7 +36,7 @@ function useCheckAuth() {
           // qu'on parse et on les stocke dans le state setUser, qui est un state d'un context User
           if (isMounted) {
             if (data.isLogged) {
-              console.log("Utilisateur connecté :", data.user);
+              // console.log("Utilisateur connecté :", data.user);
               login(data.user);
               setUser(data.user);
             } else {

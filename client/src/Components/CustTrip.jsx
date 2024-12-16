@@ -120,8 +120,7 @@ function CustTrip() {
         const response = await fetch(
           "http://localhost:9000/api/v1/customized-trip/choices",
           {
-            // dans la requête on envoie les cookies pour que le serveur puisse s'en servir afin de vérifier l'état de connexion
-            credentials: "include", // s'assurer que les cookies de session sont inclus
+            credentials: "include",
           }
         );
         const data = await response.json();
@@ -181,10 +180,10 @@ function CustTrip() {
       if (response.ok) {
         // Affiche la fenêtre de confirmation
         setShowConfirmation(true);
-        // Redirige après 15 sec
+        // Redirige après 10 sec
         setTimeout(() => {
           navigate("/");
-        }, 15000);
+        }, 10000);
       } else {
         setMsg(data.msg);
       }
@@ -257,9 +256,8 @@ function CustTrip() {
             </p>
             <p>
               <span>
-                Les champs marqués par un astérisque (
-                <span className="obligate">*</span>) sont requis pour finaliser
-                votre demande.
+                Les champs marqués <span className="obligate">*</span> sont
+                requis pour finaliser votre demande.
               </span>
             </p>
             {msg && (

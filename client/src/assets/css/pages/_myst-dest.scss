@@ -189,4 +189,8 @@
       }
     }
   }
+  .reset-filter {
+    @include button-back-style;
+    margin: 0 5rem;
+  }
 }

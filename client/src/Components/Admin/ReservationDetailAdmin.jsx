@@ -18,7 +18,6 @@ function ReservationDetail() {
       const response = await fetch(
         `http://localhost:9000/api/v1/reservation/${id}`,
         {
-          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
@@ -97,7 +96,7 @@ function ReservationDetail() {
           {reservation.numberChild ? reservation.numberChild : 0}
         </p>
         <p>
-          <span>Status :</span> {reservation.reservationStatus}
+          <span>Statut :</span> {reservation.reservationStatus}
         </p>
       </section>
     </main>

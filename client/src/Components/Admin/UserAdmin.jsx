@@ -21,7 +21,6 @@ function User() {
   const fetchUser = async () => {
     try {
       const response = await fetch("http://localhost:9000/api/v1/user/list", {
-        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },

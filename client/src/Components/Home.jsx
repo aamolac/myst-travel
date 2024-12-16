@@ -14,8 +14,6 @@ function Home() {
       >
         <a href="#presentation">Présentation</a>
         <a href="#how-it-works">Comment ça marche ?</a>
-        <a href="#myst-dest">Nos destinations mystères</a>
-        <a href="#cust-trip">Notre destination sur-mesure</a>
         <a href="#why-choose-mystery">Pourquoi choisir le mystère ?</a>
         <a href="#destination-escape">Des destinations pour s’évader</a>
         <a href="#ready-for-adventure">Prêt pour l'aventure ?</a>

@@ -184,9 +184,9 @@ header .header-mobile .plane-logo img {
   width: 30%;
 }
 header .header-mobile #burger-menu svg {
+  color: #fdfdfd;
   font-size: 3rem;
   padding: 2rem;
-  color: #fdfdfd;
   position: relative;
   z-index: 5;
 }
@@ -307,9 +307,9 @@ footer div .navigation nav {
 @media screen and (min-width:768px) {
   footer div .navigation {
     grid-area: navigation;
-    padding: 0;
     width: 100%;
     margin: 3rem auto;
+    padding: 0;
   }
   footer div .navigation .container {
     margin: 0;
@@ -321,9 +321,9 @@ footer div .open-hours {
 @media screen and (min-width:768px) {
   footer div .open-hours {
     grid-area: open-hours;
-    padding: 0;
     width: 100%;
     margin: 3rem auto;
+    padding: 0;
   }
 }
 footer div .social-media div {
@@ -337,9 +337,9 @@ footer div .social-media a {
 @media screen and (min-width:768px) {
   footer div .social-media {
     grid-area: social-media;
-    padding: 0;
     width: 100%;
     margin: 3rem auto;
+    padding: 0;
   }
 }
 footer div .legal {
@@ -534,12 +534,12 @@ footer div .legal p {
   background-image: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url("/src/assets/images/about-us/seaside.webp");
   background-size: cover;
   background-position: center;
-  color: #fdfdfd;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 40rem;
   padding: 5rem;
+  color: #fdfdfd;
   text-shadow: 0.2rem 0.2rem 0.4rem rgba(0, 0, 0, 0.7);
   -webkit-clip-path: ellipse(100% 100% at 50% 0%);
           clip-path: ellipse(100% 100% at 50% 0%);
@@ -577,6 +577,7 @@ footer div .legal p {
 @media screen and (min-width:1024px) {
   #about-us #small-presentation {
     margin: 6rem auto 4rem auto;
+    padding: 2rem;
   }
 }
 #about-us #our-team,
@@ -605,6 +606,7 @@ footer div .legal p {
   #about-us #our-team,
   #about-us #trip-with-us {
     margin: auto;
+    padding: 2rem;
   }
 }
 @media screen and (min-width:768px) {
@@ -924,6 +926,17 @@ footer div .legal p {
     box-shadow: 0 40px 40px rgba(0, 0, 0, 0.5);
   }
 }
+#myst-dest .reset-filter {
+  font-size: 1.3rem;
+  font-family: "Lora-Medium";
+  color: #4d4d4d;
+  background-color: #e3e3e3;
+  padding: 0.7rem;
+  margin: 2rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid #4d4d4d;
+  margin: 0 5rem;
+}
 
 #myst-dest-detail .back {
   font-size: 1.3rem;
@@ -971,6 +984,7 @@ footer div .legal p {
 @media screen and (min-width:1024px) {
   #myst-dest-detail .information-destination {
     margin: auto;
+    padding: 2rem;
   }
 }
 #myst-dest-detail section:last-of-type {
@@ -991,6 +1005,11 @@ footer div .legal p {
   #myst-dest-detail section:last-of-type div img {
     width: 50%;
     margin: 0;
+  }
+}
+@media screen and (min-width:1024px) {
+  #myst-dest-detail section:last-of-type div {
+    padding: 2rem;
   }
 }
 #myst-dest-detail section:last-of-type button {
@@ -1316,9 +1335,9 @@ footer div .legal p {
 }
 #contact .title h2 {
   color: #fdfdfd;
-  padding: 1rem;
-  border: 0.3rem solid #fdfdfd;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  border: 0.3rem solid #fdfdfd;
+  padding: 1rem;
 }
 #contact svg {
   font-size: 3rem;
@@ -1344,8 +1363,8 @@ footer div .legal p {
   display: block;
   width: 50%;
   height: 0.2rem;
-  background-color: #274c77;
   margin: 2rem auto;
+  background-color: #274c77;
 }
 #contact #contact-detail a {
   color: black;
@@ -1368,9 +1387,9 @@ footer div .legal p {
     height: 100%;
     background-color: #274c77;
     margin: 0;
-    position: absolute; /* Pour positionner la bordure à droite */
-    right: 0; /* Aligner la bordure à droite */
-    top: 0; /* Aligner en haut du div */
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 }
 @media screen and (min-width:1024px) {
@@ -1528,8 +1547,8 @@ footer div .legal p {
   padding: 1.5rem 1rem;
   border-radius: 0.5rem;
   border: 0.1rem solid #4d4d4d;
-  width: 30%;
   display: block;
+  width: 30%;
   margin: 0.5rem auto;
 }
 @media screen and (min-width:1024px) {

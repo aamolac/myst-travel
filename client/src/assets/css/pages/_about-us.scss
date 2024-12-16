@@ -7,12 +7,12 @@
       url("/src/assets/images/about-us/seaside.webp");
     background-size: cover;
     background-position: center;
-    color: $creamy-white;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 40rem;
     padding: 5rem;
+    color: $creamy-white;
     text-shadow: 0.2rem 0.2rem 0.4rem rgba(0, 0, 0, 0.7);
     clip-path: ellipse(100% 100% at 50% 0%);
   }
@@ -48,6 +48,7 @@
     }
     @media #{$laptop} {
       margin: 6rem auto 4rem auto;
+      padding: 2rem;
     }
   }
 
@@ -73,6 +74,7 @@
     }
     @media #{$laptop} {
       margin: auto;
+      padding: 2rem;
     }
   }
   #our-team {

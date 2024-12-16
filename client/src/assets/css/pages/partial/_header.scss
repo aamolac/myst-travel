@@ -32,9 +32,9 @@ header {
     }
     #burger-menu {
       svg {
+        color: $creamy-white;
         font-size: 3rem;
         padding: 2rem;
-        color: $creamy-white;
         position: relative;
         z-index: 5;
       }

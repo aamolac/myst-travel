@@ -21,7 +21,6 @@ function ContactDetail() {
       const response = await fetch(
         `http://localhost:9000/api/v1/contact/${id}`,
         {
-          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
@@ -118,7 +117,7 @@ function ContactDetail() {
 
         {contacts.status === "Répondu" && (
           <p>
-            <span>Status :</span> {contacts.status}
+            <span>Statut :</span> {contacts.status}
           </p>
         )}
         {contacts.status !== "Répondu" && (

@@ -4,7 +4,6 @@ import {
   faTrashCan,
   faEye,
   faMagnifyingGlass,
-  faBars,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -25,7 +24,6 @@ function CustTrip() {
       const response = await fetch(
         "http://localhost:9000/api/v1/customized-trip/list",
         {
-          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
@@ -166,7 +164,7 @@ function CustTrip() {
             <option value="user_id">Identifiant utilisateur</option>
             <option value="email">Email utilisateur</option>
             <option value="date">Date</option>
-            <option value="status">Status</option>
+            <option value="status">Statut</option>
           </select>
           <input
             type="search"
@@ -192,7 +190,7 @@ function CustTrip() {
                 <th>Identifiant utilisateur</th>
                 <th>Email utilisateur</th>
                 <th>Date</th>
-                <th>Status</th>
+                <th>Statut</th>
               </tr>
             </thead>
             <tbody>
@@ -210,7 +208,7 @@ function CustTrip() {
                     <select
                       value={trip.status}
                       onChange={(e) => updateStatus(trip.id, e.target.value)}
-                      aria-label="Modifier le status de demande de destination sur-mesure"
+                      aria-label="Modifier le status de la demande de destination sur-mesure"
                     >
                       <option value="">Modifier le status</option>
                       <option value={0}>Non traité</option>

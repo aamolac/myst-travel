@@ -36,6 +36,7 @@
     }
     @media #{$laptop} {
       margin: auto;
+      padding: 2rem;
     }
   }
   section:last-of-type {
@@ -55,6 +56,9 @@
           width: 50%;
           margin: 0;
         }
+      }
+      @media #{$laptop} {
+        padding: 2rem;
       }
     }
     button {

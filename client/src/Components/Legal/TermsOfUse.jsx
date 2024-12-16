@@ -25,7 +25,7 @@ function TermsOfUse() {
         <a href="#use-site">Utilisation du site</a>
         <a href="#modification-terms-conditions">Modification des CGU</a>
         <a href="#applicable-law">Loi applicable et juridiction compétente</a>
-        <a href="#contact">Contact</a>
+        <a href="#contact-legal">Contact</a>
       </nav>
       <button
         onClick={() => navigate(-1)}
@@ -147,7 +147,7 @@ function TermsOfUse() {
         </p>
       </section>
 
-      <section id="contact">
+      <section id="contact-legal">
         <h3>11. Contact</h3>
         <p>
           Pour toute question relative aux présentes Conditions Générales

@@ -12,9 +12,9 @@
     clip-path: ellipse(100% 100% at 50% 0%);
     h2 {
       color: $creamy-white;
-      padding: 1rem;
-      border: 0.3rem solid $creamy-white;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+      border: 0.3rem solid $creamy-white;
+      padding: 1rem;
     }
   }
   svg {
@@ -40,8 +40,8 @@
       display: block;
       width: 50%;
       height: 0.2rem;
-      background-color: $blue;
       margin: 2rem auto;
+      background-color: $blue;
     }
     a {
       color: black;
@@ -62,9 +62,9 @@
         height: 100%; // Hauteur de la bordure
         background-color: $blue;
         margin: 0; // Aligner à droite
-        position: absolute; /* Pour positionner la bordure à droite */
-        right: 0; /* Aligner la bordure à droite */
-        top: 0; /* Aligner en haut du div */
+        position: absolute;
+        right: 0;
+        top: 0;
       }
     }
     @media #{$laptop} {

@@ -74,19 +74,6 @@ app.use(express.urlencoded({ extended: false }));
 // MIDDLEWARE POUR LE ROUTER
 app.use(router);
 
-// CONFIGURER SESSION PERSONNALISÉE utilisation d'un middleware
-// req.session est un objet qu'on va compléter lors de la connexion de l'utilisateur sur la route /login si tout correspond
-// app.use((req, res, next) => {
-//   if (req.session && req.session.user) {
-//     // Si l'utilisateur est connecté, affiche ses informations
-//     // console.log("Utilisateur connecté:", req.session.user);
-//   } else {
-//     // Affiche un message lorsque l'utilisateur n'est pas connecté
-//     // console.log("Aucun utilisateur connecté pour l'instant.");
-//   }
-//   next(); // Passe à la suite du traitement de la requête
-// });
-
 // LANCEMENT DU SERVEUR
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);

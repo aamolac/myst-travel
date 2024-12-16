@@ -23,7 +23,7 @@ const uploadImage = async (req, res) => {
     }
 
     // Vérifie la taille du fichier (2 Mo max)
-    const maxSize = 2 * 1024 * 1024; // 2 Mo
+    const maxSize = 2 * 1024 * 1024;
     if (file.size > maxSize) {
       throw new Error(
         "La taille du fichier dépasse la limite autorisée de 2 Mo !"

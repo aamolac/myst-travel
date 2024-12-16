@@ -134,7 +134,7 @@ function MystDest() {
       return mystDest.title.toLowerCase().includes(search);
     }
     if (searchField === "status") {
-      return contact.status.toLowerCase().startsWith(search);
+      return mystDest.status.toLowerCase().startsWith(search);
     }
     return false;
   });
@@ -173,7 +173,7 @@ function MystDest() {
             <option value="all">Type de recherche</option>
             <option value="id">N° destination</option>
             <option value="title">Titre</option>
-            <option value="status">Status</option>
+            <option value="status">Statut</option>
           </select>
           <input
             type="search"
@@ -207,7 +207,7 @@ function MystDest() {
               <tr>
                 <th>N° destination</th>
                 <th>Titre</th>
-                <th>Status</th>
+                <th>Statut</th>
               </tr>
             </thead>
             <tbody>

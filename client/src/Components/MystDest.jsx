@@ -48,7 +48,6 @@ function MystDest() {
       const response = await fetch(
         "http://localhost:9000/api/v1/myst-dest/list",
         {
-          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
@@ -256,6 +255,15 @@ function MystDest() {
     activityFilter.length > 0 ||
     accomodationFilter.length > 0;
 
+  const resetFilters = () => {
+    setBudgetFilter([]);
+    setDurationFilter(null);
+    setContinentFilter([]);
+    setClimateFilter([]);
+    setActivityFilter([]);
+    setAccomodationFilter([]);
+  };
+
   return (
     <main id="myst-dest" aria-label="Page des destinations mystères">
       <nav
@@ -327,6 +335,9 @@ function MystDest() {
                 <span>Hébergement :</span> {accomodationFilter.join(", ")}
               </p>
             )}
+            <button onClick={resetFilters} className="reset-filter">
+              Supprimer les filtres
+            </button>
           </div>
         )}
         <h4 aria-live="polite">

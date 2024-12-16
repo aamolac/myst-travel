@@ -193,10 +193,10 @@ function Reservation() {
       if (response.ok) {
         // Affiche la fenêtre de confirmation
         setShowConfirmation(true);
-        // Redirige après 15 sec
+        // Redirige après 10 sec
         setTimeout(() => {
           navigate(-1);
-        }, 15000);
+        }, 10000);
       } else {
         setMsg(data.msg);
       }

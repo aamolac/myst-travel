@@ -41,9 +41,9 @@ footer {
       }
       @media #{$tablet} {
         grid-area: navigation;
-        padding: 0;
         width: 100%;
         margin: 3rem auto;
+        padding: 0;
         .container {
           margin: 0;
         }
@@ -53,9 +53,9 @@ footer {
       padding: 3rem 0;
       @media #{$tablet} {
         grid-area: open-hours;
-        padding: 0;
         width: 100%;
         margin: 3rem auto;
+        padding: 0;
       }
     }
     .social-media {
@@ -69,9 +69,9 @@ footer {
       }
       @media #{$tablet} {
         grid-area: social-media;
-        padding: 0;
         width: 100%;
         margin: 3rem auto;
+        padding: 0;
       }
     }
     .legal {

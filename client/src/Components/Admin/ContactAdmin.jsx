@@ -24,7 +24,6 @@ function Contact() {
       const response = await fetch(
         "http://localhost:9000/api/v1/contact/list",
         {
-          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
@@ -176,7 +175,7 @@ function Contact() {
             <option value="choice">Objet</option>
             <option value="message">Message</option>
             <option value="date">Date</option>
-            <option value="status">Status</option>
+            <option value="status">Statut</option>
           </select>
           <input
             type="search"
@@ -203,7 +202,7 @@ function Contact() {
                 <th>Objet</th>
                 <th>Message</th>
                 <th>Date</th>
-                <th>Status</th>
+                <th>Statut</th>
               </tr>
             </thead>
             <tbody>

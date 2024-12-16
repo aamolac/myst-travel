@@ -37,16 +37,8 @@ function Auth() {
         if (data.user.role === "admin") {
           navigate("/dashboard");
         } else {
-          // Vérifie l'URL précédente pour déterminer la redirection
-          const previousPath = location.state?.from || document.referrer || "/"; // Utilise l'historique ou referrer comme fallback
-          if (previousPath.includes("/register")) {
-            navigate(-2);
-          } else {
-            navigate(-1);
-          }
+          navigate("/");
         }
-      } else {
-        setMsg(data.msg);
       }
     } catch (error) {
       console.log(

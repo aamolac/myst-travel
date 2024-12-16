@@ -20,7 +20,6 @@ function CustTripDetail() {
       const response = await fetch(
         `http://localhost:9000/api/v1/customized-trip/${id}`,
         {
-          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
@@ -116,7 +115,7 @@ function CustTripDetail() {
         </p>
 
         <p>
-          <span>Status :</span> {custTrips.status}
+          <span>Statut :</span> {custTrips.status}
         </p>
       </section>
     </main>

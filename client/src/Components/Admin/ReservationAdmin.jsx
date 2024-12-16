@@ -24,7 +24,6 @@ function Reservation() {
       const response = await fetch(
         "http://localhost:9000/api/v1/reservation/list",
         {
-          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
@@ -168,7 +167,7 @@ function Reservation() {
             <option value="email">Email utilisateur</option>
             <option value="mystDestTitle">Destination mystère</option>
             <option value="date">Date</option>
-            <option value="status">Status</option>
+            <option value="status">Statut</option>
           </select>
           <input
             type="search"
@@ -194,7 +193,7 @@ function Reservation() {
                 <th>Identifiant et email utilisateur</th>
                 <th>Destination mystère</th>
                 <th>Date</th>
-                <th>Status</th>
+                <th>Statut</th>
               </tr>
             </thead>
             <tbody>
