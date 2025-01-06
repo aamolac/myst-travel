@@ -489,7 +489,7 @@ footer div .legal p {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+    gap: 5rem;
   }
   #home #why-choose-mystery div img,
   #home #ready-for-adventure div img {
@@ -566,7 +566,7 @@ footer div .legal p {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 3rem;
+    gap: 5rem;
     margin-top: 6rem;
     margin-bottom: 4rem;
   }
@@ -595,7 +595,7 @@ footer div .legal p {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 3rem;
+    gap: 5rem;
   }
   #about-us #our-team div img,
   #about-us #trip-with-us div img {
@@ -757,14 +757,14 @@ footer div .legal p {
   font-family: "Lora-Bold";
 }
 #myst-dest #trip-begin-here h4 {
-  margin: 4rem 5rem 0 5rem;
+  margin: 4rem 5rem 0 3rem;
 }
 #myst-dest #trip-begin-here p {
-  margin: 1rem 5rem;
+  margin: 1rem 3rem;
 }
 #myst-dest h3 {
   padding-top: 2rem;
-  margin: 1rem 5rem;
+  margin: 1rem 3rem;
 }
 #myst-dest legend {
   font-family: "Lora-Bold";
@@ -798,7 +798,7 @@ footer div .legal p {
   flex-wrap: nowrap;
   overflow-x: auto; /* Permet le défilement horizontal */
   gap: 1rem;
-  padding: 1rem 5rem;
+  padding: 1rem 3rem;
   /* Masquer la barre de défilement */
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE et Edge */
@@ -835,16 +835,13 @@ footer div .legal p {
   background-color: rgba(128, 128, 128, 0.2);
   display: flex;
   flex-direction: column;
-  padding-left: 2rem;
+  padding-left: 3rem;
   border-right: 1px solid #4d4d4d;
   margin-bottom: 3rem;
 }
 #myst-dest .design-tablet .tablet-filter h4 {
   font-size: 1.6rem;
   padding: 2rem 1rem 1rem 0;
-}
-#myst-dest .design-tablet .tablet-filter .input-label {
-  margin-left: 0;
 }
 #myst-dest .design-tablet .tablet-filter .input-label input {
   width: 1.5rem;

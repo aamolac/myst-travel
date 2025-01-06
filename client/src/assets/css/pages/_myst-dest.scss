@@ -22,15 +22,15 @@
   }
   #trip-begin-here {
     h4 {
-      margin: 4rem 5rem 0 5rem;
+      margin: 4rem 5rem 0 3rem;
     }
     p {
-      margin: 1rem 5rem;
+      margin: 1rem 3rem;
     }
   }
   h3 {
     padding-top: 2rem;
-    margin: 1rem 5rem;
+    margin: 1rem 3rem;
   }
 
   //STYLES COMMUNS POUR LES 2 DESIGN DE FILTRES
@@ -67,7 +67,7 @@
       flex-wrap: nowrap;
       overflow-x: auto; /* Permet le défilement horizontal */
       gap: 1rem;
-      padding: 1rem 5rem;
+      padding: 1rem 3rem;
       /* Masquer la barre de défilement */
       scrollbar-width: none; /* Firefox */
       -ms-overflow-style: none; /* IE et Edge */
@@ -106,7 +106,7 @@
       background-color: rgba(128, 128, 128, 0.2);
       display: flex;
       flex-direction: column;
-      padding-left: 2rem;
+      padding-left: 3rem;
       border-right: 1px solid $grey;
       margin-bottom: 3rem;
       h4 {
@@ -114,7 +114,7 @@
         padding: 2rem 1rem 1rem 0;
       }
       .input-label {
-        margin-left: 0;
+        // margin-left: 0;
         input {
           width: 1.5rem;
         }
